@@ -143,7 +143,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                // _checkUserExists(_firestoreService.getCurrentUserId()!);
 
 
-                Navigator.pushNamedAndRemoveUntil(context, '/selectGender',(route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false);
               }catch(e){
                   print("wrong otp");
               }

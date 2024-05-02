@@ -1,3 +1,4 @@
+import 'package:kushi_3/pages/mainactivity.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
@@ -188,12 +189,33 @@ class stepTestState extends State<stepTest> {
             ElevatedButton(onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AuthGate()),
+                MaterialPageRoute(builder: (context) => MainActivity(namey: "suhas")),
               );
             },
                 child: const Text('Move to Main')),
             SizedBox(height: 50,),
+            ElevatedButton(
+              onPressed: () async {
+                var startTime =
+                DateTime.now().subtract(const Duration(days: 4));
+                var endTime = DateTime.now();
+                var results = await HealthConnectFactory.getRecord(
+                  type: HealthConnectDataType.Steps,
+                  startTime: startTime,
+                  endTime: endTime,
+                );
+                // results.forEach((key, value) {
+                //   if (key == HealthConnectDataType.Steps.name) {
+                //     print(value);
+                //   }
+                // });
+                resultText = '\ntype: $types\n\n$results';
+                _updateResultText();
+              },
+              child: const Text('Get Record'),
+            ),
             Text(resultText),
+
 
           ],
         ),
