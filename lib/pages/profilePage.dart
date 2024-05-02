@@ -38,7 +38,7 @@ class _profilePageState extends State<profilePage> {
             SizedBox(height: 60, ),
             Padding(
               padding: const EdgeInsets.only(right: 240.0),
-              child: Text("Profile", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+              child: Text("Profile1", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
             ),
             SizedBox(height: 25, ),
             Padding(
@@ -112,6 +112,11 @@ class _profilePageState extends State<profilePage> {
                   padding: const EdgeInsets.only(left:20.0),
                   child: Text(globals.userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),),
                 )
+            ),
+            const SizedBox(height: 10,),
+            settingButton(
+                text: "Rewards",
+                onTap: () => () {}
             ),
             const SizedBox(height: 10,),
             settingButton(

@@ -34,6 +34,7 @@ import 'package:kushi_3/themes/light_mode.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/pages/testingPages/stepTest.dart';
 import 'package:kushi_3/pages/testingPages/fireStoreTest.dart';
+import 'package:kushi_3/pages/Fragments/mainFragments/settingsFragment.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures all plugins are initialized
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
           '/contactList':(context) => ContactList(),
         },
 
-      home:  MainActivity(namey: "suhas",),
+      home: settingsFragment(),
     );
   }
 }

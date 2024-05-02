@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class settingButton extends StatelessWidget {
+class settingButtonAlt extends StatelessWidget {
   final String text;
 
   final void Function()? onTap;
 
-  const settingButton({
+  const settingButtonAlt({
     super.key,
     required this.text,
     required this.onTap,
@@ -14,21 +14,21 @@ class settingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: 400,
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: OutlinedButton(
           onPressed: onTap,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black12,
+            backgroundColor: Colors.white10,
             elevation: 10,
             side: BorderSide(
-              color: Colors.black12,
-              width: 1.5
+                color: Colors.black12,
+                width: 1.5
             ),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-               ),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -43,9 +43,19 @@ class settingButton extends StatelessWidget {
               Spacer(),
               TextButton(
                 onPressed: () {},
-                child: Text(
-                  ">",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w300),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.black87,
+                      width: 5.0,
+                    ),
+                  ),
+                  child: Text(
+                    ">",
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w300, color: Colors.white),
+                  ),
                 ),
                 style: TextButton.styleFrom(
 

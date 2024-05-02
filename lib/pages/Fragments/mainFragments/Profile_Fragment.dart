@@ -58,7 +58,6 @@ class _profilePageState extends State<ProfileFragment> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children:[
-              SizedBox(height: 60, ),
               Padding(
                 padding: const EdgeInsets.only(right: 240.0),
                 child: Text("Profile", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
@@ -142,20 +141,54 @@ class _profilePageState extends State<ProfileFragment> {
               ),
               const SizedBox(height: 10,),
               settingButton(
-                  text: "Edit profile",
+                  text: "Rewards",
+                  onTap: () => () {}
+              ),
+              const SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.only(right:250.0, left: 10.0),
+                child: Text('Settings', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
+              ),
+              const SizedBox(height: 10,),
+              settingButton(
+                  text: "Your Account",
                   onTap: () => () {}
               ),
               const SizedBox(height: 10,),
               settingButton(
-                  text: "Privacy profile",
+                  text: "Notifications",
                   onTap: () => () {}
               ),
               const SizedBox(height: 10,),
               settingButton(
-                  text: "Settings",
+                  text: "Languages",
                   onTap: () => () {}
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 30,),
+              const SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.only(right:125.0, left: 10.0),
+                child: Text('Help and Support', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
+              ),
+              const SizedBox(height: 10,),
+              settingButton(
+                  text: "How everything works",
+                  onTap: () => () {}
+              ),
+              const SizedBox(height: 10,),
+              settingButton(
+                  text: "FAQ",
+                  onTap: () => () {}
+              ),
+              const SizedBox(height: 10,),
+              settingButton(
+                  text: "Contact Us",
+                  onTap: () => () {}
+              ),
+              const SizedBox(height: 30,),
+
+
+
               Container(
                 width: double.infinity,
                 height: 120,
@@ -220,7 +253,7 @@ class _profilePageState extends State<ProfileFragment> {
                           onPressed: () {},
                           child: Text(
                             ">",
-                            style: TextStyle(fontSize: 32, color: Colors.white),
+                            style: TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.w300),
                           ),
                           style: TextButton.styleFrom(
 
@@ -243,6 +276,7 @@ class _profilePageState extends State<ProfileFragment> {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> IntroSlider()));
                   },
               ),
+              const SizedBox(height: 25,),
 
             ]
         ),
