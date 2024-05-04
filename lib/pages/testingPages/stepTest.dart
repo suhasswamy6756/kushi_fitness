@@ -129,10 +129,10 @@ class stepTestState extends State<stepTest> {
                     ).then((value) => typePoints.addAll({type.name: value})));
                   }
                   await Future.wait(requests);
-                  var stepList = typePoints['Steps']['records'];
+                  var stepList = typePoints['a'][0];
                   var totalSteps = 0;
                   for(var step in stepList){
-                    totalSteps+=step['count'] as int;
+                    totalSteps+=step['e'] as int;
                   }
                   resultText = '$totalSteps';
                 } catch (e) {
