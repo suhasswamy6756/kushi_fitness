@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/model/user_data.dart';
-import 'package:kushi_3/pages/mainactivity.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -59,13 +57,13 @@ class selectWeightState extends State<SelectWeight> {
                   initialLabelIndex: labelStart,
                   cornerRadius: 30.0,
                   radiusStyle: true,
-                  activeBgColor: [Colors.white],
+                  activeBgColor: const [Colors.white],
                   customTextStyles: [btnStyle1, btnStyle2],
                   borderColor: const [Colors.grey],
                   inactiveBgColor: Colors.white54,
                   inactiveFgColor: Colors.grey,
                   totalSwitches: 2,
-                  labels: ["Kilograms", "Pounds"],
+                  labels: const ["Kilograms", "Pounds"],
                   onToggle: (index) {
                     if (index != null) {
                       setState(() {
@@ -82,7 +80,7 @@ class selectWeightState extends State<SelectWeight> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      padding: EdgeInsets.all(2.5),
+                      padding: const EdgeInsets.all(2.5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
@@ -93,9 +91,9 @@ class selectWeightState extends State<SelectWeight> {
                       child: TextField(
                         controller: weight,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
                               border: InputBorder.none)),

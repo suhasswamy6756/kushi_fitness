@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -9,8 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:kushi_3/chat_application/helper/show_alert_dialog.dart';
-import 'package:kushi_3/model/user_data.dart';
-import 'package:kushi_3/model/user_model.dart';
 
 // import '../chat_application/repository/firabase_storage_repository.dart';
 
@@ -36,7 +33,7 @@ class FirestoreService {
       print(stackTrace); // Print stack trace for better error debugging
       // showAlertDialog(context: context, message: e.toString() );// Re-throw the error for handling at the calling site
 
-      throw e;
+      rethrow;
     }
   }
   Future<void> updateReferDocument(String uid,
@@ -98,7 +95,7 @@ class FirestoreService {
       print(stackTrace); // Print stack trace for better error debugging
       // showAlertDialog(context: context, message: e.toString() );// Re-throw the error for handling at the calling site
 
-      throw e;
+      rethrow;
     }
   }
 

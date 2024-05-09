@@ -2,40 +2,27 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:kushi_3/components/mybutton.dart';
-import 'package:kushi_3/components/sign_in_with.dart';
 import 'package:kushi_3/components/textfield.dart';
 import 'package:kushi_3/model/user_data.dart';
-import 'package:kushi_3/pages/otp.dart';
-import 'package:kushi_3/pages/selectGender.dart';
-import 'package:kushi_3/pages/selectWeight.dart';
-import 'package:kushi_3/pages/signin.dart';
 
 // import 'package:kushi_3/service/auth/auth_controller.dart';
-import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:kushi_3/service/firestore_service.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:provider/provider.dart';
 
 // import '../chat_application/pages/image_picker_page.dart';
-import '../components/mybutton.dart';
-import '../model/user_data.dart';
 
 FirestoreService _firestoreService = FirestoreService();
 
 class SignUp extends StatefulWidget {
 
-  SignUp({super.key});
+  const SignUp({super.key});
 
 
   @override
@@ -95,13 +82,14 @@ class _SignUpState extends State<SignUp> {
   }
 
   void fetchUserPhone() async {
-    String? phone = await _firestoreService.phoneNumberReturn();
+    String? phone = _firestoreService.phoneNumberReturn();
     setState(() {
       _phoneNumber = phone;
     });
   }
 
 
+  @override
   void initState() {
     super.initState();
     fetchUserEmail();
@@ -121,13 +109,13 @@ class _SignUpState extends State<SignUp> {
         return Wrap(
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Gallery'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Gallery'),
               onTap: () => _getImage(ImageSource.gallery),
             ),
             ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Camera'),
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera'),
               onTap: () => _getImage(ImageSource.camera),
             ),
           ],
@@ -196,17 +184,17 @@ class _SignUpState extends State<SignUp> {
                     radius: 50,
                     backgroundImage: FileImage(_imageFile!),
                   )
-                      : Icon(Icons.add_photo_alternate),
+                      : const Icon(Icons.add_photo_alternate),
                   iconSize: 100,
                   onPressed: _openGallery,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Button to upload image to Firebase Storage
 
               ],
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             MyTextField(
               hintText: "Full Name",
@@ -276,7 +264,7 @@ class _SignUpState extends State<SignUp> {
           ],
         ),
       ),
-      floatingActionButton: isLoading ? LoadingWidget() : null,
+      floatingActionButton: isLoading ? const LoadingWidget() : null,
     );
   }
 
@@ -292,6 +280,8 @@ class _SignUpState extends State<SignUp> {
 }
 
 class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -299,10 +289,10 @@ class LoadingWidget extends StatelessWidget {
         // Background: Transparent container to capture touch events
         Container(
           color: Colors.black.withOpacity(0.3),
-          constraints: BoxConstraints.expand(),
+          constraints: const BoxConstraints.expand(),
         ),
         // Loading indicator
-        Center(
+        const Center(
           child: CircularProgressIndicator(),
         ),
       ],

@@ -1,29 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kushi_3/components/mybutton.dart';
-import 'package:kushi_3/components/sign_in_with.dart';
-import 'package:kushi_3/components/textfield.dart';
 import 'package:kushi_3/model/user_data.dart';
-import 'package:kushi_3/pages/mainactivity.dart';
-import 'package:kushi_3/pages/otp.dart';
-import 'package:kushi_3/pages/selectGender.dart';
-import 'package:kushi_3/pages/signup.dart';
-import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:kushi_3/service/firestore_service.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:provider/provider.dart';
-import 'package:kushi_3/model/globals.dart' as globals;
 import 'dart:developer' as developer;
 
 
 
 class SignIn extends StatefulWidget {
 
-  SignIn({super.key});
+  const SignIn({super.key});
 
   static String verify = "";
   static String phone = "";
@@ -35,7 +24,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   FirebaseAuth auth = FirebaseAuth.instance;
- FirestoreService _firestoreService = FirestoreService();
+ final FirestoreService _firestoreService = FirestoreService();
 
   final TextEditingController countryCode = TextEditingController();
   final TextEditingController phoneNumber = TextEditingController();
@@ -103,14 +92,14 @@ class _SignInState extends State<SignIn> {
               const SizedBox(height: 25,),
               Container(
                 height: 55,
-                margin: EdgeInsets.only(left: 30, right: 30),
+                margin: const EdgeInsets.only(left: 30, right: 30),
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Colors.black),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
 
@@ -162,7 +151,7 @@ class _SignInState extends State<SignIn> {
               ),
 
 
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               MyButton(text: "Send the code", onTap: () async {
 
                 userDataMap["phoneNumber"] = '${countryCode.text} ${phoneNumber.text}';
@@ -215,7 +204,7 @@ class _PhoneNumberFormatter extends TextInputFormatter {
       TextEditingValue newValue) {
     if (newValue.text.length == 1) {
       return newValue.copyWith(
-        text: '${newValue.text}', // Automatically add '+' at the beginning
+        text: newValue.text, // Automatically add '+' at the beginning
         selection: TextSelection.collapsed(offset: newValue.text.length),
       );
     } else {

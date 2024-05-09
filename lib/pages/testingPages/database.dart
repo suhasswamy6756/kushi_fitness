@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseContactsScreen extends StatefulWidget {
+  const DatabaseContactsScreen({super.key});
+
   @override
   _DatabaseContactsScreenState createState() => _DatabaseContactsScreenState();
 }
@@ -34,13 +36,13 @@ class _DatabaseContactsScreenState extends State<DatabaseContactsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Database Contacts'),
+        title: const Text('Database Contacts'),
       ),
       body: FutureBuilder<List<String>>(
         future: _databaseContactsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {

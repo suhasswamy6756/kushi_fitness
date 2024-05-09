@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
 
+import 'package:intl/intl.dart';
+import 'package:kushi_3/pages/mainactivity.dart';
+import 'package:kushi_3/service/auth/auth_gate.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_health_connect/flutter_health_connect.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:developer' as developer;
+import 'package:kushi_3/model/globals.dart' as globals;
+import '../../service/auth/auth_gate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class stepTest extends StatefulWidget {
   const stepTest({super.key});
@@ -127,13 +138,148 @@ class _stepTestState extends State<stepTest> {
             ),
             ElevatedButton(
               onPressed: () async {
+                var startTime = DateTime.now().subtract(Duration(
+                  hours: DateTime
+                      .now()
+                      .hour,
+                  minutes: DateTime
+                      .now()
+                      .minute,
+                  seconds: DateTime
+                      .now()
+                      .second,
+                  milliseconds: DateTime
+                      .now()
+                      .millisecond,
+                  microseconds: DateTime
+                      .now()
+                      .microsecond,
+                ));
+                var endTime = DateTime.now();
+                try {
+                  final requests = <Future>[];
+                  Map<String, dynamic> typePoints = {};
+                  for (var type in types) {
+                    requests.add(HealthConnectFactory.getRecord(
+                      type: type,
+                      startTime: startTime,
+                      endTime: endTime,
+                    ).then((value) => typePoints.addAll({type.name: value})));
+                  }
+                  await Future.wait(requests);
+                  var stepList = typePoints['Steps']['records'];
+                  var totalSteps = 0;
+                  for (var step in stepList) {
+                    totalSteps += step['count'] as int;
+                  }
+                  globals.stepsToday = totalSteps;
+                  resultText = '$totalSteps';
+                } catch (e) {
+                  resultText = e.toString();
+                  print(resultText);
+                }
+                _updateResultText();
+              },
+              child: const Text('Get Steps'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                developer.log(globals.stepsToday.toString());
+                var stepsNow = globals.stepsToday;
+                var curDate = DateFormat('MMDDYY')
+                    .format(DateTime.now())
+                    .toString();
+                if (stepsNow >= 10000 && curDate != globals.date) {
+                  if (globals.dailyToken == false) {
+                    globals.date = curDate;
+                    globals.generate40RupeeToken();
+                    globals.countedSteps -= 10000;
+                  }
+                  while (globals.countedSteps > 5000) {
+                    developer.log(globals.countedSteps.toString());
+                    globals.generate20RupeeToken();
+                    globals.countedSteps -= 5000;
+                  }
+                }
+                int fortytokens = await globals.get40CoinNumber(globals.uid);
+                int twentyTokens = await globals.get20CoinNumber(globals.uid);
+                resultText =
+                '40 Rupee Tokens: $fortytokens and 20 rupee tokens: $twentyTokens';
+                _updateResultText();
+              },
+              child: const Text('Get Coins'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                var startTime = DateTime.now().subtract(Duration(
+                  hours: DateTime
+                      .now()
+                      .hour,
+                  minutes: DateTime
+                      .now()
+                      .minute,
+                  seconds: DateTime
+                      .now()
+                      .second,
+                  milliseconds: DateTime
+                      .now()
+                      .millisecond,
+                  microseconds: DateTime
+                      .now()
+                      .microsecond,
+                ));
+                var endTime = DateTime.now();
+                try {
+                  final requests = <Future>[];
+                  Map<String, dynamic> typePoints = {};
+                  for (var type in types) {
+                    requests.add(HealthConnectFactory.getRecord(
+                      type: type,
+                      startTime: startTime,
+                      endTime: endTime,
+                    ).then((value) => typePoints.addAll({type.name: value})));
+                  }
+                  await Future.wait(requests);
+                  typePoints = typePoints['TotalCaloriesBurned'];
+                  var totalEnergy = 0.0;
+                  var counter = 0;
+                  for (var record in typePoints.values) {
+                    if (counter == 1) {
+                      break;
+                    }
+                    for (var energy in record) {
+                      totalEnergy += energy['energy']['kilocalories'].toInt();
+                    }
+                    developer.log(totalEnergy.toString());
+                    counter++;
+                  }
+                  resultText = '$totalEnergy';
+                } catch (e) {
+                  resultText = e.toString();
+                  print(resultText);
+                }
+                _updateResultText();
+              },
+              child: const Text('Get Calories'),
+            ),
+            ElevatedButton(onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AuthGate()),
+              );
+            },
+                child: const Text('Move to Main')),
+            SizedBox(height: 50,),
+            ElevatedButton(
+              onPressed: () async {
+
                 var startTime =
                 DateTime.now().subtract(const Duration(days: 4));
                 var endTime = DateTime.now();
                 var results = await HealthConnectFactory.getRecord(
-                  type: HealthConnectDataType.Steps,
-                  startTime: startTime,
-                  endTime: endTime,
+                type: HealthConnectDataType.Steps,
+                startTime: startTime,
+                endTime: endTime,
                 );
                 // results.forEach((key, value) {
                 //   if (key == HealthConnectDataType.Steps.name) {

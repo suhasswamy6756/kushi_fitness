@@ -4,13 +4,18 @@ import 'package:kushi_3/pages/selectGender.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 
 class ReferralScreen extends StatefulWidget {
+  const ReferralScreen({super.key});
+
   @override
   _ReferralScreenState createState() => _ReferralScreenState();
 }
 
 class _ReferralScreenState extends State<ReferralScreen> {
+
   TextEditingController _referralController = TextEditingController();
   FirestoreService _firestoreService = FirestoreService();
+
+
   @override
   void dispose() {
     _referralController.dispose();
@@ -21,24 +26,24 @@ class _ReferralScreenState extends State<ReferralScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Referral Code'),
+        title: const Text('Referral Code'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _referralController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Enter Referral Code',
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             MyButton(text: 'Continue', onTap: (){
 
             }),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             TextButton(
               onPressed: () {
                 final body = {
@@ -54,11 +59,11 @@ class _ReferralScreenState extends State<ReferralScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SelectGender(),
+                    builder: (context) => const SelectGender(),
                   ),
                 );
               },
-              child: Text('No referral? Continue instead'),
+              child: const Text('No referral? Continue instead'),
             ),
           ],
         ),

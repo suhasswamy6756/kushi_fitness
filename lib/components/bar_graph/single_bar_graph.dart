@@ -5,7 +5,7 @@ class SingleHorizontalBarGraph extends StatelessWidget {
   final double value;
   final Color barColor;
 
-  SingleHorizontalBarGraph(this.value, {this.barColor = Colors.blue});
+  const SingleHorizontalBarGraph(this.value, {super.key, this.barColor = Colors.blue});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class SingleHorizontalBarGraph extends StatelessWidget {
         maxY: value * 1.1,
         minY: 0,
         barTouchData: BarTouchData(enabled: false),
-        titlesData: FlTitlesData(
+        titlesData: const FlTitlesData(
           leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(sideTitles :SideTitles(showTitles: true,)),
         ),

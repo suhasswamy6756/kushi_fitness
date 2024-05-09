@@ -84,7 +84,7 @@ class _IntroSliderState extends State<IntroSlider> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder:(context){
-                    return SignUp();
+                    return const SignUp();
                   })
                 );
               }
@@ -111,7 +111,7 @@ class _IntroSliderState extends State<IntroSlider> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return SignIn();
+                    return const SignIn();
                   }),
                 );
               },

@@ -1,25 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class GroupFragment extends StatelessWidget {
+  const GroupFragment({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contacts'),
+        title: const Text('Contacts'),
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
-      body: Center(
+      body: const Center(
 
           child: Text("groups here")), // Move the ContactList widget outside the bottom modal sheet
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _showContactModal(context); // Show bottom modal sheet when FAB is pressed
         },
-        child: Icon(Icons.sync),
+        child: const Icon(Icons.sync),
       ),
     );
   }
@@ -30,12 +31,14 @@ class GroupFragment extends StatelessWidget {
       scrollControlDisabledMaxHeightRatio: 0.89,
       context: context,
       builder: (BuildContext context) {
-        return ContactList(); // Display the ContactList widget within the bottom modal sheet
+        return const ContactList(); // Display the ContactList widget within the bottom modal sheet
       },
     );
   }
 }
 class ContactList extends StatelessWidget {
+  const ContactList({super.key});
+
   @override
   Widget build(BuildContext context) {
     final contactProvider = Provider.of<ContactProvider>(context, listen: false);
@@ -51,10 +54,10 @@ class ContactList extends StatelessWidget {
                   onPressed: () {
                     _fetchContacts(context);
                   },
-                  child: Text('Sync Contacts'),
+                  child: const Text('Sync Contacts'),
                 ),
-                SizedBox(height: 20),
-                Text('Press "Sync Contacts" to fetch contacts'),
+                const SizedBox(height: 20),
+                const Text('Press "Sync Contacts" to fetch contacts'),
               ],
             ),
           );
@@ -64,7 +67,7 @@ class ContactList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Search',
                     hintText: 'Search contacts...',
                     prefixIcon: Icon(Icons.search),
@@ -111,13 +114,13 @@ class ContactList extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Invite"),
+                                title: const Text("Invite"),
                                 content: Text(
                                     "Invite ${contact.displayName ?? 'this contact'}?"),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: Text("Cancel"),
+                                    child: const Text("Cancel"),
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -125,14 +128,14 @@ class ContactList extends StatelessWidget {
                                       // Replace with your logic to send invitation
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Invite"),
+                                    child: const Text("Invite"),
                                   ),
                                 ],
                               );
                             },
                           );
                         },
-                        child: Text('Invite'),
+                        child: const Text('Invite'),
                       )
                           : null,
                     );
@@ -157,13 +160,13 @@ class ContactList extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Contacts Permission Required"),
-              content: Text(
+              title: const Text("Contacts Permission Required"),
+              content: const Text(
                   "Please grant permission to access your contacts so that we can find friends to invite."),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text("OK"),
+                  child: const Text("OK"),
                 ),
               ],
             );

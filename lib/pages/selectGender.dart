@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/components/optionButton.dart';
@@ -21,7 +20,7 @@ class selectGenderState extends State<SelectGender> {
 
   int selectedOptionIndex = -1;
   String gender = "";
-  FirestoreService _firestoreService = FirestoreService();
+  final FirestoreService _firestoreService = FirestoreService();
   // -1 shows that no option is initially selected
 
   void selectOption(int index){
