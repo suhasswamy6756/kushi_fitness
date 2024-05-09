@@ -12,6 +12,7 @@ import 'package:kushi_3/pages/selectGender.dart';
 import 'package:kushi_3/pages/selectHeight.dart';
 import 'package:kushi_3/pages/selectWeight.dart';
 import 'package:kushi_3/pages/signup.dart';
+import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
           '/referalpage': (context)=> ReferralScreen(),
         },
 
-      home:  HomePage(),
+      home:  AuthGate(),
     );
   }
 }

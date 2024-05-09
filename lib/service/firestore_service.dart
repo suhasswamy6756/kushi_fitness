@@ -39,6 +39,23 @@ class FirestoreService {
       throw e;
     }
   }
+  Future<void> updateReferDocument(String uid,
+      Map<String, dynamic> userData,BuildContext context) async {
+    try {
+      // Retrieve the document reference for the user
+      DocumentReference userRef = FirebaseFirestore.instance.collection('RefernEarn')
+          .doc(uid);
+
+      // Update or create the user document in Firestore
+      await userRef.set(userData);
+    } catch (e, stackTrace) {
+      print('Error updating user document: $e');
+      print(stackTrace); // Print stack trace for better error debugging
+      // showAlertDialog(context: context, message: e.toString() );// Re-throw the error for handling at the calling site
+
+      throw e;
+    }
+  }
 
 
   Future<String?> fetchFieldValue(String uid, String field) async {

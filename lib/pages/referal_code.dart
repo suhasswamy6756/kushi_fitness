@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/pages/selectGender.dart';
+import 'package:kushi_3/service/firestore_service.dart';
 
 class ReferralScreen extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class ReferralScreen extends StatefulWidget {
 
 class _ReferralScreenState extends State<ReferralScreen> {
   TextEditingController _referralController = TextEditingController();
-
+  FirestoreService _firestoreService = FirestoreService();
   @override
   void dispose() {
     _referralController.dispose();
@@ -40,8 +41,16 @@ class _ReferralScreenState extends State<ReferralScreen> {
             SizedBox(height: 50,),
             TextButton(
               onPressed: () {
-                // Implement your logic for continuing without referral here
-                // For example, navigate to the next screen
+                final body = {
+                  "refCode": _firestoreService.getCurrentUserId()!,
+                  "email": _firestoreService.phoneNumberReturn(),
+                  "date_created": DateTime.now(),
+                  "referrals": <String>[],
+                  "refEarnings": 0,
+                };
+                _firestoreService.updateReferDocument(_firestoreService.getCurrentUserId()!,body,context);
+
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
