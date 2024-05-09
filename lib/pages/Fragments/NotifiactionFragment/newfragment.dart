@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import "package:kushi_3/components/notificationitem.dart";
 import "package:kushi_3/model/notificationdata.dart";
 class NewFragment extends StatelessWidget {
+  const NewFragment({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

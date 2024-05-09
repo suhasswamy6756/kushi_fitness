@@ -5,6 +5,8 @@ import 'package:kushi_3/pages/Fragments/NotifiactionFragment/newfragment.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class NotificationPage extends StatefulWidget {
+  const NotificationPage({super.key});
+
   @override
   _NotificationPageState createState() => _NotificationPageState();
 }
@@ -17,18 +19,18 @@ class _NotificationPageState extends State<NotificationPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: Center(child: Text('Notifications')),
+        title: const Center(child: Text('Notifications')),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
+          preferredSize: const Size.fromHeight(50.0),
           child: Container(
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: const EdgeInsets.only(bottom: 10.0),
             child: ToggleSwitch(
               minWidth: 150.0,
               initialLabelIndex: _labelStart, // Set initial index
               cornerRadius: 30.0,
               radiusStyle: true,
-              activeBgColor: [Colors.white],
-              customTextStyles: [
+              activeBgColor: const [Colors.white],
+              customTextStyles: const [
                 TextStyle(color: Colors.black), // Style for "Events" label
                 TextStyle(color: Colors.black), // Style for "New" label
                 TextStyle(color: Colors.black), // Style for "All" label
@@ -37,7 +39,7 @@ class _NotificationPageState extends State<NotificationPage> {
               inactiveBgColor: Colors.white54,
               inactiveFgColor: Colors.grey,
               totalSwitches: 3,
-              labels: ["Events", "New", "All"],
+              labels: const ["Events", "New", "All"],
               onToggle: (index) {
                 if(index != null) {
                   setState(() {
@@ -56,11 +58,11 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget _selectedFragment() {
     switch (_labelStart) {
       case 0:
-        return EventsFragment();
+        return const EventsFragment();
       case 1:
-        return NewFragment();
+        return const NewFragment();
       case 2:
-        return AllFragment();
+        return const AllFragment();
       default:
         return Container();
     }

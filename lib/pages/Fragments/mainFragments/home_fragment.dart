@@ -1,10 +1,7 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_health_connect/flutter_health_connect.dart';
-import 'package:kushi_3/components/bar_graph/single_bar_graph.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeFragment extends StatefulWidget {
   const HomeFragment({super.key});
@@ -17,7 +14,7 @@ class _HomeFragmentState extends State<HomeFragment> {
   // final int _stepPer = 30;
   late var _steps = 0;
 
-  FitnessDetails _fit = FitnessDetails();
+  final FitnessDetails _fit = FitnessDetails();
 
   @override
   void initState() {
@@ -44,7 +41,7 @@ class _HomeFragmentState extends State<HomeFragment> {
     setState(() {
       _steps = 0;
     });
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     int newSteps = await _fit.fetchTotalSteps();
     setState(() {
       _steps = newSteps;
@@ -74,7 +71,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 ),
                 child: Row(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 10, right: 45.0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,10 +155,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: Text(
                         '200 calories',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                         ),
@@ -190,9 +187,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       'add',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 29,
                         fontWeight: FontWeight.w700,
                       ),
@@ -237,7 +234,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 bottomRight: Radius.circular(20)),
                           ),
                           child: Container(
-                            margin: EdgeInsets.only(left: 20),
+                            margin: const EdgeInsets.only(left: 20),
                             child: const Text(
                               textAlign: TextAlign.left,
                               'Sports accessories',
@@ -252,7 +249,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Stack(
@@ -279,7 +276,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 bottomRight: Radius.circular(20)),
                           ),
                           child: Container(
-                            margin: EdgeInsets.only(left: 20),
+                            margin: const EdgeInsets.only(left: 20),
                             child: const Text(
                               textAlign: TextAlign.left,
                               'Sports accessories',
@@ -294,7 +291,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Stack(
@@ -321,7 +318,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 bottomRight: Radius.circular(20)),
                           ),
                           child: Container(
-                            margin: EdgeInsets.only(left: 20),
+                            margin: const EdgeInsets.only(left: 20),
                             child: const Text(
                               textAlign: TextAlign.left,
                               'Sports accessories',
@@ -368,11 +365,13 @@ class CustomShapeClipper extends CustomClipper<Path> {
 }
 
 class IrregularShapeBackgroundImage extends StatelessWidget {
+  const IrregularShapeBackgroundImage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Irregular Shape Background Image'),
+        title: const Text('Irregular Shape Background Image'),
       ),
       body: Center(
         child: Stack(

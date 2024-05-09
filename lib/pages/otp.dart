@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/model/user_data.dart';
-import 'package:kushi_3/pages/selectGender.dart';
 import 'package:kushi_3/pages/signin.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 import 'package:pinput/pinput.dart';
@@ -12,7 +10,7 @@ import 'package:pinput/pinput.dart';
 class OTPVerificationPage extends StatefulWidget {
 
 
-  OTPVerificationPage({
+  const OTPVerificationPage({
     super.key,
 
   });
@@ -35,7 +33,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   @override
   void dispose() {
-    _controllers.forEach((controller) => controller.dispose());
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
     userDataMap.clear();
     super.dispose();
   }
@@ -80,7 +80,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                         fontSize: 30,
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text(
                       "We sent a code to your number ",
                       style: TextStyle(
@@ -90,7 +90,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 100),
+                      margin: const EdgeInsets.only(left: 100),
                       child: Row(
                         children: [
                           Text(
@@ -132,7 +132,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               },
 
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             MyButton(text: "Verify OTP", onTap: ()async{
                 // userDataMap['phoneNumber']=data;
 

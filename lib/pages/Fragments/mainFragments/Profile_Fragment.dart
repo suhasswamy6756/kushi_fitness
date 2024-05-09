@@ -1,17 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kushi_3/pages/introslider.dart';
-import 'package:kushi_3/pages/notifications.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/components/settingButtons.dart';
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
 
 
 class ProfileFragment extends StatefulWidget {
@@ -39,7 +34,7 @@ class _profilePageState extends State<ProfileFragment> {
       DocumentSnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get(GetOptions(source: Source.cache));
+          .get(const GetOptions(source: Source.cache));
 
       // Retrieve profile image URL from the user document
       setState(() {
@@ -58,11 +53,11 @@ class _profilePageState extends State<ProfileFragment> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children:[
-              Padding(
-                padding: const EdgeInsets.only(right: 240.0),
+              const Padding(
+                padding: EdgeInsets.only(right: 240.0),
                 child: Text("Profile", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
               ),
-              SizedBox(height: 25, ),
+              const SizedBox(height: 25, ),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: IntrinsicHeight(
@@ -74,7 +69,7 @@ class _profilePageState extends State<ProfileFragment> {
                           Container(
                             width: 140, // Adjust according to your needs
                             height: 140, // Adjust according to your needs
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
                                   colors: [Colors.redAccent, Colors.lightBlueAccent], // Example gradient colors
@@ -103,21 +98,21 @@ class _profilePageState extends State<ProfileFragment> {
                                   height: 150,
                                   fit: BoxFit.cover,
                                 )
-                                    :LineIcon(LineIcons.peace,color: Colors.black,size: 80,),
+                                    :const LineIcon(LineIcons.peace,color: Colors.black,size: 80,),
                               ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(width: 75,),
-                      VerticalDivider(
+                      const SizedBox(width: 75,),
+                      const VerticalDivider(
                         color: Colors.black,
                         thickness: 1,
                       ),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 50.0, left: 10.0),
+                          padding: EdgeInsets.only(top: 50.0, left: 10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -131,12 +126,12 @@ class _profilePageState extends State<ProfileFragment> {
                   ),
                 ),
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left:20.0),
-                    child: Text(globals.userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),),
+                    child: Text(globals.userName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 50),),
                   )
               ),
               const SizedBox(height: 10,),
@@ -145,8 +140,8 @@ class _profilePageState extends State<ProfileFragment> {
                   onTap: () => () {}
               ),
               const SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.only(right:250.0, left: 10.0),
+              const Padding(
+                padding: EdgeInsets.only(right:250.0, left: 10.0),
                 child: Text('Settings', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
               ),
               const SizedBox(height: 10,),
@@ -166,8 +161,8 @@ class _profilePageState extends State<ProfileFragment> {
               ),
               const SizedBox(height: 30,),
               const SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.only(right:125.0, left: 10.0),
+              const Padding(
+                padding: EdgeInsets.only(right:125.0, left: 10.0),
                 child: Text('Help and Support', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
               ),
               const SizedBox(height: 10,),
@@ -199,7 +194,7 @@ class _profilePageState extends State<ProfileFragment> {
                       backgroundColor: Colors.black87,
                       foregroundColor: Colors.white,
                       elevation: 10,
-                      side: BorderSide(
+                      side: const BorderSide(
                           color: Colors.black12,
                           width: 1.5
                       ),
@@ -215,12 +210,12 @@ class _profilePageState extends State<ProfileFragment> {
                             Padding(
                               padding: const EdgeInsets.only(top:16.0, right: 140),
                               child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: Colors.red,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "Pro",
                                   style: TextStyle(
                                     color: Colors.black,
@@ -232,35 +227,35 @@ class _profilePageState extends State<ProfileFragment> {
                             ),
 
 
-                            Text(
+                            const Text(
                               "Upgrade to premium",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20,
                               ),
                             ),
-                            Text(
+                            const Text(
                               "This subscription is auto-renewable",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 12,
                               ),
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         TextButton(
                           onPressed: () {},
-                          child: Text(
-                            ">",
-                            style: TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.w300),
-                          ),
                           style: TextButton.styleFrom(
 
-                            padding: EdgeInsets.only(bottom: 5),
+                            padding: const EdgeInsets.only(bottom: 5),
 
-                            minimumSize: Size(48, 48),
+                            minimumSize: const Size(48, 48),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: const Text(
+                            ">",
+                            style: TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.w300),
                           ),
                         ),
                       ],
@@ -271,9 +266,9 @@ class _profilePageState extends State<ProfileFragment> {
               settingButton(
                 text: "Sign out",
                 onTap: (){
-                  final _authService = AuthService();
-                  _authService.signOut();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> IntroSlider()));
+                  final authService = AuthService();
+                  authService.signOut();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const IntroSlider()));
                   },
               ),
               const SizedBox(height: 25,),

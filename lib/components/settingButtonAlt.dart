@@ -22,7 +22,7 @@ class settingButtonAlt extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white10,
             elevation: 10,
-            side: BorderSide(
+            side: const BorderSide(
                 color: Colors.black12,
                 width: 1.5
             ),
@@ -40,9 +40,16 @@ class settingButtonAlt extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               TextButton(
                 onPressed: () {},
+                style: TextButton.styleFrom(
+
+                  padding: const EdgeInsets.only(bottom: 5),
+
+                  minimumSize: const Size(48, 48),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black87,
@@ -52,17 +59,10 @@ class settingButtonAlt extends StatelessWidget {
                       width: 5.0,
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     ">",
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.w300, color: Colors.white),
                   ),
-                ),
-                style: TextButton.styleFrom(
-
-                  padding: EdgeInsets.only(bottom: 5),
-
-                  minimumSize: Size(48, 48),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
               ),
             ],

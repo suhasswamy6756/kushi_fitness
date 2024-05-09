@@ -1,18 +1,14 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
-import 'package:kushi_3/pages/Fragments/mainFragments/home_fragment.dart';
-import 'package:kushi_3/pages/mainactivity.dart';
 
 import 'package:kushi_3/pages/otp.dart';
-import 'package:kushi_3/pages/refer_page.dart';
 import 'package:kushi_3/pages/referal_code.dart';
 
 import 'package:kushi_3/pages/selectGender.dart';
 import 'package:kushi_3/pages/selectHeight.dart';
 import 'package:kushi_3/pages/selectWeight.dart';
 import 'package:kushi_3/pages/signup.dart';
-import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -54,18 +50,18 @@ class MyApp extends StatelessWidget {
       theme: lightMode,
       darkTheme: darkMode,
       routes: {
-        '/OTPPage': (context) => OTPVerificationPage(),
+        '/OTPPage': (context) => const OTPVerificationPage(),
         '/selectGender': (context) => const SelectGender(),
         '/selectHeight': (context) => const SelectHeight(),
         '/selectWeight' : (context) => const SelectWeight(),
         '/test_page': (context) => const stepTest(),
-        '/phoneVerification': (context) => SignIn(),
-        '/userinfo': (context) => SignUp(),
-        '/contactList':(context) => ContactList(),
-        '/referalpage': (context)=> ReferralScreen(),
+        '/phoneVerification': (context) => const SignIn(),
+        '/userinfo': (context) => const SignUp(),
+        '/contactList':(context) => const ContactList(),
+        '/referalpage': (context)=> const ReferralScreen(),
       },
 
-      home:  stepTest(),
+      home:  const stepTest(),
     );
   }
 }

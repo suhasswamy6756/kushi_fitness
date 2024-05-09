@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kushi_3/components/bar_graph/bar_graph.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
 class ActivityFragment extends StatefulWidget {
@@ -17,7 +15,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
   var coins = 10;
   late var percentage;
 
-  FitnessDetails _fit = FitnessDetails();
+  final FitnessDetails _fit = FitnessDetails();
 
   @override
   void initState() {
@@ -44,7 +42,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     setState(() {
       _steps = 0;
     });
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     int newSteps = await _fit.fetchTotalSteps();
     setState(() {
       _steps = newSteps;

@@ -22,7 +22,7 @@ class settingButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black12,
             elevation: 10,
-            side: BorderSide(
+            side: const BorderSide(
               color: Colors.black12,
               width: 1.5
             ),
@@ -40,19 +40,19 @@ class settingButton extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               TextButton(
                 onPressed: () {},
-                child: Text(
-                  ">",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w300),
-                ),
                 style: TextButton.styleFrom(
 
-                  padding: EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5),
 
-                  minimumSize: Size(48, 48),
+                  minimumSize: const Size(48, 48),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text(
+                  ">",
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w300),
                 ),
               ),
             ],
