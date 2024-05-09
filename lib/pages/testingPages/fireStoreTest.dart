@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
@@ -8,7 +7,7 @@ class FirestoreTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Firestore Example',
       home: FirestoreTest(),
     );
@@ -35,7 +34,7 @@ class _FirestoreTestState extends State<FirestoreTest> {
         stream: _firestore.collection("users").snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
           dev.log(streamSnapshot.data!.docs.toString());
-          return Text("Firestore data be here.");
+          return const Text("Firestore data be here.");
         },
       )
       // Add additional UI components here

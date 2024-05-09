@@ -6,7 +6,7 @@ import 'bar_data.dart';
 class MyBarGraph extends StatelessWidget {
   final List weeklySummary;
 
-  MyBarGraph({
+  const MyBarGraph({
     super.key,
     required this.weeklySummary,
   });
@@ -27,9 +27,9 @@ class MyBarGraph extends StatelessWidget {
     return BarChart(BarChartData(
         minY: 0,
         maxY: 100,
-        gridData: FlGridData(show: false),
+        gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
-        titlesData: FlTitlesData(
+        titlesData: const FlTitlesData(
           show: true,
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -65,7 +65,7 @@ Widget getBottomTitles(double value,TitleMeta meta){
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-    Widget text=Text("suhas");
+    Widget text=const Text("suhas");
   switch(value.toInt()){
     case 0:
       text= const Text('S',style: style);
@@ -90,5 +90,5 @@ Widget getBottomTitles(double value,TitleMeta meta){
       break;
 
   }
-  return SideTitleWidget(child: text, axisSide: meta.axisSide );
+  return SideTitleWidget(axisSide: meta.axisSide, child: text );
 }

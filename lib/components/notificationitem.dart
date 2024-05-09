@@ -6,7 +6,7 @@ class NotificationItem extends StatelessWidget {
   final String message;
   final DateTime time;
 
-  NotificationItem({
+  const NotificationItem({super.key, 
     required this.title,
     required this.message,
     required this.time,
@@ -20,8 +20,8 @@ class NotificationItem extends StatelessWidget {
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Icon(Icons.delete, color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
@@ -29,7 +29,7 @@ class NotificationItem extends StatelessWidget {
         // Example: Delete the notification from the list
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Notification deleted'),
+            content: const Text('Notification deleted'),
             action: SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -44,14 +44,14 @@ class NotificationItem extends StatelessWidget {
           ListTile(
             title: Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text(message),
             trailing: Text(formattedDate),
           ),
           Container(
-            margin: EdgeInsets.only(left: 10,right: 10),
-            child: Divider(
+            margin: const EdgeInsets.only(left: 10,right: 10),
+            child: const Divider(
               height: 2.0,
               color: Colors.black,
             ),

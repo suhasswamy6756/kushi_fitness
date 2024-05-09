@@ -21,7 +21,7 @@ class AuthGate extends StatelessWidget {
             return MainActivity(namey: globals.userName);
           }
           else{
-            return IntroSlider();
+            return const IntroSlider();
           }
         },
       )

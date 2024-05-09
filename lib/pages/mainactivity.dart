@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,10 +28,10 @@ class _MainActivityState extends State<MainActivity> {
   int _selectedIndex = 0;
 
   static  final List<Widget> _widgetOptions = <Widget>[
-    HomeFragment(),
+    const HomeFragment(),
 
-    ActivityFragment(),
-    GroupFragment(),
+    const ActivityFragment(),
+    const GroupFragment(),
     ProfileFragment(namey: 'suhas'),
 
 
@@ -43,8 +42,8 @@ class _MainActivityState extends State<MainActivity> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime _now = DateTime.now();
-    String formattedDate = DateFormat('d MMM').format(_now);
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('d MMM').format(now);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -56,14 +55,14 @@ class _MainActivityState extends State<MainActivity> {
             children: [
               Text(
                 'Hello, $profileName',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 'Today $formattedDate',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
                 ),
@@ -74,7 +73,7 @@ class _MainActivityState extends State<MainActivity> {
         leading: _buildUserProfileAvatar(),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: const Icon(Icons.notifications),
             onPressed: () {
               // Handle IconButton press
             },
@@ -85,7 +84,7 @@ class _MainActivityState extends State<MainActivity> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -145,8 +144,8 @@ class _MainActivityState extends State<MainActivity> {
           child: profileImageUrl != null
               ? CachedNetworkImage(
             imageUrl: profileImageUrl!,
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
             fit: BoxFit.cover,
             width: 50,
             height: 50,

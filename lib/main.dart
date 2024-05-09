@@ -1,11 +1,8 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
-import 'package:kushi_3/pages/Fragments/mainFragments/home_fragment.dart';
-import 'package:kushi_3/pages/mainactivity.dart';
 
 import 'package:kushi_3/pages/otp.dart';
-import 'package:kushi_3/pages/refer_page.dart';
 import 'package:kushi_3/pages/referal_code.dart';
 
 import 'package:kushi_3/pages/selectGender.dart';
@@ -30,14 +27,14 @@ Future<void> main() async {
 
   runApp(
       MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => AuthService()), // Provide AuthService
-            ChangeNotifierProvider(create: (_) => ContactProvider()), // Provide ContactProvider
-          ],
-    // ChangeNotifierProvider(create: (context) => ContactProvider(),
-      child: const MyApp(),
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthService()), // Provide AuthService
+          ChangeNotifierProvider(create: (_) => ContactProvider()), // Provide ContactProvider
+        ],
+        // ChangeNotifierProvider(create: (context) => ContactProvider(),
+        child: const MyApp(),
 
-    )
+      )
   ); // Run your application
 }
 
@@ -49,22 +46,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-        title: "flutter demo",
-        theme: lightMode,
-        darkTheme: darkMode,
-        routes: {
-          '/OTPPage': (context) => OTPVerificationPage(),
-          '/selectGender': (context) => const SelectGender(),
-          '/selectHeight': (context) => const SelectHeight(),
-          '/selectWeight' : (context) => const SelectWeight(),
-          '/test_page': (context) => const stepTest(),
-          '/phoneVerification': (context) => SignIn(),
-          '/userinfo': (context) => SignUp(),
-          '/contactList':(context) => ContactList(),
-          '/referalpage': (context)=> ReferralScreen(),
-        },
+      title: "flutter demo",
+      theme: lightMode,
+      darkTheme: darkMode,
+      routes: {
+        '/OTPPage': (context) => const OTPVerificationPage(),
+        '/selectGender': (context) => const SelectGender(),
+        '/selectHeight': (context) => const SelectHeight(),
+        '/selectWeight' : (context) => const SelectWeight(),
+        '/test_page': (context) => const stepTest(),
+        '/phoneVerification': (context) => const SignIn(),
+        '/userinfo': (context) => const SignUp(),
+        '/contactList':(context) => const ContactList(),
+        '/referalpage': (context)=> const ReferralScreen(),
+      },
 
-      home:  HomePage(),
+      home:  const stepTest(),
     );
   }
 }

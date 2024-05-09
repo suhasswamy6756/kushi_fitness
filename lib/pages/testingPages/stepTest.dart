@@ -1,11 +1,14 @@
+import 'package:intl/intl.dart';
 import 'package:kushi_3/pages/mainactivity.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:developer' as developer;
-
+import 'package:kushi_3/model/globals.dart' as globals;
 import '../../service/auth/auth_gate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 
 class stepTest extends StatefulWidget{
@@ -134,6 +137,7 @@ class stepTestState extends State<stepTest> {
                   for(var step in stepList){
                     totalSteps+=step['count'] as int;
                   }
+                  globals.stepsToday = totalSteps;
                   resultText = '$totalSteps';
                 } catch (e) {
                   resultText = e.toString();
@@ -142,6 +146,30 @@ class stepTestState extends State<stepTest> {
                 _updateResultText();
               },
               child: const Text('Get Steps'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                developer.log(globals.stepsToday.toString());
+                var stepsNow = globals.stepsToday;
+                var curDate = DateFormat('MMDDYY').format(DateTime.now()).toString();
+                if(stepsNow >= 10000 && curDate != globals.date){
+                  if(globals.dailyToken == false){
+                    globals.date = curDate;
+                    globals.generate40RupeeToken();
+                    globals.countedSteps -= 10000;
+                  }
+                  while(globals.countedSteps > 5000){
+                    developer.log(globals.countedSteps.toString());
+                    globals.generate20RupeeToken();
+                    globals.countedSteps -= 5000;
+                  }
+                }
+                int fortytokens = await globals.get40CoinNumber(globals.uid);
+                int twentyTokens = await globals.get20CoinNumber(globals.uid);
+                resultText = '40 Rupee Tokens: $fortytokens and 20 rupee tokens: $twentyTokens';
+                _updateResultText();
+              },
+              child: const Text('Get Coins'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -189,7 +217,7 @@ class stepTestState extends State<stepTest> {
             ElevatedButton(onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainActivity(namey: "suhas")),
+                MaterialPageRoute(builder: (context) => AuthGate()),
               );
             },
                 child: const Text('Move to Main')),
