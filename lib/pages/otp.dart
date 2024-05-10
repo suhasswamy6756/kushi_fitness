@@ -7,6 +7,8 @@ import 'package:kushi_3/pages/signin.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 import 'package:pinput/pinput.dart';
 
+import '../model/globals.dart';
+
 class OTPVerificationPage extends StatefulWidget {
 
 
@@ -53,6 +55,21 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       print('Error checking user existence: $e');
     }
 
+  }
+  void createReferCollection() async {
+    CollectionReference profileRef =
+    FirebaseFirestore.instance.collection("ReferEarn");
+    final body = {
+      "refCode": auth.currentUser!.uid,
+      "email": auth.currentUser!.phoneNumber,
+      "date_created": DateTime.now(),
+      "referals": <String>[],
+      "refEarnings": 0
+    };
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    profileRef.add(body);
   }
 
 
@@ -135,6 +152,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             const SizedBox(height: 20.0),
             MyButton(text: "Verify OTP", onTap: ()async{
                 // userDataMap['phoneNumber']=data;
+
+
+
+
+
 
               try{
                 PhoneAuthCredential credential =  PhoneAuthProvider.credential(verificationId: SignIn.verify, smsCode: code);

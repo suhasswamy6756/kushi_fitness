@@ -4,7 +4,9 @@ class FitnessDetails {
   List<HealthConnectDataType> types = [HealthConnectDataType.Steps];
 
   Future<int> fetchTotalSteps() async {
-    var startTime = DateTime.now().subtract(const Duration(days: 4));
+    var now = DateTime.now();
+
+    var startTime = DateTime(now.year, now.month, now.day); // Start of today
     var endTime = DateTime.now();
     final requests = <Future>[];
     Map<String, dynamic> typePoints = {};

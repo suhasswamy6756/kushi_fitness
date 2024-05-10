@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_health_connect/flutter_health_connect.dart';
+
 import 'package:intl/intl.dart';
 import 'package:kushi_3/pages/mainactivity.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
@@ -10,36 +13,75 @@ import '../../service/auth/auth_gate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
+class stepTest extends StatefulWidget {
+  const stepTest({super.key});
 
-class stepTest extends StatefulWidget{
-  const stepTest ({super.key});
   @override
-  State<StatefulWidget> createState() => stepTestState();
+  State<stepTest> createState() => _stepTestState();
 }
 
-
-class stepTestState extends State<stepTest> {
+class _stepTestState extends State<stepTest> {
+  // List<HealthConnectDataType> types = [
+  //   HealthConnectDataType.ActiveCaloriesBurned,
+  //   HealthConnectDataType.BasalBodyTemperature,
+  //   HealthConnectDataType.BasalMetabolicRate,
+  //   HealthConnectDataType.BloodGlucose,
+  //   HealthConnectDataType.BloodPressure,
+  //   HealthConnectDataType.BodyFat,
+  //   HealthConnectDataType.BodyTemperature,
+  //   HealthConnectDataType.BoneMass,
+  //   HealthConnectDataType.CervicalMucus,
+  //   HealthConnectDataType.CyclingPedalingCadence,
+  //   HealthConnectDataType.Distance,
+  //   HealthConnectDataType.ElevationGained,
+  //   HealthConnectDataType.ExerciseEvent,
+  //   HealthConnectDataType.ExerciseLap,
+  //   HealthConnectDataType.ExerciseRepetitions,
+  //   HealthConnectDataType.ExerciseSession,
+  //   HealthConnectDataType.FloorsClimbed,
+  //   HealthConnectDataType.HeartRate,
+  //   HealthConnectDataType.Height,
+  //   HealthConnectDataType.HipCircumference,
+  //   HealthConnectDataType.Hydration,
+  //   HealthConnectDataType.LeanBodyMass,
+  //   HealthConnectDataType.MenstruationFlow,
+  //   HealthConnectDataType.Nutrition,
+  //   HealthConnectDataType.OvulationTest,
+  //   HealthConnectDataType.OxygenSaturation,
+  //   HealthConnectDataType.Power,
+  //   HealthConnectDataType.RespiratoryRate,
+  //   HealthConnectDataType.RestingHeartRate,
+  //   HealthConnectDataType.SexualActivity,
+  //   HealthConnectDataType.SleepSession,
+  //   HealthConnectDataType.SleepStage,
+  //   HealthConnectDataType.Speed,
+  //   HealthConnectDataType.StepsCadence,
+  //   HealthConnectDataType.Steps,
+  //   HealthConnectDataType.SwimmingStrokes,
+  //   HealthConnectDataType.TotalCaloriesBurned,
+  //   HealthConnectDataType.Vo2Max,
+  //   HealthConnectDataType.WaistCircumference,
+  //   HealthConnectDataType.Weight,
+  //   HealthConnectDataType.WheelchairPushes,
+  // ];
 
   List<HealthConnectDataType> types = [
     HealthConnectDataType.Steps,
-    HealthConnectDataType.TotalCaloriesBurned
-    // HealthConnectDataType.HeartRate,
-    // HealthConnectDataType.SleepSession,
-    // HealthConnectDataType.OxygenSaturation,
-    // HealthConnectDataType.RespiratoryRate,
+    HealthConnectDataType.HeartRate,
+    HealthConnectDataType.SleepSession,
+    HealthConnectDataType.OxygenSaturation,
+    HealthConnectDataType.RespiratoryRate,
   ];
 
-  bool readOnly = true;
+  bool readOnly = false;
   String resultText = '';
-
-  String token = "";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Health Connect Permission Page'),
+          title: const Text('Health Connect'),
         ),
         body: ListView(
           padding: const EdgeInsets.all(16),
@@ -62,33 +104,20 @@ class stepTestState extends State<stepTest> {
             ),
             ElevatedButton(
               onPressed: () async {
-                try {
-                  await HealthConnectFactory.installHealthConnect();
-                  resultText = 'Install activity started';
-                } catch (e) {
-                  resultText = e.toString();
-                }
-                _updateResultText();
+                await HealthConnectFactory.installHealthConnect();
               },
               child: const Text('Install Health Connect'),
             ),
             ElevatedButton(
               onPressed: () async {
-                try {
-                  await HealthConnectFactory.openHealthConnectSettings();
-                  resultText = 'Settings activity started';
-                } catch (e) {
-                  resultText = e.toString();
-                }
-                _updateResultText();
-
+                await HealthConnectFactory.openHealthConnectSettings();
               },
               child: const Text('Open Health Connect Settings'),
             ),
             ElevatedButton(
               onPressed: () async {
                 var result = await HealthConnectFactory.hasPermissions(
-                  types,
+                  [HealthConnectDataType.Steps],
                   readOnly: readOnly,
                 );
                 resultText = 'hasPermissions: $result';
@@ -98,15 +127,11 @@ class stepTestState extends State<stepTest> {
             ),
             ElevatedButton(
               onPressed: () async {
-                try {
-                  var result = await HealthConnectFactory.requestPermissions(
-                    types,
-                    readOnly: readOnly,
-                  );
-                  resultText = 'requestPermissions: $result';
-                } catch (e) {
-                  resultText = e.toString();
-                }
+                var result = await HealthConnectFactory.requestPermissions(
+                  [HealthConnectDataType.Steps],
+                  readOnly: readOnly,
+                );
+                resultText = 'requestPermissions: $result';
                 _updateResultText();
               },
               child: const Text('Request Permissions'),
@@ -114,11 +139,21 @@ class stepTestState extends State<stepTest> {
             ElevatedButton(
               onPressed: () async {
                 var startTime = DateTime.now().subtract(Duration(
-                  hours: DateTime.now().hour,
-                  minutes: DateTime.now().minute,
-                  seconds: DateTime.now().second,
-                  milliseconds: DateTime.now().millisecond,
-                  microseconds: DateTime.now().microsecond,
+                  hours: DateTime
+                      .now()
+                      .hour,
+                  minutes: DateTime
+                      .now()
+                      .minute,
+                  seconds: DateTime
+                      .now()
+                      .second,
+                  milliseconds: DateTime
+                      .now()
+                      .millisecond,
+                  microseconds: DateTime
+                      .now()
+                      .microsecond,
                 ));
                 var endTime = DateTime.now();
                 try {
@@ -134,8 +169,8 @@ class stepTestState extends State<stepTest> {
                   await Future.wait(requests);
                   var stepList = typePoints['Steps']['records'];
                   var totalSteps = 0;
-                  for(var step in stepList){
-                    totalSteps+=step['count'] as int;
+                  for (var step in stepList) {
+                    totalSteps += step['count'] as int;
                   }
                   globals.stepsToday = totalSteps;
                   resultText = '$totalSteps';
@@ -151,14 +186,16 @@ class stepTestState extends State<stepTest> {
               onPressed: () async {
                 developer.log(globals.stepsToday.toString());
                 var stepsNow = globals.stepsToday;
-                var curDate = DateFormat('MMDDYY').format(DateTime.now()).toString();
-                if(stepsNow >= 10000 && curDate != globals.date){
-                  if(globals.dailyToken == false){
+                var curDate = DateFormat('MMDDYY')
+                    .format(DateTime.now())
+                    .toString();
+                if (stepsNow >= 10000 && curDate != globals.date) {
+                  if (globals.dailyToken == false) {
                     globals.date = curDate;
                     globals.generate40RupeeToken();
                     globals.countedSteps -= 10000;
                   }
-                  while(globals.countedSteps > 5000){
+                  while (globals.countedSteps > 5000) {
                     developer.log(globals.countedSteps.toString());
                     globals.generate20RupeeToken();
                     globals.countedSteps -= 5000;
@@ -166,7 +203,8 @@ class stepTestState extends State<stepTest> {
                 }
                 int fortytokens = await globals.get40CoinNumber(globals.uid);
                 int twentyTokens = await globals.get20CoinNumber(globals.uid);
-                resultText = '40 Rupee Tokens: $fortytokens and 20 rupee tokens: $twentyTokens';
+                resultText =
+                '40 Rupee Tokens: $fortytokens and 20 rupee tokens: $twentyTokens';
                 _updateResultText();
               },
               child: const Text('Get Coins'),
@@ -174,11 +212,21 @@ class stepTestState extends State<stepTest> {
             ElevatedButton(
               onPressed: () async {
                 var startTime = DateTime.now().subtract(Duration(
-                  hours: DateTime.now().hour,
-                  minutes: DateTime.now().minute,
-                  seconds: DateTime.now().second,
-                  milliseconds: DateTime.now().millisecond,
-                  microseconds: DateTime.now().microsecond,
+                  hours: DateTime
+                      .now()
+                      .hour,
+                  minutes: DateTime
+                      .now()
+                      .minute,
+                  seconds: DateTime
+                      .now()
+                      .second,
+                  milliseconds: DateTime
+                      .now()
+                      .millisecond,
+                  microseconds: DateTime
+                      .now()
+                      .microsecond,
                 ));
                 var endTime = DateTime.now();
                 try {
@@ -195,11 +243,11 @@ class stepTestState extends State<stepTest> {
                   typePoints = typePoints['TotalCaloriesBurned'];
                   var totalEnergy = 0.0;
                   var counter = 0;
-                  for (var record in typePoints.values){
-                    if(counter == 1){
+                  for (var record in typePoints.values) {
+                    if (counter == 1) {
                       break;
                     }
-                    for(var energy in record){
+                    for (var energy in record) {
                       totalEnergy += energy['energy']['kilocalories'].toInt();
                     }
                     developer.log(totalEnergy.toString());
@@ -224,13 +272,14 @@ class stepTestState extends State<stepTest> {
             SizedBox(height: 50,),
             ElevatedButton(
               onPressed: () async {
+
                 var startTime =
                 DateTime.now().subtract(const Duration(days: 4));
                 var endTime = DateTime.now();
                 var results = await HealthConnectFactory.getRecord(
-                  type: HealthConnectDataType.Steps,
-                  startTime: startTime,
-                  endTime: endTime,
+                type: HealthConnectDataType.Steps,
+                startTime: startTime,
+                endTime: endTime,
                 );
                 // results.forEach((key, value) {
                 //   if (key == HealthConnectDataType.Steps.name) {
@@ -243,8 +292,6 @@ class stepTestState extends State<stepTest> {
               child: const Text('Get Record'),
             ),
             Text(resultText),
-
-
           ],
         ),
       ),
