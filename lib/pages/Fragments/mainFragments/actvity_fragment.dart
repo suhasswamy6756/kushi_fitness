@@ -213,13 +213,64 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                 fontSize: 18,
                               ),
                             ),
-                            Text(
-                              '💰 $coins',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                            SizedBox(height: 30,),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10), // Adjust the value as needed
+                                border: Border.all(color: Colors.black), // Optional border color
+                                color: Colors.transparent, // Optional, if you want to set a background color
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8), // Adjust padding as needed
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10), // Adjust the value as needed
+                                      color: Colors.purple,
+                                    ),
+                                    child: Text(
+                                      '40',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
                               ),
                             ),
+                            SizedBox(height: 10,),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10), // Adjust the value as needed
+                                border: Border.all(color: Colors.black), // Optional border color
+                                color: Colors.transparent, // Optional, if you want to set a background color
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [// Adjust spacing between the two containers
+                                  Container(
+                                    padding: EdgeInsets.all(8), // Adjust padding as needed
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10), // Adjust the value as needed
+                                      color: Colors.green,
+                                    ),
+                                    child: Text(
+                                      '20',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+
                           ],
                         ),
                       ),
