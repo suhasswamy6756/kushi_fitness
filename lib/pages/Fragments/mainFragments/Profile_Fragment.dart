@@ -35,6 +35,7 @@ class _profilePageState extends State<ProfileFragment> {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get(const GetOptions(source: Source.cache));
+      globals.uid = FirebaseAuth.instance.currentUser!.uid;
 
       // Retrieve profile image URL from the user document
       setState(() {

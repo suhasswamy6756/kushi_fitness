@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
-
 class HomeFragment extends StatefulWidget {
   const HomeFragment({super.key});
 
