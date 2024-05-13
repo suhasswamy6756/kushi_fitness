@@ -54,17 +54,14 @@ class MyApp extends StatelessWidget {
         '/OTPPage': (context) => const OTPVerificationPage(),
         '/selectGender': (context) => const SelectGender(),
         '/selectHeight': (context) => const SelectHeight(),
-        '/selectWeight' : (context) => const SelectWeight(),
+        '/selectWeight': (context) => const SelectWeight(),
         '/test_page': (context) => const stepTest(),
         '/phoneVerification': (context) => const SignIn(),
         '/userinfo': (context) => const SignUp(),
-        '/contactList':(context) => const ContactList(),
-        '/referalpage': (context)=> const ReferralScreen(),
+        '/contactList': (context) => const ContactList(),
+        '/referalpage': (context) => const ReferralScreen(),
       },
-
-
       home:  const stepTest(),
-
     );
   }
 }

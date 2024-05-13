@@ -24,6 +24,7 @@ generate40RupeeToken(){
   int randNum = random.nextInt(999999);
   List<int> bytes = utf8.encode(randNum.toString());
   var hash = sha256.convert(bytes);
+
   // Add data to the specified document
   coins.add({
     'Hash': hash.toString(),
