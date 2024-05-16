@@ -1,8 +1,10 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
+import 'package:kushi_3/pages/check_permissions.dart';
 
 import 'package:kushi_3/pages/otp.dart';
+import 'package:kushi_3/pages/refer_page.dart';
 import 'package:kushi_3/pages/referal_code.dart';
 
 import 'package:kushi_3/pages/selectGender.dart';
@@ -60,10 +62,12 @@ class MyApp extends StatelessWidget {
         '/userinfo': (context) => const SignUp(),
         '/contactList':(context) => const ContactList(),
         '/referalpage': (context)=> const ReferralScreen(),
+        '/referalLink' : (context)=> ReferalPage(),
+
       },
 
 
-      home:  const stepTest(),
+      home: stepTest(),
 
     );
   }

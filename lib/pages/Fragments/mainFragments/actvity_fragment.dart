@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
@@ -228,22 +229,27 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                   // Add some space between the cards
                   // SizedBox(width: 20),
                   // Second Card
-                  Card(
-                    color: const Color.fromRGBO(32, 38, 49, 1),
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                          top: 50, bottom: 50, left: 5, right: 5),
-                      child: const Text(
-                        'Invite Your friends\n and earn rewards',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
-                        textAlign: TextAlign.left,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context, '/referalLink');
+                    },
+                    child: Card(
+                      color: const Color.fromRGBO(32, 38, 49, 1),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            top: 50, bottom: 50, left: 5, right: 5),
+                        child: const Text(
+                          'Invite Your friends\n and earn rewards',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
                     ),
                   ),
