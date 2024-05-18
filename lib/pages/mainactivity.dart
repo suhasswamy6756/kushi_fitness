@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_health_connect/flutter_health_connect.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -22,23 +23,36 @@ class MainActivity extends StatefulWidget {
 }
 
 class _MainActivityState extends State<MainActivity> {
-
   String? profileImageUrl;
   String profileName = 'suhas';
   int _selectedIndex = 0;
 
-  static  final List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     const HomeFragment(),
-
     const ActivityFragment(),
     const GroupFragment(),
     ProfileFragment(namey: 'suhas'),
-
-
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkHealthConnect();
+  }
 
-
+  void checkHealthConnect() async {
+    var result = await HealthConnectFactory.isAvailable();
+    var result1 = await HealthConnectFactory.hasPermissions(
+        [HealthConnectDataType.Steps]);
+    if (!result) {
+      await HealthConnectFactory.installHealthConnect();
+    }
+    if (!result1) {
+      await HealthConnectFactory.requestPermissions(
+          [HealthConnectDataType.Steps]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,55 +98,40 @@ class _MainActivityState extends State<MainActivity> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+            blurRadius: 10,
             color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                color: Colors.white,
-              )
-            ]
-        ),
+          )
+        ]),
         child: SafeArea(
-
-
           child: GNav(
             backgroundColor: Colors.black,
             color: Colors.white,
             activeColor: Colors.black,
-            tabBackgroundColor:Colors.white,
-
+            tabBackgroundColor: Colors.white,
             rippleColor: Colors.white,
             hoverColor: Colors.white,
             gap: 5,
             iconSize: 24,
-
-
-
             tabs: const [
               GButton(icon: LineIcons.home),
-              GButton(icon :Icons.auto_graph_outlined),
+              GButton(icon: Icons.auto_graph_outlined),
               GButton(icon: Icons.groups_3),
-              GButton(icon:Icons.person),
+              GButton(icon: Icons.person),
               // GButton(icon: Icons.person_outline),
             ],
             selectedIndex: _selectedIndex,
-            onTabChange: (index){
+            onTabChange: (index) {
               setState(() {
-                _selectedIndex=index;
+                _selectedIndex = index;
               });
             },
-
-
           ),
-
-
         ),
       ),
     );
   }
-
-
 
   Widget _buildUserProfileAvatar() {
     return Align(
@@ -143,19 +142,20 @@ class _MainActivityState extends State<MainActivity> {
           borderRadius: BorderRadius.circular(50),
           child: profileImageUrl != null
               ? CachedNetworkImage(
-            imageUrl: profileImageUrl!,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            fit: BoxFit.cover,
-            width: 50,
-            height: 50,
-          )
+                  imageUrl: profileImageUrl!,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
+                  width: 50,
+                  height: 50,
+                )
               : Image.asset(
-            'assets/mario.jpg',
-            fit: BoxFit.cover,
-            width: 50,
-            height: 50,
-          ),
+                  'assets/mario.jpg',
+                  fit: BoxFit.cover,
+                  width: 50,
+                  height: 50,
+                ),
         ),
       ),
     );

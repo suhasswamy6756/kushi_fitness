@@ -8,5 +8,9 @@
 -keep class androidx.lifecycle.** { *; }
 
 -keepattributes *Annotation*
+-keep public class androidx.health.** {
+  public protected private *;
+}
+-dontwarn androidx.health.**
  #https://github.com/flutter/flutter/issues/58479
  #https://medium.com/@swav.kulinski/flutter-and-android-obfuscation-8768ac544421

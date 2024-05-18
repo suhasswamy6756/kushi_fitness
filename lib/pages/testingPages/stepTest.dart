@@ -67,10 +67,7 @@ class _stepTestState extends State<stepTest> {
 
   List<HealthConnectDataType> types = [
     HealthConnectDataType.Steps,
-    HealthConnectDataType.HeartRate,
-    HealthConnectDataType.SleepSession,
-    HealthConnectDataType.OxygenSaturation,
-    HealthConnectDataType.RespiratoryRate,
+
   ];
 
   bool readOnly = false;
@@ -117,7 +114,7 @@ class _stepTestState extends State<stepTest> {
             ElevatedButton(
               onPressed: () async {
                 var result = await HealthConnectFactory.hasPermissions(
-                  [HealthConnectDataType.Steps],
+                  types,
                   readOnly: readOnly,
                 );
                 resultText = 'hasPermissions: $result';
@@ -128,7 +125,7 @@ class _stepTestState extends State<stepTest> {
             ElevatedButton(
               onPressed: () async {
                 var result = await HealthConnectFactory.requestPermissions(
-                  [HealthConnectDataType.Steps],
+                  types,
                   readOnly: readOnly,
                 );
                 resultText = 'requestPermissions: $result';
