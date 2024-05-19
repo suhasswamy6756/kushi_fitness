@@ -186,11 +186,16 @@ class _stepTestState extends State<stepTest> {
                 var curDate = DateFormat('MMDDYY')
                     .format(DateTime.now())
                     .toString();
+                if(curDate != globals.date){
+                  globals.countedSteps = 0;
+                }
                 if (stepsNow >= 10000 && curDate != globals.date) {
                   if (globals.dailyToken == false) {
-                    globals.date = curDate;
                     globals.generate40RupeeToken();
-                    globals.countedSteps -= 10000;
+                  }
+                  if(globals.lastSteps != globals.stepsToday && stepsNow >= 10000){
+                    globals.countedSteps += globals.stepsToday - globals.lastSteps;
+                    globals.lastSteps = globals.stepsToday;
                   }
                   while (globals.countedSteps > 5000) {
                     developer.log(globals.countedSteps.toString());
@@ -198,8 +203,8 @@ class _stepTestState extends State<stepTest> {
                     globals.countedSteps -= 5000;
                   }
                 }
-                int fortytokens = await globals.get40CoinNumber(globals.uid);
-                int twentyTokens = await globals.get20CoinNumber(globals.uid);
+                int fortytokens = await globals.get40CoinNumber();
+                int twentyTokens = await globals.get20CoinNumber();
                 resultText =
                 '40 Rupee Tokens: $fortytokens and 20 rupee tokens: $twentyTokens';
                 _updateResultText();
