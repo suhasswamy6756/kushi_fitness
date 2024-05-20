@@ -13,7 +13,7 @@ spendToken(int Price) async{
 
   QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString()).get();
   QuerySnapshot twentyQuery = await twentyCoins.where('UID', isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString()).get();
-  QuerySnapshot halfQuery =  await coins.where('UID', isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString()).get()
+  QuerySnapshot halfQuery =  await coins.where('UID', isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString()).get();
   if(Price >= 40){
     if(querySnapshot.docs.isNotEmpty){
       DocumentSnapshot firstDocument = querySnapshot.docs.first;
