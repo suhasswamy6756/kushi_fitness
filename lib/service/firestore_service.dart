@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/cupertino.dart';
+
+import '../components/message.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:kushi_3/chat_application/helper/show_alert_dialog.dart';
 
@@ -31,6 +33,22 @@ class FirestoreService {
     } catch (e, stackTrace) {
       print('Error updating user document: $e');
       print(stackTrace); // Print stack trace for better error debugging
+      // showAlertDialog(context: context, message: e.toString() );// Re-throw the error for handling at the calling site
+
+      rethrow;
+    }
+  }
+  Future<void> setUserDocument(String uid,
+      Map<String, dynamic> userData,BuildContext context) async {
+    try {
+      // Retrieve the document reference for the user
+      DocumentReference userRef = FirebaseFirestore.instance.collection('users')
+          .doc(uid);
+
+      // Update or create the user document in Firestore
+      await userRef.set(userData);
+    } catch (e, stackTrace) {
+      showMessage(context,e.toString()) ;// Print stack trace for better error debugging
       // showAlertDialog(context: context, message: e.toString() );// Re-throw the error for handling at the calling site
 
       rethrow;
@@ -203,6 +221,32 @@ class FirestoreService {
 
   String? getCurrentUserId(){
     return _auth.currentUser!.uid;
+  }
+
+
+
+  Future<String?> getUserField(String userId, String fieldName) async {
+    try {
+      // Reference to the Firestore document for the current user
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+      await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+      // Check if the document exists
+      if (userSnapshot.exists) {
+        // Extract the specified field from the document data
+        dynamic fieldValue = userSnapshot.data()?[fieldName];
+
+        return fieldValue;
+      } else {
+        // Document does not exist
+        print('Document does not exist for user with ID: $userId');
+        return null;
+      }
+    } catch (e) {
+      // Handle errors
+      print('Error fetching user data: $e');
+      return null;
+    }
   }
 
 

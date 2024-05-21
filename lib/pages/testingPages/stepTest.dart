@@ -6,6 +6,7 @@ import 'package:kushi_3/pages/mainactivity.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
+import 'package:kushi_3/service/firestore_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:developer' as developer;
 import 'package:kushi_3/model/globals.dart' as globals;
@@ -21,6 +22,7 @@ class stepTest extends StatefulWidget {
 }
 
 class _stepTestState extends State<stepTest> {
+  FirestoreService _firestoreService = FirestoreService();
   // List<HealthConnectDataType> types = [
   //   HealthConnectDataType.ActiveCaloriesBurned,
   //   HealthConnectDataType.BasalBodyTemperature,
@@ -76,7 +78,9 @@ class _stepTestState extends State<stepTest> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+
         appBar: AppBar(
           title: const Text('Health Connect'),
         ),
@@ -198,8 +202,8 @@ class _stepTestState extends State<stepTest> {
                     globals.countedSteps -= 5000;
                   }
                 }
-                int fortytokens = await globals.get40CoinNumber(globals.uid);
-                int twentyTokens = await globals.get20CoinNumber(globals.uid);
+                int fortytokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+                int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
                 resultText =
                 '40 Rupee Tokens: $fortytokens and 20 rupee tokens: $twentyTokens';
                 _updateResultText();

@@ -6,12 +6,16 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:math';
 
-dynamic userName = "Name";
+import 'package:kushi_3/service/firestore_service.dart';
+FirestoreService _firestoreService = FirestoreService();
+
+dynamic userName = _firestoreService.getUserField(_firestoreService.getCurrentUserId()!, "full_name");
 dynamic uid;
 var stepsToday = 0;
 bool dailyToken = false;
 String date = "";
 var countedSteps = 0;
+
 
 generate40RupeeToken(){
   FirebaseFirestore firestore = FirebaseFirestore.instance;

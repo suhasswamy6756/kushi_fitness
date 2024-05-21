@@ -112,7 +112,7 @@ class selectHeightState extends State<SelectHeight> {
                 text: "Continue",
                 onTap: () {
                   userDataMap['height']="${height.text} $heightUnit";
-                  _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context);
+                  // _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context);
                   Navigator.pushNamedAndRemoveUntil(
                       context, '/selectWeight', (route) => false,arguments: userDataMap);
                 },
@@ -124,7 +124,7 @@ class selectHeightState extends State<SelectHeight> {
   @override
   void dispose() {
     // TODO: implement dispose
-    userDataMap.clear();
+    // userDataMap.clear();
     super.dispose();
   }
 }

@@ -113,10 +113,10 @@ class selectWeightState extends State<SelectWeight> {
                   userDataMap["weight"]="${weight.text} $weightUnit";
 
 
-                  _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context);
+                  // _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context);
 
                   Navigator.pushNamedAndRemoveUntil(
-                      context, '/userinfo', (route) => false);
+                      context, '/userinfo', (route) => false,arguments: userDataMap);
                 },
               ),
             ],
@@ -126,7 +126,7 @@ class selectWeightState extends State<SelectWeight> {
   @override
   void dispose() {
     // TODO: implement dispose
-    userDataMap.clear();
+    // userDataMap.clear();
     super.dispose();
   }
 }

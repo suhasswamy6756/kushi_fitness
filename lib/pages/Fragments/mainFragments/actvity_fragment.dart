@@ -10,7 +10,7 @@ class ActivityFragment extends StatefulWidget {
 }
 
 class _ActivityFragmentState extends State<ActivityFragment> {
-  List<double> weeklySummary = [4.40, 2.50, 42.42, 30, 50, 96, 59];
+  // List<double> weeklySummary = [4.40, 2.50, 42.42, 30, 50, 96, 59];
   late int _steps = 0;
   late int remainingSteps = 0;
   var coins = 10;

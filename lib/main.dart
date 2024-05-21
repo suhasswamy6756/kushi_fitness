@@ -63,11 +63,13 @@ class MyApp extends StatelessWidget {
         '/contactList':(context) => const ContactList(),
         '/referalpage': (context)=> const ReferralScreen(),
         '/referalLink' : (context)=> ReferalPage(),
+        '/stepper': (context)=> StepperDemo(),
 
       },
 
 
-      home: stepTest(),
+
+      home: AuthGate(),
 
     );
   }

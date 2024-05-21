@@ -3,6 +3,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kushi_3/components/message.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/model/user_data.dart';
 import 'package:kushi_3/service/firestore_service.dart';
@@ -162,7 +163,9 @@ class _SignInState extends State<SignIn> {
 
 
                   },
-                  verificationFailed: (FirebaseAuthException e) {},
+                  verificationFailed: (FirebaseAuthException e) {
+                    showMessage(context, e.toString());
+                  },
                   codeSent: (String verificationId, int? resendToken) {
 
                     SignIn.phone = '${countryCode.text} ${phoneNumber.text}';
