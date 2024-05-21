@@ -38,7 +38,7 @@ class _MainActivityState extends State<MainActivity> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    checkHealthConnect();
+    // checkHealthConnect();
   }
 
   void checkHealthConnect() async {

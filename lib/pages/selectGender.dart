@@ -84,13 +84,16 @@ class selectGenderState extends State<SelectGender> {
 
               const SizedBox(height: 120,),
               MyButton(text: "Continue", onTap: () {
-                userDataMap['userId'] = _firestoreService.getCurrentUserId()!;
-                try{
-                  _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context).then((value)=>Navigator.pushNamed(context,'/selectHeight',arguments: userDataMap ));
 
-                }catch(e){
-                  ShowAlertBox(text:e.toString());
-                }
+                userDataMap['userId'] = _firestoreService.getCurrentUserId()!;
+                Navigator.pushNamed(context,'/selectHeight',arguments: userDataMap );
+
+                // try{
+                //   _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context).then((value)=>Navigator.pushNamed(context,'/selectHeight',arguments: userDataMap ));
+                //
+                // }catch(e){
+                //   ShowAlertBox(text:e.toString());
+                // }
 
 
 
@@ -104,7 +107,7 @@ class selectGenderState extends State<SelectGender> {
   @override
   void dispose() {
     // TODO: implement dispose
-    userDataMap.clear();
+    // userDataMap.clear();
     super.dispose();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kushi_3/components/message.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/model/user_data.dart';
 import 'package:kushi_3/pages/signin.dart';
@@ -34,13 +35,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   @override
-  void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    userDataMap.clear();
-    super.dispose();
-  }
+  // void dispose() {
+  //   for (var controller in _controllers) {
+  //     controller.dispose();
+  //   }
+  //   // userDataMap.clear();
+  //   super.dispose();
+  // }
   Future<void> _checkUserExists(String uid) async {
     try {
       final DocumentSnapshot snapshot = await firebaseFirestore.collection('users').doc(uid).get();
@@ -49,6 +50,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         // Navigate to main activity
         Navigator.pushNamed(context, '/test_page');
       } else {
+        Navigator.pushNamed(context, '/referalpage');
+
         print('User does not exist in Firestore');
       }
     } catch (e) {
@@ -151,7 +154,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             ),
             const SizedBox(height: 20.0),
             MyButton(text: "Verify OTP", onTap: ()async{
-                // userDataMap['phoneNumber']=data;
+                 userDataMap['phoneNumber']=data;
 
 
 
@@ -161,13 +164,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               try{
                 PhoneAuthCredential credential =  PhoneAuthProvider.credential(verificationId: SignIn.verify, smsCode: code);
                await auth.signInWithCredential(credential);
-               _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
-               // _checkUserExists(_firestoreService.getCurrentUserId()!);
+               // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
+               _checkUserExists(_firestoreService.getCurrentUserId()!);
+               //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
 
-
-                Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false,arguments: userDataMap);
               }catch(e){
-                  print("wrong otp");
+                  showMessage(context, e.toString());
               }
 
 

@@ -1,5 +1,4 @@
 import 'package:flutter_health_connect/flutter_health_connect.dart';
-import 'package:kushi_3/model/globals.dart' as globals;
 
 class FitnessDetails {
   List<HealthConnectDataType> types = [HealthConnectDataType.Steps];
@@ -24,7 +23,6 @@ class FitnessDetails {
     for (var step in stepList) {
       totalSteps += step['count'] as int;
     }
-    globals.stepsToday = totalSteps;
     return totalSteps;
   }
 

@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
-import 'package:kushi_3/model/globals.dart' as globals;
-import 'package:intl/intl.dart';
-import 'dart:developer' as dev;
 
 class ActivityFragment extends StatefulWidget {
   const ActivityFragment({super.key});
@@ -13,71 +10,19 @@ class ActivityFragment extends StatefulWidget {
 }
 
 class _ActivityFragmentState extends State<ActivityFragment> {
-  List<double> weeklySummary = [4.40, 2.50, 42.42, 30, 50, 96, 59];
+  // List<double> weeklySummary = [4.40, 2.50, 42.42, 30, 50, 96, 59];
   late int _steps = 0;
   late int remainingSteps = 0;
-  int fortytokens=0;
-  int twentytokens=0;
+  var coins = 10;
   late var percentage;
 
   final FitnessDetails _fit = FitnessDetails();
 
   @override
   void initState() {
-    resetDailyCoin();
-    runCoinFetching();
+    // TODO: implement initState
     super.initState();
     _initializeSteps();
-  }
-
-
-  void resetDailyCoin() async{
-
-    var curDate = DateFormat('MMDDYY')
-        .format(DateTime.now())
-        .toString();
-    if(curDate != globals.date){
-      globals.dailyToken = false;
-    }
-  }
-
-  void runCoinFetching() async{
-    dev.log(globals.uid.toString());
-    var stepsNow = globals.stepsToday;
-    dev.log(globals.dailyToken.toString());
-    var curDate = DateFormat('MMDDYY')
-        .format(DateTime.now())
-        .toString();
-    dev.log(globals.countedSteps.toString());
-    if(curDate != globals.date){
-      globals.countedSteps = 0;
-      globals.lastSteps = 0;
-      globals.date = curDate;
-    }
-    dev.log(globals.stepsToday.toString());
-    if (stepsNow >= 10000 && curDate != globals.date){
-      if (globals.dailyToken == false){
-        globals.generate40RupeeToken();
-        globals.dailyToken = true;
-      }
-    }
-    else if(globals.dailyToken == false && stepsNow >= 10000){
-      globals.generate40RupeeToken();
-      globals.dailyToken = true;
-    }
-    else {
-      if (globals.lastSteps != globals.stepsToday && stepsNow >= 10000) {
-        globals.countedSteps += globals.stepsToday - globals.lastSteps;
-        globals.lastSteps = globals.stepsToday;
-      }
-      while (globals.countedSteps > 5000) {
-        globals.generate20RupeeToken();
-        globals.countedSteps -= 5000;
-      }
-    }
-    fortytokens = await globals.get40CoinNumber();
-    twentytokens = await globals.get20CoinNumber();
-    setState(() {});
   }
 
   Future<void> _initializeSteps() async {
@@ -269,88 +214,13 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                 fontSize: 18,
                               ),
                             ),
-                            SizedBox(height: 30,),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10), // Adjust the value as needed
-                                border: Border.all(color: Colors.black), // Optional border color
-                                color: Colors.transparent, // Optional, if you want to set a background color
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8), // Adjust padding as needed
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10), // Adjust the value as needed
-                                      color: Colors.purple,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          '40',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    'x$fortytokens',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,)
-                                ],
+                            Text(
+                              '💰 $coins',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
                               ),
                             ),
-                            SizedBox(height: 10,),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10), // Adjust the value as needed
-                                border: Border.all(color: Colors.black), // Optional border color
-                                color: Colors.transparent, // Optional, if you want to set a background color
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [// Adjust spacing between the two containers
-                                  Container(
-                                    padding: EdgeInsets.all(8), // Adjust padding as needed
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10), // Adjust the value as needed
-                                      color: Colors.green,
-                                    ),
-                                    child: Text(
-                                      '20',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    'x$twentytokens',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,)
-                                ],
-                              ),
-                            )
-
                           ],
                         ),
                       ),

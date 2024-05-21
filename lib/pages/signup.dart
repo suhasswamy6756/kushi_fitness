@@ -247,9 +247,9 @@ class _SignUpState extends State<SignUp> {
 
               // await _firestoreService.addContactNumberToUserDocument(userDataMap['phoneNumber'], userDataMap['email_id']);
 
-              await _firestoreService.updateUserDocument(
+              await _firestoreService.setUserDocument(
                   _firestoreService.getCurrentUserId()!, userDataMap, context)
-                  .then((value) => Navigator.pushNamed(context, '/test_page'));
+                  .then((value) => Navigator.pushNamed(context, '/stepper'));
               setState(() {
                 isLoading = false;
               });
