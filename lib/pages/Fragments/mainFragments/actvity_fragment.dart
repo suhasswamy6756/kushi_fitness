@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
+import 'package:kushi_3/model/globals.dart' as globals;
+import 'package:kushi_3/service/firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ActivityFragment extends StatefulWidget {
   const ActivityFragment({super.key});
@@ -13,9 +17,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
   // List<double> weeklySummary = [4.40, 2.50, 42.42, 30, 50, 96, 59];
   late int _steps = 0;
   late int remainingSteps = 0;
-  var coins = 10;
+  var coins = 0;
   late var percentage;
-
+  final FirestoreService _firestoreService = FirestoreService();
   final FitnessDetails _fit = FitnessDetails();
 
   @override
@@ -23,6 +27,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     // TODO: implement initState
     super.initState();
     _initializeSteps();
+    _initializeCoins();
   }
 
   Future<void> _initializeSteps() async {
@@ -36,6 +41,22 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       print('Error initializing steps: $e');
       setState(() {
         _steps = 0; // Set a default value
+      });
+    }
+  }
+  Future<void> _initializeCoins() async {
+    try {
+      int fortyTokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+      int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+      int tenTokens = await globals.get10CoinNumber(_firestoreService.getCurrentUserId());
+      int totalCoins = fortyTokens * 40 + twentyTokens * 20 + tenTokens * 10;
+      setState(() {
+        this.coins = totalCoins;
+      });
+    } catch (e) {
+      print('Error initializing coins: $e');
+      setState(() {
+        coins = 10;
       });
     }
   }

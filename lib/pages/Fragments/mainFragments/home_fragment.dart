@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -210,44 +211,49 @@ class _HomeFragmentState extends State<HomeFragment> {
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  Stack(
-                    children: [
-                      Container(
-                        height: 190,
-                        width: 360,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.green,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        // Adjust this value to change the distance from the bottom
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          // alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(232, 232, 232, 1),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const redeemScreen()),
+                      );
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 190,
+                          width: 360,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
                           ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
                           child: Container(
-                            margin: const EdgeInsets.only(left: 20),
-                            child: const Text(
-                              textAlign: TextAlign.left,
-                              'Sports accessories',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: const Text(
+                                'Sports accessories',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
