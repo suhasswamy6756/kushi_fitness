@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
-import 'package:kushi_3/components/message.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StepperDemo extends StatefulWidget {
@@ -8,47 +7,15 @@ class StepperDemo extends StatefulWidget {
   _StepperDemoState createState() => _StepperDemoState();
 }
 
-class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
+class _StepperDemoState extends State<StepperDemo> {
   int _currentStep = 0;
   bool _isHealthConnectInstalled = false;
-  bool _isApiSupported = false;
-  bool _isPermissionGranted = false;
 
   @override
   void initState() {
     super.initState();
-    HealthConnectFactory.installHealthConnect();
-    WidgetsBinding.instance.addObserver(this);
     _checkIfAppIsInstalled();
-    // _permissionsHealthConnect();
   }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      installHealthConnect();
-      _checkIfAppIsInstalled();
-      _permissionsHealthConnect();
-    }
-  }
-
-  static installHealthConnect() async {
-    // return HealthConnectFactory.installHealthConnect();
-    var result = await HealthConnectFactory.isAvailable();
-    if (!result) {
-      launchUrl(
-        Uri.parse("market://details?id=com.google.android.apps.healthdata"),
-        mode: LaunchMode.externalApplication,
-      );
-    }
-  }
-
 
   Future<void> _checkIfAppIsInstalled() async {
     try {
@@ -59,33 +26,10 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
         });
       }
     } catch (e) {
-      // Handle the error appropriately
       print("Error checking HealthConnect availability: $e");
       if (mounted) {
         setState(() {
           _isHealthConnectInstalled = false;
-        });
-      }
-    }
-  }
-
-  Future<void> _permissionsHealthConnect() async {
-    try {
-      bool result = await HealthConnectFactory.hasPermissions(
-          [HealthConnectDataType.Steps]);
-      if (mounted) {
-        setState(() {
-          _isPermissionGranted = result;
-        });
-        if (!result) {
-          await HealthConnectFactory.openHealthConnectSettings();
-        }
-      }
-    } catch (e) {
-      showMessage(context, e.toString());
-      if (mounted) {
-        setState(() {
-          _isPermissionGranted = false;
         });
       }
     }
@@ -101,20 +45,12 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
           ? Stepper(
         currentStep: _currentStep,
         onStepContinue: () {
-          setState(() async {
+          setState(() {
             if (_currentStep < 1) {
               _currentStep += 1;
-              if (_currentStep == 1) {
-                _permissionsHealthConnect();
-              }
-            }
-            else {
-              if (_isPermissionGranted) {
-                Navigator.pushNamed(context, '/test_page');
-              }
-              else {
-                await HealthConnectFactory.openHealthConnectSettings();
-              }
+            } else {
+
+              Navigator.pushNamed(context, "/test_page");
             }
           });
         },
@@ -136,59 +72,49 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
                 ? StepState.complete
                 : StepState.indexed,
           ),
-
           Step(
-            title: Text(_isPermissionGranted ? 'Continue' : 'Grant Permission'),
-            content: PermissionStepContent(
-              isPermissionGranted: _isPermissionGranted,
-              grantPermission: _permissionsHealthConnect,
-            ),
+            title: const Text('Grant Permission'),
             isActive: _currentStep >= 1,
-            state: _isPermissionGranted
-                ? StepState.complete
-                : StepState.indexed,
+            state: _currentStep >= 1 ? StepState.complete : StepState.indexed,
+            content: GestureDetector(
+              onTap: () {
+                if (_currentStep == 1) {
+                  _requestHealthConnectPermission();
+                }
+              },
+              child: const Text('Grant access to proceed'),
+            ),
           ),
         ],
       )
           : Center(
         child: ElevatedButton(
           onPressed: () async {
-            await HealthConnectFactory.installHealthConnect();
+            await installHealthConnect();
           },
           child: const Text('Install Health Connect'),
         ),
       ),
     );
   }
-}
 
-class PermissionStepContent extends StatelessWidget {
-  final bool isPermissionGranted;
-  final Future<void> Function() grantPermission;
+  Future<void> installHealthConnect() async {
+    var result = await HealthConnectFactory.isAvailable();
+    if (!result) {
+      launchUrl(
+        Uri.parse("market://details?id=com.google.android.apps.healthdata"),
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
 
-  const PermissionStepContent({
-    Key? key,
-    required this.isPermissionGranted,
-    required this.grantPermission,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(isPermissionGranted
-            ? 'Permission granted'
-            : 'Permission not granted. Grant access to proceed'),
-        SizedBox(height: 16.0),
-        // if (!isPermissionGranted)
-        //   ElevatedButton(
-        //     onPressed: () async {
-        //       await grantPermission();
-        //     },
-        //     child: Text('Grant Permission'),
-        //   ),
-      ],
-    );
+  Future<void> _requestHealthConnectPermission() async {
+    try {
+      await HealthConnectFactory.requestPermissions([HealthConnectDataType.Steps]);
+    } catch (e) {
+      print("Error requesting Health Connect permission: $e");
+    }
   }
 }
+
+

@@ -248,6 +248,38 @@ class FirestoreService {
       return null;
     }
   }
+  Future<void> registerUser(Map<String,dynamic> userData,UserCredential? userCredential) async {
+    // final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    try {
+
+
+
+      User? user = userCredential?.user;
+
+      if (user != null) {
+        QuerySnapshot result = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: userData['email_id'])
+            .limit(1)
+            .get();
+
+        if (result.docs.isNotEmpty) {
+          throw Exception('Email is already in use by another account.');
+        }
+
+        await user.updateEmail(userData['email_id']);
+        await user.sendEmailVerification();
+
+        await _firestore.collection('users').doc(user.uid).set(userData);
+
+        print('User registered successfully');
+      }
+    } catch (e) {
+      print('Failed to register user: $e');
+    }
+  }
 
 
 

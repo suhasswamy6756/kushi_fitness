@@ -1,7 +1,12 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:kushi_3/notification/firebase_api.dart';
+import 'package:kushi_3/notification/notification_service.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
 import 'package:kushi_3/pages/check_permissions.dart';
+import 'package:kushi_3/pages/introslider.dart';
+import 'package:kushi_3/pages/mainactivity.dart';
 
 import 'package:kushi_3/pages/otp.dart';
 import 'package:kushi_3/pages/refer_page.dart';
@@ -11,6 +16,7 @@ import 'package:kushi_3/pages/selectGender.dart';
 import 'package:kushi_3/pages/selectHeight.dart';
 import 'package:kushi_3/pages/selectWeight.dart';
 import 'package:kushi_3/pages/signup.dart';
+import 'package:kushi_3/pages/testingPages/step_2.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -21,29 +27,41 @@ import 'package:kushi_3/themes/dark_mode.dart';
 import 'package:kushi_3/themes/light_mode.dart';
 import 'package:kushi_3/pages/testingPages/stepTest.dart';
 
+import 'notification/schedule.dart';
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures all plugins are initialized
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures all plugins are initialized
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );// Asynchronously initialize Firebase
+  ); // Asynchronously initialize Firebase
+  await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+  await notify.initializeNotification();
+  await notify.scheduleDailyNotifications();
+
   await FirebaseAppCheck.instance.activate();
+  // NotificationService.initialize();
+  // NotificationService.scheduleNotifications();
 
-  runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => AuthService()), // Provide AuthService
-          ChangeNotifierProvider(create: (_) => ContactProvider()), // Provide ContactProvider
-        ],
-        // ChangeNotifierProvider(create: (context) => ContactProvider(),
-        child: const MyApp(),
-
-      )
-  ); // Run your application
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AuthService()),
+      // Provide AuthService
+      ChangeNotifierProvider(create: (_) => ContactProvider()),
+      // Provide ContactProvider
+    ],
+    // ChangeNotifierProvider(create: (context) => ContactProvider(),
+    child: const MyApp(),
+  )); // Run your application
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,21 +74,17 @@ class MyApp extends StatelessWidget {
         '/OTPPage': (context) => const OTPVerificationPage(),
         '/selectGender': (context) => const SelectGender(),
         '/selectHeight': (context) => const SelectHeight(),
-        '/selectWeight' : (context) => const SelectWeight(),
+        '/selectWeight': (context) => const SelectWeight(),
         '/test_page': (context) => const stepTest(),
         '/phoneVerification': (context) => const SignIn(),
         '/userinfo': (context) => const SignUp(),
-        '/contactList':(context) => const ContactList(),
-        '/referalpage': (context)=> const ReferralScreen(),
-        '/referalLink' : (context)=> ReferalPage(),
-        '/stepper': (context)=> StepperDemo(),
-
+        '/contactList': (context) => const ContactList(),
+        '/referalpage': (context) => const ReferralScreen(),
+        '/referalLink': (context) => const ReferalPage(),
+        '/stepper': (context) => StepperDemo(),
       },
-
-
-
-      home: AuthGate(),
-
+      home:MainActivity(namey: 'suhas'),
     );
   }
 }
+

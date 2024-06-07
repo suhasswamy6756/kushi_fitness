@@ -3,6 +3,7 @@ import 'package:flutter_health_connect/flutter_health_connect.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:kushi_3/notification/firebase_api.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'Fragments/mainFragments/Profile_Fragment.dart';
@@ -27,6 +28,7 @@ class _MainActivityState extends State<MainActivity> {
   String profileName = 'suhas';
   int _selectedIndex = 0;
 
+
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeFragment(),
     const ActivityFragment(),
@@ -38,6 +40,8 @@ class _MainActivityState extends State<MainActivity> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+
     // checkHealthConnect();
   }
 
