@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/model/user_data.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -12,12 +13,15 @@ class SelectHeight extends StatefulWidget {
 }
 
 var labelStart = 1;
-var btnStyle1 = const TextStyle(
+var btnStyle1 = GoogleFonts.openSans(
   color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 13,
 );
-var btnStyle2 = const TextStyle(
+var btnStyle2 = GoogleFonts.openSans(
   color: Colors.black,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
+  fontSize: 13,
 );
 
 class selectHeightState extends State<SelectHeight> {
@@ -31,6 +35,36 @@ class selectHeightState extends State<SelectHeight> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          title: Text(
+            "Step 2 of 8",
+            style:
+                GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back), // Back arrow icon
+            onPressed: () {
+              Navigator.of(context).pop(); // Navigate back when pressed
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Handle Skip button press
+              },
+              child: Text(
+                'Skip',
+                style: GoogleFonts.openSans(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15,
+                  color: Colors.black, // Change the text color as needed
+                ),
+              ),
+            ),
+          ],
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -38,16 +72,15 @@ class selectHeightState extends State<SelectHeight> {
               const SizedBox(
                 height: 60,
               ),
-              const Text("Step 5 of 8"),
               const SizedBox(
                 height: 90,
               ),
-              const Text(
+              Text(
                 "Enter height",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
                   color: Colors.black,
-                  fontSize: 29,
+                  fontSize: 25,
                 ),
               ),
               const SizedBox(
@@ -61,8 +94,8 @@ class selectHeightState extends State<SelectHeight> {
                   activeBgColor: const [Colors.white],
                   customTextStyles: [btnStyle2, btnStyle1],
                   borderColor: const [Colors.grey],
-                  inactiveBgColor: Colors.white54,
-                  inactiveFgColor: Colors.grey,
+                  inactiveBgColor: Colors.grey,
+                  inactiveFgColor: Colors.white,
                   totalSwitches: 2,
                   labels: const ["Feet", "Centimetre"],
                   onToggle: (index) {
@@ -93,7 +126,7 @@ class selectHeightState extends State<SelectHeight> {
                       ),
                       width: 100,
                       child: TextField(
-                        controller: height,
+                          controller: height,
                           textAlign: TextAlign.center,
                           style: const TextStyle(fontSize: 20),
                           keyboardType: TextInputType.number,
@@ -102,7 +135,13 @@ class selectHeightState extends State<SelectHeight> {
                               fillColor: Colors.white,
                               border: InputBorder.none))),
                   const SizedBox(width: 10),
-                  Text(heightUnit)
+                  Text(
+                    heightUnit,
+                    style: GoogleFonts.openSans(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  )
                 ],
               ),
               const SizedBox(
@@ -111,16 +150,18 @@ class selectHeightState extends State<SelectHeight> {
               MyButton(
                 text: "Continue",
                 onTap: () {
-                  userDataMap['height']="${height.text} $heightUnit";
+                  userDataMap['height'] = "${height.text} $heightUnit";
                   // _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context);
                   Navigator.pushNamedAndRemoveUntil(
-                      context, '/selectWeight', (route) => false,arguments: userDataMap);
+                      context, '/selectWeight', (route) => false,
+                      arguments: userDataMap);
                 },
               ),
             ],
           ),
         ));
   }
+
   @override
   void dispose() {
     // TODO: implement dispose

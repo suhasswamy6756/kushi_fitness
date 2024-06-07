@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -110,9 +111,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                   children: [
                     Center(
                         child: Text(
-                      '$_steps',
-                      style: const TextStyle(
-                        fontSize: 30,
+                      '$_steps Steps',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     )),
@@ -141,8 +142,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                     ),
                     Text(
                       '$percentage%',
-                      style: const TextStyle(
-                        fontSize: 29,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                       textAlign: TextAlign.left,
@@ -155,11 +156,11 @@ class _HomeFragmentState extends State<HomeFragment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
                         '200 calories',
-                        style: TextStyle(
-                          fontSize: 30,
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -187,23 +188,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                         ),
                       ),
                     ),
-                    const Text(
-                      'add',
-                      style: TextStyle(
-                        fontSize: 29,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.left,
-                    )
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Redeem',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(59, 59, 59, 1),
@@ -216,6 +209,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                         height: 190,
                         width: 360,
                         decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage("assets/home/decathlon.png"),
+                            fit: BoxFit.cover,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
                         ),
@@ -237,7 +234,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
                               textAlign: TextAlign.left,
-                              'Sports accessories',
+                              'Decathlon  ',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -258,6 +255,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                         height: 190,
                         width: 360,
                         decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/home/nike.png"),
+                            fit: BoxFit.fill,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
                         ),
@@ -279,7 +280,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
                               textAlign: TextAlign.left,
-                              'Sports accessories',
+                              'Nike',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

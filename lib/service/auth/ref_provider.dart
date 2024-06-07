@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+// import 'package:kushi_3/model/enums/state.dart';
+import 'package:kushi_3/pages/selectGender.dart';
 
 
 class RefProvider extends ChangeNotifier {
@@ -10,7 +12,7 @@ class RefProvider extends ChangeNotifier {
   String message = "";
 
   CollectionReference profileRef =
-  FirebaseFirestore.instance.collection("ReferEarn");
+  FirebaseFirestore.instance.collection("RefernEarn");
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -31,13 +33,13 @@ class RefProvider extends ChangeNotifier {
         final data = value.docs[0];
 
         ///Get referrals
-        List referrals = data.get("referals");
+        List referrals = data.get("referrals");
 
-        referrals.add(auth.currentUser!.email);
+        referrals.add(auth.currentUser!.phoneNumber);
 
         ///Update the ref earning
         final body = {
-          "referals": referrals,
+          "referrals": referrals,
           "refEarnings": data.get("refEarnings") + 500
         };
 

@@ -1,12 +1,14 @@
 library SpendCoin;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kushi_3/service/firestore_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:developer' as dev;
 import 'globals.dart' as globals;
 
 spendToken(int Price) async{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirestoreService _firestoreService = FirestoreService();
   CollectionReference coins = firestore.collection("40RupeeTokens");
   CollectionReference twentyCoins = firestore.collection("20RupeeToken");
   CollectionReference halfCoins = firestore.collection("Half20");
@@ -52,7 +54,7 @@ spendToken(int Price) async{
       DocumentSnapshot firstDocument = querySnapshot.docs.first;
       await coins.doc(firstDocument.id).delete();
       dev.log("Deleted 40 Rupee Token");
-      globals.generate20RupeeToken();
+      globals.generate20RupeeToken(_firestoreService.getCurrentUserId()!);
       dev.log("Generated 20 Rupee Token");
       Price -= 20;
       if(Price != 0){
@@ -74,7 +76,7 @@ spendToken(int Price) async{
       DocumentSnapshot firstDocument = twentyQuery.docs.first;
       await coins.doc(firstDocument.id).delete();
       dev.log("Deleted 20 Rupee Token");
-      globals.generateHalfCoin();
+      globals.generateHalfCoin(_firestoreService.getCurrentUserId()!);
       dev.log("Generated Half of a 20 Rupee Token");
       Price -= 10;
       if(Price != 0){
@@ -85,9 +87,9 @@ spendToken(int Price) async{
       DocumentSnapshot firstDocument = querySnapshot.docs.first;
       await coins.doc(firstDocument.id).delete();
       dev.log("Deleted 40 Rupee Token");
-      globals.generate20RupeeToken();
+      globals.generate20RupeeToken(_firestoreService.getCurrentUserId()!);
       dev.log("Generated 20 Rupee Token");
-      globals.generateHalfCoin();
+      globals.generateHalfCoin(_firestoreService.getCurrentUserId()!);
       dev.log("Generated Half of a 20 Rupee Token");
       Price -= 10;
       if(Price != 0){
