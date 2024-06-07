@@ -126,12 +126,7 @@ class selectGenderState extends State<SelectGender> {
                   Navigator.pushNamed(context, '/selectHeight',
                       arguments: userDataMap);
 
-                  // try{
-                  //   _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context).then((value)=>Navigator.pushNamed(context,'/selectHeight',arguments: userDataMap ));
-                  //
-                  // }catch(e){
-                  //   ShowAlertBox(text:e.toString());
-                  // }
+
                 },
               ),
             ],

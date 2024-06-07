@@ -3,7 +3,7 @@ import 'package:flutter_health_connect/flutter_health_connect.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:kushi_3/notification/firebase_api.dart';
+
 import 'package:line_icons/line_icons.dart';
 
 import 'Fragments/mainFragments/Profile_Fragment.dart';

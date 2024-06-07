@@ -1,4 +1,3 @@
-// import 'dart:html';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -14,15 +13,8 @@ import 'package:kushi_3/components/alert_dialog.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/components/textfield.dart';
 import 'package:kushi_3/model/user_data.dart';
-import 'package:kushi_3/notification/firebase_api.dart';
-import 'package:kushi_3/pages/otp.dart';
 
-// import 'package:kushi_3/service/auth/auth_controller.dart';
 import 'package:kushi_3/service/firestore_service.dart';
-
-import '../components/message.dart';
-
-// import '../chat_application/pages/image_picker_page.dart';
 
 FirestoreService _firestoreService = FirestoreService();
 
@@ -309,7 +301,7 @@ class _SignUpState extends State<SignUp> {
                     child: Text(
                       "Privacy policy",
                       style: GoogleFonts.openSans(
-                        color:Colors.blue,
+                        color: Colors.blue,
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
                       ),

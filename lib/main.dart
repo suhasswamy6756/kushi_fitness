@@ -1,7 +1,9 @@
+
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:kushi_3/notification/firebase_api.dart';
+
 import 'package:kushi_3/notification/notification_service.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
 import 'package:kushi_3/pages/check_permissions.dart';
@@ -20,6 +22,7 @@ import 'package:kushi_3/pages/testingPages/step_2.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:kushi_3/pages/signin.dart';
@@ -32,6 +35,10 @@ import 'notification/schedule.dart';
 Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensures all plugins are initialized
+
+  //app will be in portrait om both landscape and portrait mode
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -83,8 +90,7 @@ class MyApp extends StatelessWidget {
         '/referalLink': (context) => const ReferalPage(),
         '/stepper': (context) => StepperDemo(),
       },
-      home:MainActivity(namey: 'suhas'),
+      home:MainActivity(namey: "dynamic",),
     );
   }
 }
-
