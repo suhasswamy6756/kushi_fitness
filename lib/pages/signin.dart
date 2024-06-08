@@ -159,12 +159,16 @@ class _SignInState extends State<SignIn> {
 
                 await FirebaseAuth.instance.verifyPhoneNumber(
                   phoneNumber: '${countryCode.text} ${phoneNumber.text}',
-                  verificationCompleted: (PhoneAuthCredential credential) {
+                  verificationCompleted: (PhoneAuthCredential credential)  {
 
 
                   },
                   verificationFailed: (FirebaseAuthException e) {
-                    showMessage(context, e.toString());
+                    if (e.code == 'invalid-phone-number') {
+                      showMessage(context, 'The provided phone number is not valid.');
+                    } else {
+                      showMessage(context, 'Phone number verification failed. Code: ${e.code}. Message: ${e.message}');
+                    }
                   },
                   codeSent: (String verificationId, int? resendToken) {
 
@@ -186,10 +190,7 @@ class _SignInState extends State<SignIn> {
 
               const SizedBox(height: 50,),
 
-              const Text("Sign In With", style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 25,
-              ),),
+
 
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/model/user_data.dart';
 import 'package:kushi_3/service/firestore_service.dart';
@@ -14,22 +15,57 @@ class SelectWeight extends StatefulWidget {
 var labelStart = 1;
 
 class selectWeightState extends State<SelectWeight> {
- final FirestoreService _firestoreService= FirestoreService();
+  final FirestoreService _firestoreService = FirestoreService();
 
-  var btnStyle1 = const TextStyle(color: Colors.black);
-  var btnStyle2 = const TextStyle(
+  var btnStyle1 = GoogleFonts.openSans(
     color: Colors.black,
+    fontWeight: FontWeight.w400,
+    fontSize: 13,
+  );
+  var btnStyle2 = GoogleFonts.openSans(
+    color: Colors.black,
+    fontWeight: FontWeight.w400,
+    fontSize: 13,
   );
   var labels = ['kg', 'lb'];
   var weightUnit = "lb";
   TextEditingController weight = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          title: Text(
+            "Step 3 of 8",
+            style:
+                GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back), // Back arrow icon
+            onPressed: () {
+              Navigator.of(context).pop(); // Navigate back when pressed
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Handle Skip button press
+              },
+              child: Text(
+                'Skip',
+                style: GoogleFonts.openSans(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15,
+                  color: Colors.black, // Change the text color as needed
+                ),
+              ),
+            ),
+          ],
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -37,16 +73,15 @@ class selectWeightState extends State<SelectWeight> {
               const SizedBox(
                 height: 60,
               ),
-              const Text("Step 4 of 8"),
               const SizedBox(
                 height: 90,
               ),
-              const Text(
-                "Enter weidjfxc",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+              Text(
+                "Select goal weight",
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
                   color: Colors.black,
-                  fontSize: 29,
+                  fontSize: 25,
                 ),
               ),
               const SizedBox(
@@ -58,10 +93,10 @@ class selectWeightState extends State<SelectWeight> {
                   cornerRadius: 30.0,
                   radiusStyle: true,
                   activeBgColor: const [Colors.white],
-                  customTextStyles: [btnStyle1, btnStyle2],
+                  customTextStyles: [btnStyle2, btnStyle1],
                   borderColor: const [Colors.grey],
-                  inactiveBgColor: Colors.white54,
-                  inactiveFgColor: Colors.grey,
+                  inactiveBgColor: Colors.grey,
+                  inactiveFgColor: Colors.white,
                   totalSwitches: 2,
                   labels: const ["Kilograms", "Pounds"],
                   onToggle: (index) {
@@ -80,28 +115,32 @@ class selectWeightState extends State<SelectWeight> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      padding: const EdgeInsets.all(2.5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        // Adjust the radius as per your requirement
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      width: 100,
-                      child: TextField(
+                    padding: const EdgeInsets.all(2.5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      // Adjust the radius as per your requirement
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    width: 100,
+                    child: TextField(
                         controller: weight,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 20),
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: InputBorder.none)),
-
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 20),
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: InputBorder.none)),
                   ),
                   const SizedBox(width: 10),
-
-                  Text(weightUnit)
+                  Text(
+                    weightUnit,
+                    style: GoogleFonts.openSans(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  )
                 ],
               ),
               const SizedBox(
@@ -110,23 +149,19 @@ class selectWeightState extends State<SelectWeight> {
               MyButton(
                 text: "Continue",
                 onTap: () {
-                  userDataMap["weight"]="${weight.text} $weightUnit";
+                  userDataMap["weight"] = "${weight.text} $weightUnit";
 
-
-                  // _firestoreService.updateUserDocument(_firestoreService.getCurrentUserId()!, userDataMap, context);
 
                   Navigator.pushNamedAndRemoveUntil(
-                      context, '/userinfo', (route) => false,arguments: userDataMap);
+                      context, '/userinfo', (route) => false,
+                      arguments: userDataMap);
                 },
               ),
             ],
           ),
         ));
   }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    // userDataMap.clear();
-    super.dispose();
-  }
+
+
+
 }

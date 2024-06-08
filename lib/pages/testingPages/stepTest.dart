@@ -136,6 +136,13 @@ class _stepTestState extends State<stepTest> {
                 _updateResultText();
               },
               child: const Text('Request Permissions'),
+            ),ElevatedButton(
+              onPressed: () async {
+                var result = "${globals.stepsToday}"+"counted steps:${globals.countedSteps}";
+                resultText = 'requestPermissions: $result';
+                _updateResultText();
+              },
+              child: const Text('get something'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -187,18 +194,16 @@ class _stepTestState extends State<stepTest> {
               onPressed: () async {
                 developer.log(globals.stepsToday.toString());
                 var stepsNow = globals.stepsToday;
-                var curDate = DateFormat('MMDDYY')
-                    .format(DateTime.now())
-                    .toString();
+                var curDate = DateFormat('MMddyyyy').format(DateTime.now());
                 if (stepsNow >= 10000 && curDate != globals.date) {
                   if (globals.dailyToken == false) {
                     globals.date = curDate;
-                    globals.generate40RupeeToken();
+                    globals.generate40RupeeToken(_firestoreService.getCurrentUserId()!);
                     globals.countedSteps -= 10000;
                   }
                   while (globals.countedSteps > 5000) {
                     developer.log(globals.countedSteps.toString());
-                    globals.generate20RupeeToken();
+                    globals.generate20RupeeToken(_firestoreService.getCurrentUserId()!);
                     globals.countedSteps -= 5000;
                   }
                 }

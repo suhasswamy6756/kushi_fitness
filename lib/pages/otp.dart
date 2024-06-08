@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/components/message.dart';
 import 'package:kushi_3/components/mybutton.dart';
 import 'package:kushi_3/model/user_data.dart';
@@ -42,22 +43,40 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   //   // userDataMap.clear();
   //   super.dispose();
   // }
-  Future<void> _checkUserExists(String uid) async {
+  Future<bool> _checkUserExists(String uid) async {
     try {
       final DocumentSnapshot snapshot = await firebaseFirestore.collection('users').doc(uid).get();
       if (snapshot.exists) {
-        print('User exists in Firestore');
+        return true;
         // Navigate to main activity
-        Navigator.pushNamed(context, '/test_page');
+        // Navigator.pushNamed(context, '/test_page');
       } else {
-        Navigator.pushNamed(context, '/referalpage');
-
         print('User does not exist in Firestore');
+
+        return false;
+        // Navigator.pushNamed(context, '/referalpage');
+        //
       }
     } catch (e) {
       print('Error checking user existence: $e');
     }
+    return false;
 
+  }
+
+  Future<bool> _checkRefernEarn(String uid)async{
+    try{
+      final DocumentSnapshot snapshot = await firebaseFirestore.collection("RefernEarn").doc(uid).get();
+      if(snapshot.exists){
+        print('refer collection already present');
+        return true;
+      }else{
+        return false;
+      }
+    }catch (e){
+      print('Error : $e');
+    }
+    return false;
   }
   void createReferCollection() async {
     CollectionReference profileRef =
@@ -81,7 +100,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   @override
   Widget build(BuildContext context) {
     var code ="";
-    final String data = ModalRoute.of(context)!.settings.arguments as String;
+    // final String data = ModalRoute.of(context)!.settings.arguments as String;
+    final String data = "suhas";
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
@@ -94,16 +114,16 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                   children: [
                     Text(
                       "Phone Verification",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24.7,
                       ),
                     ),
                     const SizedBox(height: 20,),
                     Text(
                       "We sent a code to your number ",
-                      style: TextStyle(
+                      style: GoogleFonts.openSans(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -115,7 +135,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                         children: [
                           Text(
                             data,
-                            style: TextStyle(
+                            style: GoogleFonts.openSans(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
@@ -128,7 +148,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                               },
                               child: Text(
                                 "Change",
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
                                   color : Theme.of(context).colorScheme.primary,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
@@ -165,10 +185,28 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 PhoneAuthCredential credential =  PhoneAuthProvider.credential(verificationId: SignIn.verify, smsCode: code);
                await auth.signInWithCredential(credential);
                // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
-               _checkUserExists(_firestoreService.getCurrentUserId()!);
-               //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
+               if(await _checkRefernEarn(_firestoreService.getCurrentUserId()!)==false){
+                 final body = {
+                   "refCode": _firestoreService.getCurrentUserId()!,
+                   "email": _firestoreService.phoneNumberReturn(),
+                   "date_created": DateTime.now(),
+                   "referrals": <String>[],
+                   "refEarnings": 0,
+                 };
 
-                Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false,arguments: userDataMap);
+                 _firestoreService.updateReferDocument(_firestoreService.getCurrentUserId()!,body,context);
+               }
+
+               if(await _checkUserExists(_firestoreService.getCurrentUserId()!) == false){
+                 Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false,arguments: userDataMap);
+               }else{
+                 Navigator.pushNamedAndRemoveUntil(context, "/test_page", (route) => false);
+               }
+
+
+                //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
+
+
               }catch(e){
                   showMessage(context, e.toString());
               }

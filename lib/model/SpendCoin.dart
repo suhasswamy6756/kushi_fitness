@@ -1,11 +1,14 @@
 library SpendCoin;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kushi_3/service/firestore_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:developer' as dev;
 import 'globals.dart' as globals;
+
 class SpendCoin {
   spendToken(int Price) async {
+    dynamic uid=FirebaseAuth.instance.currentUser!.uid.toString());
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference coins = firestore.collection("40RupeeTokens");
     CollectionReference twentyCoins = firestore.collection("20RupeeTokens");
@@ -28,6 +31,7 @@ class SpendCoin {
         if (Price != 0) {
           spendToken(Price);
         }
+
       }
       else if (twentyQuery.size >= 2) {
         for (int i = 0; i < 2; i++) {
@@ -57,12 +61,13 @@ class SpendCoin {
         DocumentSnapshot firstDocument = querySnapshot.docs.first;
         await coins.doc(firstDocument.id).update({'redeemed': true});
         dev.log("Updated 40 Rupee Token redeem value as true");
-        globals.generate20RupeeToken();
+        globals.generate20RupeeToken(uid);
         dev.log("Generated 20 Rupee Token");
         Price -= 20;
         if (Price != 0) {
           spendToken(Price);
         }
+
       }
     }
     else if (Price >= 10) {
@@ -79,7 +84,7 @@ class SpendCoin {
         DocumentSnapshot firstDocument = twentyQuery.docs.first;
         await twentyCoins.doc(firstDocument.id).update({'redeemed': true});
         dev.log("Updated 20 Rupee Token redeem value as true");
-        globals.generateHalfCoin();
+        globals.generateHalfCoin(uid);
         dev.log("Generated Half of a 20 Rupee Token");
         Price -= 10;
         if (Price != 0) {
@@ -90,14 +95,15 @@ class SpendCoin {
         DocumentSnapshot firstDocument = querySnapshot.docs.first;
         await coins.doc(firstDocument.id).update({'redeemed': true});
         dev.log("Updated 40 Rupee Token redeem value as true");
-        globals.generate20RupeeToken();
+        globals.generate20RupeeToken(uid);
         dev.log("Generated 20 Rupee Token");
-        globals.generateHalfCoin();
+        globals.generateHalfCoin(uid);
         dev.log("Generated Half of a 20 Rupee Token");
         Price -= 10;
         if (Price != 0) {
           spendToken(Price);
         }
+
       }
     }
   }

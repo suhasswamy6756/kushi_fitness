@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/pages/signin.dart';
 import 'package:kushi_3/pages/signup.dart';
-
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroSlider extends StatefulWidget {
@@ -21,7 +20,7 @@ class _IntroSliderState extends State<IntroSlider> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: PageView(
@@ -38,13 +37,14 @@ class _IntroSliderState extends State<IntroSlider> {
                   description: 'Workout categories will help you gain '
                       'strength, get in better shape and embrace '
                       'a healthy lifestyle',
+                  imagePath: 'assets/introPage/first.png', // Add your image path here
                 ),
                 BuildIntroPage(
-                  title: "Workout Categories",
-                  description: 'Workout categories will '
-                      'help you gain '
+                  title: "Healthy Lifestyle",
+                  description: 'Workout categories will help you gain '
                       'strength, get in better shape and embrace '
                       'a healthy lifestyle',
+                  imagePath: 'assets/introPage/second.png', // Add your image path here
                 ),
               ],
             ),
@@ -55,38 +55,38 @@ class _IntroSliderState extends State<IntroSlider> {
               count: 2,
               onDotClicked: (index) {
                 _controller.animateToPage(index,
-                    duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn);
               },
               effect: const ExpandingDotsEffect(
                 activeDotColor: Colors.black,
                 dotWidth: 10,
                 dotHeight: 10,
-                dotColor: Colors.black12,
+                dotColor: Colors.white,
               ),
             ),
           ),
           const SizedBox(
             height: 20,
           ),
-          Container(
-            height: 50,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
+          SizedBox(
+            height: 66,
+            width: 188,
+            // margin: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 elevation: 10,
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
               ),
               onPressed: isLastPage
                   ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder:(context){
-                    return const SignUp();
-                  })
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) {
+                      return const SignIn();
+                    }));
               }
                   : () {
                 _controller.nextPage(
@@ -95,39 +95,16 @@ class _IntroSliderState extends State<IntroSlider> {
                 );
               },
               child: Text(
-                isLastPage ? 'Start Training' : "Next",
-                style: TextStyle(
+                isLastPage ? 'Get Started' : "Next",
+                style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w500,
-                  fontSize: 17,
+                  fontSize: 18,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return const SignIn();
-                  }),
-                );
-              },
-              child: const Text(
-                "Already have an account?",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 27,),
         ],
       ),
     );
@@ -137,11 +114,13 @@ class _IntroSliderState extends State<IntroSlider> {
 class BuildIntroPage extends StatelessWidget {
   final String title;
   final String description;
+  final String imagePath; // Add image path parameter
 
   const BuildIntroPage({
     super.key,
     required this.title,
     required this.description,
+    required this.imagePath, // Initialize image path
   });
 
   @override
@@ -157,6 +136,16 @@ class BuildIntroPage extends StatelessWidget {
                 bottomLeft: Radius.circular(30),
               ),
             ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
+              ),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
         const SizedBox(
@@ -164,10 +153,10 @@ class BuildIntroPage extends StatelessWidget {
         ),
         Text(
           title,
-          style: const TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.bold,
-            fontSize: 34,
+          style: GoogleFonts.poppins(
+
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
           ),
         ),
         const SizedBox(
@@ -177,8 +166,9 @@ class BuildIntroPage extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 50),
           child: Text(
             description,
-            style: const TextStyle(
-              fontSize: 16,
+            style: GoogleFonts.poppins(
+              fontWeight:FontWeight.w400,
+              fontSize: 15,
             ),
             textAlign: TextAlign.center,
             softWrap: true,

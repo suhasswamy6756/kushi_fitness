@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kushi_3/components/message.dart';
 import 'package:kushi_3/components/mybutton.dart';
+import 'package:kushi_3/pages/refer_page.dart';
 import 'package:kushi_3/pages/selectGender.dart';
+import 'package:kushi_3/service/auth/ref_provider.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 
 class ReferralScreen extends StatefulWidget {
@@ -14,6 +17,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
 
   TextEditingController _referralController = TextEditingController();
   FirestoreService _firestoreService = FirestoreService();
+  RefProvider ref = RefProvider();
 
 
   @override
@@ -41,27 +45,25 @@ class _ReferralScreenState extends State<ReferralScreen> {
             ),
             const SizedBox(height: 20),
             MyButton(text: 'Continue', onTap: (){
+              if(_referralController.text.isEmpty){
+                showMessage(context, "All field are required");
+              }else{
+                ref.setReferral(_referralController.text);
+                showMessage(context, _referralController.text);
+              }
 
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SelectGender(),
+                ),
+              );
             }),
             const SizedBox(height: 50,),
             TextButton(
-              onPressed: () {
-                final body = {
-                  "refCode": _firestoreService.getCurrentUserId()!,
-                  "email": _firestoreService.phoneNumberReturn(),
-                  "date_created": DateTime.now(),
-                  "referrals": <String>[],
-                  "refEarnings": 0,
-                };
-                _firestoreService.updateReferDocument(_firestoreService.getCurrentUserId()!,body,context);
+              onPressed: () async{
 
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SelectGender(),
-                  ),
-                );
               },
               child: const Text('No referral? Continue instead'),
             ),
