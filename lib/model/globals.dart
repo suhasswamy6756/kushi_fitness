@@ -7,6 +7,10 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:math';
 
+import 'package:kushi_3/model/SpendCoin.dart';
+
+//dynamic userName = "Name";
+
 import '../service/firestore_service.dart';
 import 'SpendCoin.dart';
 
@@ -17,8 +21,9 @@ var stepsToday = 0;
 bool dailyToken = false;
 String date = "";
 var countedSteps = 0;
-bool initial5000StepsToken = false; // Add this variable to track the initial 5000 steps token
 
+bool initial5000StepsToken = false; // Add this variable to track the initial 5000 steps token
+/*
 redeemDiscount(int billValue) {
   if (billValue >= 1500) {
     spendToken(120);
@@ -42,6 +47,9 @@ redeemDiscount(int billValue) {
     spendToken(20);
   }
 }
+*/
+
+
 
 generate40RupeeToken(dynamic uid) {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -54,6 +62,7 @@ generate40RupeeToken(dynamic uid) {
     'Hash': hash.toString(),
     'UID': uid,
     'multiplier': 1.0,
+    'redeemed':false,
     'source': 'Generated at $date',
   });
 }
@@ -70,6 +79,7 @@ generate20RupeeToken(dynamic uid) {
     'Hash': hash.toString(),
     'UID': uid,
     'multiplier': 1.0,
+    'redeemed':false,
     'source': 'Generated at $date_2',
   });
 }
@@ -87,22 +97,32 @@ generateHalfCoin(dynamic uid) {
     'Hash': hash.toString(),
     'UID': uid.toString(),
     'multiplier': 1.0,
+    'redeemed':false,
     'source': 'Generated at $date',
   });
 }
 
+
+
 Future<int> get20CoinNumber(dynamic uid1) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference coins = firestore.collection("20RupeeTokens");
-  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1.toString()).get();
+ QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1).where('redeemed',isEqualTo: false).get();
+
   return querySnapshot.size;
 }
 
-
 Future<int> get40CoinNumber(dynamic uid1) async {
-
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference coins = firestore.collection("40RupeeTokens");
-  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1.toString()).get();
+  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1).where('redeemed',isEqualTo: false).get();
+  return querySnapshot.size;
+}
+
+Future<int> get10CoinNumber(dynamic uid1) async{
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference coins = firestore.collection("Half20");
+  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1).where('redeemed',isEqualTo: false).get();
+
   return querySnapshot.size;
 }

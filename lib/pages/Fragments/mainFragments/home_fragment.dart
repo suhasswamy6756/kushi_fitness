@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
@@ -47,6 +48,7 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   @override
   Widget build(BuildContext context) {
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double percentage = _steps / 100;
@@ -59,8 +61,10 @@ class _HomeFragmentState extends State<HomeFragment> {
           child: Column(
             children: [
               Container(
+
                 margin: const EdgeInsets.all(25),
                 height: screenHeight * 0.25,
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromRGBO(232, 232, 232, 1),
@@ -71,11 +75,13 @@ class _HomeFragmentState extends State<HomeFragment> {
                       padding: EdgeInsets.only(left: 10, right: 20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Daily",
                             style: TextStyle(
+
                               fontSize: 30,
                               fontWeight: FontWeight.w600,
                             ),
@@ -140,13 +146,13 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ),
                     Text(
-                      '$percentage%',
+                      '${(percentage * 100).toStringAsFixed(1)}%',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                       textAlign: TextAlign.left,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -175,6 +181,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                             value: 0.5,
                             minHeight: 10,
                             backgroundColor: Colors.blue[100],
+
                             valueColor: const AlwaysStoppedAnimation<Color>(
                                 Colors.blue),
                           ),
@@ -206,8 +213,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                             image: AssetImage("assets/home/decathlon.png"),
                             fit: BoxFit.cover,
                           ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.green,
                         ),
                       ),
                       Positioned(
@@ -222,8 +227,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 bottomRight: Radius.circular(20)),
                           ),
                           child: Container(
-                            margin: const EdgeInsets.only(left: 20),
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            padding: const EdgeInsets.only(left: 20),
                             child: const Text(
+
                               'Decathlon  ',
                               style: TextStyle(
                                 fontSize: 16,
@@ -315,7 +327,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                     ],
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

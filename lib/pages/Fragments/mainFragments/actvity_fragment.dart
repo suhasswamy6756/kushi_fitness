@@ -2,11 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
+import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as developer;
 
 FirestoreService _firestoreService = FirestoreService();
+
 
 class ActivityFragment extends StatefulWidget {
   const ActivityFragment({super.key});
@@ -17,18 +22,21 @@ class ActivityFragment extends StatefulWidget {
 
 class _ActivityFragmentState extends State<ActivityFragment> {
   FirestoreService _firestoreService = FirestoreService();
+
   late int _steps = 0;
   late int remainingSteps = 0;
-  var coins = 10;
+  var coins = 0;
   late var percentage;
-
+  final FirestoreService _firestoreService = FirestoreService();
   final FitnessDetails _fit = FitnessDetails();
 
   @override
   void initState() {
     super.initState();
     _initializeSteps();
+    _initializeCoins();
     print(globals.initial5000StepsToken);
+
   }
 
   Future<void> _initializeSteps() async {
@@ -47,6 +55,23 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       });
     }
   }
+  Future<void> _initializeCoins() async {
+    try {
+      int fortyTokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+      int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+      int tenTokens = await globals.get10CoinNumber(_firestoreService.getCurrentUserId());
+      int totalCoins = fortyTokens * 40 + twentyTokens * 20 + tenTokens * 10;
+      setState(() {
+        this.coins = totalCoins;
+      });
+    } catch (e) {
+      print('Error initializing coins: $e');
+      setState(() {
+        coins = 10;
+      });
+    }
+  }
+
 
   Future<List<int>> getCoins() async {
     var stepsNow = globals.stepsToday;
@@ -102,6 +127,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
     return "40×$fortytokens 20×$twentyTokens";
   }
+
 
   Future<void> _refreshData() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -249,6 +275,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                   ),
                 ),
               ),
+
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
