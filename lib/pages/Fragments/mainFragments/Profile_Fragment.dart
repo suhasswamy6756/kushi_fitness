@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/pages/introslider.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/components/settingButtons.dart';
@@ -11,7 +12,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
 class ProfileFragment extends StatefulWidget {
-  String namey;
+  final String namey;
 
   ProfileFragment({required this.namey, super.key});
 
@@ -21,11 +22,36 @@ class ProfileFragment extends StatefulWidget {
 
 class _profilePageState extends State<ProfileFragment> {
   String username = "";
-
+  String usageDuration = "";
   String? profileImageUrl;
   FirestoreService _firestoreService = FirestoreService();
 
-  setUserName() async {
+  TextStyle buttonText = GoogleFonts.outfit(
+    fontWeight: FontWeight.w500,
+    fontSize: 15,
+  );
+  TextStyle headText = GoogleFonts.outfit(
+    fontWeight: FontWeight.w500,
+    fontSize: 19,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    setUserName();
+    fetchUsageDuration();
+    getProfileImageUrl(); // Fetch profile image URL when widget initializes
+  }
+
+  Future<void> fetchUsageDuration() async {
+    String duration = await _firestoreService.calculateUsageDuration();
+    setState(() {
+      usageDuration = duration;
+    });
+    print(usageDuration);
+  }
+
+  Future<void> setUserName() async {
     String? fullName = await _firestoreService.getUserField(
         _firestoreService.getCurrentUserId()!, "full_name");
     if (fullName != null) {
@@ -35,13 +61,6 @@ class _profilePageState extends State<ProfileFragment> {
     } else {
       // Handle case where field value is null
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    setUserName();
-    getProfileImageUrl(); // Fetch profile image URL when widget initializes
   }
 
   Future<void> getProfileImageUrl() async {
@@ -64,259 +83,229 @@ class _profilePageState extends State<ProfileFragment> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double horizontalPadding = screenWidth * 0.01;
+    double verticalPadding = screenHeight * 0.02;
+    double profileImageSize = screenWidth * 0.3;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 240.0),
-            child: Text(
-              "Profile",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: IntrinsicHeight(
-              child: Row(
-                children: [
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 140, // Adjust according to your needs
-                        height: 140, // Adjust according to your needs
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              colors: [
-                                Colors.redAccent,
-                                Colors.lightBlueAccent
-                              ],
-                              // Example gradient colors
-                              begin: Alignment.topRight,
-                              // Example gradient begin alignment
-                              end: Alignment.bottomLeft,
-                              stops: [
-                                0.2,
-                                0.8
-                              ] // Example gradient end alignment
-                              ), // Change color according to your needs
-                        ),
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(height: verticalPadding * 2),
+              IntrinsicHeight(
+                child: Container(margin: EdgeInsets.only(left: horizontalPadding*8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Stack(
+                        children: <Widget>[
+                          Container(
+                            width: profileImageSize + 20,
+                            height: profileImageSize + 20,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.redAccent,
+                                  Colors.lightBlueAccent
+                                ],
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                stops: [0.2, 0.8],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 10,
+                            top: 10,
+                            child: Container(
+                              width: profileImageSize,
+                              height: profileImageSize,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.white, width: 15.0),
+                              ),
+                              child: ClipOval(
+                                child: profileImageUrl != null
+                                    ? CachedNetworkImage(
+                                        imageUrl: profileImageUrl!,
+                                        fit: BoxFit.fill,
+                                      )
+                                    : const LineIcon(
+                                        LineIcons.peace,
+                                        color: Colors.black,
+                                        size: 80,
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      // Square profile image
-                      Positioned(
-                        left: 10,
-                        top: 10,
-                        child: Container(
-                          width: 120, // Adjust according to your needs
-                          height: 120, // Adjust according to your needs
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: Colors.white,
-                                width: 15.0), // Circular border
-                          ),
-                          child: ClipOval(
-                            child: profileImageUrl != null
-                                ? CachedNetworkImage(
-                                    imageUrl: profileImageUrl!,
-                                    fit: BoxFit.fill,
-                                  )
-                                : const LineIcon(
-                                    LineIcons.peace,
-                                    color: Colors.black,
-                                    size: 80,
-                                  ),
-                          ),
+                      SizedBox(width: horizontalPadding*15),
+                      const VerticalDivider(
+                        color: Colors.black,
+                        thickness: 1,
+                      ),
+                      SizedBox(width: horizontalPadding),
+                      Padding(
+                        padding: EdgeInsets.only(left: horizontalPadding *12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Joined",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 11,
+                            ),
+                            ),
+                            Text(
+                              usageDuration,
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize :15,),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    width: 75,
-                  ),
-                  const VerticalDivider(
-                    color: Colors.black,
-                    thickness: 1,
-                  ),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 50.0, left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Joined"),
-                          Text("2 months ago",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Text(
-                  username,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 50),
-                ),
-              )),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "Rewards", onTap: () => () {}),
-          const SizedBox(
-            height: 30,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 250.0, left: 10.0),
-            child: Text(
-              'Settings',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "Your Account", onTap: () => () {}),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "Notifications", onTap: () => () {}),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "Languages", onTap: () => () {}),
-          const SizedBox(
-            height: 30,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 125.0, left: 10.0),
-            child: Text(
-              'Help and Support',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "How everything works", onTap: () => () {}),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "FAQ", onTap: () => () {}),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(text: "Contact Us", onTap: () => () {}),
-          const SizedBox(
-            height: 30,
-          ),
-          Container(
-            width: double.infinity,
-            height: 120,
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: OutlinedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black87,
-                  foregroundColor: Colors.white,
-                  elevation: 10,
-                  side: const BorderSide(color: Colors.black12, width: 1.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: horizontalPadding*5),
+                child: Column(
+
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0, right: 140),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(4),
+                    SizedBox(height: verticalPadding),
+                    Text(
+                      username,
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700, fontSize: 32),
+                    ),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "Rewards", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding * 2),
+                     Text(
+                      'Settings',
+                      style: headText,
+                    ),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "Your Account", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "Notifications", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "Languages", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding * 2),
+                     Text(
+                      'Help and Support',
+                      style: headText,
+                    ),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "How everything works", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "FAQ", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding),
+                    settingButton(text: "Contact Us", onTap: () {}, textStyle: buttonText,),
+                    SizedBox(height: verticalPadding * 2),
+                    SizedBox(
+                      width: screenWidth,
+                      height: 120,
+                      child: OutlinedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black87,
+                          foregroundColor: Colors.white,
+                          elevation: 10,
+                          side: const BorderSide(
+                              color: Colors.black12, width: 1.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 16.0),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: const Text(
+                                      "Pro",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16, // Adjust as needed
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Text(
+                                  "Upgrade to premium",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                const Text(
+                                  "This subscription is auto-renewable",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
                             ),
-                            child: const Text(
-                              "Pro",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16, // Adjust as needed
+                            TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                minimumSize: const Size(48, 48),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: const Text(
+                                ">",
+                                style: TextStyle(
+                                    fontSize: 32,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                        const Text(
-                          "Upgrade to premium",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                          ),
-                        ),
-                        const Text(
-                          "This subscription is auto-renewable",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        minimumSize: const Size(48, 48),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        ">",
-                        style: TextStyle(
-                            fontSize: 32,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300),
                       ),
                     ),
+                    SizedBox(height: verticalPadding),
+                    settingButton(
+                      text: "Sign out",
+                      onTap: () {
+                        final authService = AuthService();
+                        authService.signOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IntroSlider(),
+                          ),
+                        );
+                      }, textStyle: buttonText,
+                    ),
+                    SizedBox(height: verticalPadding),
                   ],
-                )),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          settingButton(
-            text: "Sign out",
-            onTap: () {
-              final authService = AuthService();
-              authService.signOut();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const IntroSlider()));
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-        ]),
+                ),
+              ),
+            ])),
       ),
     );
   }

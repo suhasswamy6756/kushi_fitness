@@ -2,8 +2,7 @@ import 'dart:math';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 
-class notify {
-  // Initialize notification channels
+class Notify {
   static Future<void> initializeNotification() async {
     try {
       await AwesomeNotifications().initialize(
@@ -12,7 +11,8 @@ class notify {
           NotificationChannel(
             channelKey: 'flutter_schedule_channel',
             channelName: 'Flutter Schedule Channel',
-            channelDescription: 'This channel is used for scheduling fitness reminders.',
+            channelDescription:
+                'This channel is used for scheduling fitness reminders.',
             importance: NotificationImportance.Max,
             defaultPrivacy: NotificationPrivacy.Public,
             defaultRingtoneType: DefaultRingtoneType.Alarm,
@@ -29,26 +29,36 @@ class notify {
     }
   }
 
-  // Schedule daily notifications
   static Future<void> scheduleDailyNotifications() async {
     try {
-      String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
+      String localTimeZone =
+          await AwesomeNotifications().getLocalTimeZoneIdentifier();
 
-      await _scheduleNotification('Good Morning!', 'Start your day with some steps!', 8, localTimeZone); // 8:00 AM
-      await _scheduleNotification('Good Afternoon!', 'Keep moving and stay healthy!', 13, localTimeZone); // 1:00 PM
-      await _scheduleNotification('Good Evening!', 'Great job! Keep going!', 17, localTimeZone); // 5:00 PM
-      await _scheduleNotification('Good Night!', 'Time to wind down. See you tomorrow!', 21, localTimeZone); // 9:00 PM
+      // Cancel existing notifications before scheduling new ones
+      await AwesomeNotifications().cancelAllSchedules();
+
+      await _scheduleNotification('Good Morning!',
+          'Start your day with some steps!', 11, localTimeZone, 1001); // 8:00 AM
+      await _scheduleNotification('Good Afternoon!',
+          'Keep moving and stay healthy!', 12, localTimeZone, 1002); // 1:00 PM
+      await _scheduleNotification('Good Evening!', 'Great job! Keep going!', 13,
+          localTimeZone, 1003); // 5:00 PM
+      await _scheduleNotification(
+          'Good Night!',
+          'Time to wind down. See you tomorrow!',
+          14,
+          localTimeZone,
+          1004); // 9:00 PM
+
       print("Daily notifications scheduled successfully.");
     } catch (e) {
       print("Error scheduling daily notifications: $e");
     }
   }
 
-  // Helper method to schedule a single notification
-  static Future<void> _scheduleNotification(String title, String body, int hour, String localTimeZone) async {
+  static Future<void> _scheduleNotification(String title, String body, int hour,
+      String localTimeZone, int notificationId) async {
     try {
-      int notificationId = _generateUniqueId();
-
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: notificationId,
@@ -68,8 +78,10 @@ class notify {
           second: 0,
           millisecond: 0,
           timeZone: localTimeZone,
-          repeats: true, // Ensures the notification repeats daily
-          preciseAlarm: true, // Ensure precise alarm
+          repeats: true,
+          // Ensures the notification repeats daily
+          preciseAlarm: true,
+          // Ensure precise alarm
           allowWhileIdle: true, // Allow notification while the device is idle
         ),
         actionButtons: [
@@ -92,5 +104,3 @@ class notify {
     return random.nextInt(1000000) + 1;
   }
 }
-
-

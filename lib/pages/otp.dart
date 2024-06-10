@@ -100,8 +100,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   @override
   Widget build(BuildContext context) {
     var code ="";
-    // final String data = ModalRoute.of(context)!.settings.arguments as String;
-    final String data = "suhas";
+    final String data = ModalRoute.of(context)!.settings.arguments as String;
+    // final String data = "suhas";
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),

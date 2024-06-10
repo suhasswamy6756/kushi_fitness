@@ -1,5 +1,3 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
@@ -12,7 +10,6 @@ class HomeFragment extends StatefulWidget {
 }
 
 class _HomeFragmentState extends State<HomeFragment> {
-  // final int _stepPer = 30;
   late var _steps = 0;
 
   final FitnessDetails _fit = FitnessDetails();
@@ -30,10 +27,9 @@ class _HomeFragmentState extends State<HomeFragment> {
         _steps = steps;
       });
     } catch (e) {
-      // Handle any potential exceptions
       print('Error initializing steps: $e');
       setState(() {
-        _steps = 0; // Set a default value
+        _steps = 0;
       });
     }
   }
@@ -51,6 +47,8 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double percentage = _steps / 100;
 
     return Scaffold(
@@ -58,14 +56,11 @@ class _HomeFragmentState extends State<HomeFragment> {
       body: RefreshIndicator(
         onRefresh: _refreshData,
         child: SingleChildScrollView(
-          // Wrap your Column with SingleChildScrollView
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(
-                    left: 25, right: 25, top: 25, bottom: 10),
-                height: 200,
-                width: 360,
+                margin: const EdgeInsets.all(25),
+                height: screenHeight * 0.25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromRGBO(232, 232, 232, 1),
@@ -73,69 +68,73 @@ class _HomeFragmentState extends State<HomeFragment> {
                 child: Row(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 45.0),
+                      padding: EdgeInsets.only(left: 10, right: 20.0),
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Daily",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Daily",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Text(
-                              "challenge",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          ]),
+                          ),
+                          Text(
+                            "challenge",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Stack(
-                      children: [
-                        Image.asset(
-                          'assets/Ellipse.png',
-                        ),
-                        Image.asset('assets/first_page.png'),
-                      ],
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            'assets/Ellipse.png',
+                            fit: BoxFit.cover,
+                            width: screenWidth * 0.35,
+                          ),
+                          Image.asset(
+                            'assets/first_page.png',
+                            fit: BoxFit.cover,
+                            width: screenWidth * 0.35,
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(left: 30, right: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                         child: Text(
-                      '$_steps Steps',
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
+                          '$_steps Steps',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )),
                     Container(
                       margin: const EdgeInsets.only(top: 10),
-                      // padding:EdgeInsets.only(left: 10,right: 10) ,
                       height: 10,
-                      // Adjust the height of the linear progress indicator container
                       color: Colors.transparent,
-                      // Transparent color to overlay the linear progress indicator
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: LinearProgressIndicator(
                             value: percentage / 100,
-                            // Set the progress value between 0.0 and 1.0
                             minHeight: 10,
-                            // Set the height of the linear progress indicator
                             backgroundColor: Colors.green[100],
-                            // Set the background color of the linear progress indicator
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors
-                                .green), // Set the color of the linear progress indicator
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.green),
                           ),
                         ),
                       ),
@@ -152,7 +151,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(left: 30, right: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -167,23 +166,17 @@ class _HomeFragmentState extends State<HomeFragment> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 10),
-                      // padding:EdgeInsets.only(left: 10,right: 10) ,
                       height: 10,
-                      // Adjust the height of the linear progress indicator container
                       color: Colors.transparent,
-                      // Transparent color to overlay the linear progress indicator
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: LinearProgressIndicator(
                             value: 0.5,
-                            // Set the progress value between 0.0 and 1.0
                             minHeight: 10,
-                            // Set the height of the linear progress indicator
                             backgroundColor: Colors.blue[100],
-                            // Set the background color of the linear progress indicator
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors
-                                .blue), // Set the color of the linear progress indicator
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.blue),
                           ),
                         ),
                       ),
@@ -199,15 +192,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                     style: GoogleFonts.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(59, 59, 59, 1),
+                      color: const Color.fromRGBO(59, 59, 59, 1),
                     ),
                     textAlign: TextAlign.left,
                   ),
                   Stack(
                     children: [
                       Container(
-                        height: 190,
-                        width: 360,
+                        height: screenHeight * 0.25,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           image: const DecorationImage(
                             image: AssetImage("assets/home/decathlon.png"),
@@ -219,11 +212,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       Positioned(
                         bottom: 0,
-                        // Adjust this value to change the distance from the bottom
                         left: 0,
                         right: 0,
                         child: Container(
-                          // alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color: Color.fromRGBO(232, 232, 232, 1),
                             borderRadius: BorderRadius.only(
@@ -233,7 +224,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              textAlign: TextAlign.left,
                               'Decathlon  ',
                               style: TextStyle(
                                 fontSize: 16,
@@ -246,16 +236,14 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Stack(
                     children: [
                       Container(
-                        height: 190,
-                        width: 360,
+                        height: screenHeight * 0.25,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: AssetImage("assets/home/nike.png"),
                             fit: BoxFit.fill,
                           ),
@@ -265,11 +253,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       Positioned(
                         bottom: 0,
-                        // Adjust this value to change the distance from the bottom
                         left: 0,
                         right: 0,
                         child: Container(
-                          // alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color: Color.fromRGBO(232, 232, 232, 1),
                             borderRadius: BorderRadius.only(
@@ -279,7 +265,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              textAlign: TextAlign.left,
                               'Nike',
                               style: TextStyle(
                                 fontSize: 16,
@@ -292,14 +277,12 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Stack(
                     children: [
                       Container(
-                        height: 190,
-                        width: 360,
+                        height: screenHeight * 0.25,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
@@ -307,11 +290,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       Positioned(
                         bottom: 0,
-                        // Adjust this value to change the distance from the bottom
                         left: 0,
                         right: 0,
                         child: Container(
-                          // alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color: Color.fromRGBO(232, 232, 232, 1),
                             borderRadius: BorderRadius.only(
@@ -321,7 +302,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              textAlign: TextAlign.left,
                               'Sports accessories',
                               style: TextStyle(
                                 fontSize: 16,
@@ -334,7 +314,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ],
                   ),
-                  // SizedBox(height: 30,)
                 ],
               )
             ],
@@ -345,58 +324,3 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 }
 
-class CustomShapeClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    // Define your custom shape here using various path operations
-    path.moveTo(0, 10 * 0.5); // Move to starting point
-    path.lineTo(10 * 0.4, 0); // Draw a line to create the shape
-    path.lineTo(10, 10 * 0.2); // Draw another line
-    path.lineTo(10, 10); // Draw another line
-    path.lineTo(0, 10); // Draw another line to complete the shape
-    path.close(); // Close the path
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}
-
-class IrregularShapeBackgroundImage extends StatelessWidget {
-  const IrregularShapeBackgroundImage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Irregular Shape Background Image'),
-      ),
-      body: Center(
-        child: Stack(
-          children: [
-            ClipPath(
-              clipper: CustomShapeClipper(),
-              child: Container(
-                color: Colors.blue, // Background color of the irregular shape
-                width: 100, // Adjust width as needed
-                height: 100, // Adjust height as needed
-              ),
-            ),
-            Positioned.fill(
-              child: ClipPath(
-                clipper: CustomShapeClipper(),
-                child: Image.asset(
-                  'assets/first_page.png', // Your image asset
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

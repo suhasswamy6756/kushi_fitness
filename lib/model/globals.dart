@@ -7,6 +7,9 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:math';
 
+import '../service/firestore_service.dart';
+import 'SpendCoin.dart';
+
 FirestoreService _firestoreService = FirestoreService();
 dynamic userName = _firestoreService.getUserField(_firestoreService.getCurrentUserId()!, "full_name");
 
@@ -91,7 +94,7 @@ generateHalfCoin(dynamic uid) {
 Future<int> get20CoinNumber(dynamic uid1) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference coins = firestore.collection("20RupeeTokens");
-  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid.toString()).get();
+  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1.toString()).get();
   return querySnapshot.size;
 }
 
@@ -100,6 +103,6 @@ Future<int> get40CoinNumber(dynamic uid1) async {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference coins = firestore.collection("40RupeeTokens");
-  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid.toString()).get();
+  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1.toString()).get();
   return querySnapshot.size;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -64,24 +65,25 @@ class _MainActivityState extends State<MainActivity> {
     String formattedDate = DateFormat('d MMM').format(now);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+
         toolbarHeight: 90,
         title: Center(
           child: Column(
             children: [
               Text(
                 'Hello, $profileName',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                style: GoogleFonts.roboto(
+                  fontSize: 15,
+
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
                 'Today $formattedDate',
-                style: const TextStyle(
-                  fontSize: 20,
+                style: GoogleFonts.roboto(
+                  fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
               )
@@ -93,7 +95,7 @@ class _MainActivityState extends State<MainActivity> {
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
-              // Handle IconButton press
+              Navigator.pushNamed(context, '/notification');
             },
           ),
         ],
@@ -166,4 +168,4 @@ class _MainActivityState extends State<MainActivity> {
   }
 }
 
-// enum _SelectedTab { home, favorite, search, person }
+

@@ -8,25 +8,24 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../components/message.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:kushi_3/chat_application/helper/show_alert_dialog.dart';
 
 // import '../chat_application/repository/firabase_storage_repository.dart';
 
-final
-
-class FirestoreService {
+final class FirestoreService {
   final _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final _storage = FirebaseStorage.instance;
   Map usernumber = {'phoneNumber': ''};
 
-  Future<void> updateUserDocument(String uid,
-      Map<String, dynamic> userData,BuildContext context) async {
+  Future<void> updateUserDocument(
+      String uid, Map<String, dynamic> userData, BuildContext context) async {
     try {
       // Retrieve the document reference for the user
-      DocumentReference userRef = FirebaseFirestore.instance.collection('users')
-          .doc(uid);
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
 
       // Update or create the user document in Firestore
       await userRef.update(userData);
@@ -38,28 +37,31 @@ class FirestoreService {
       rethrow;
     }
   }
-  Future<void> setUserDocument(String uid,
-      Map<String, dynamic> userData,BuildContext context) async {
+
+  Future<void> setUserDocument(
+      String uid, Map<String, dynamic> userData, BuildContext context) async {
     try {
       // Retrieve the document reference for the user
-      DocumentReference userRef = FirebaseFirestore.instance.collection('users')
-          .doc(uid);
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
 
       // Update or create the user document in Firestore
       await userRef.set(userData);
     } catch (e, stackTrace) {
-      showMessage(context,e.toString()) ;// Print stack trace for better error debugging
+      showMessage(context,
+          e.toString()); // Print stack trace for better error debugging
       // showAlertDialog(context: context, message: e.toString() );// Re-throw the error for handling at the calling site
 
       rethrow;
     }
   }
-  Future<void> updateReferDocument(String uid,
-      Map<String, dynamic> userData,BuildContext context) async {
+
+  Future<void> updateReferDocument(
+      String uid, Map<String, dynamic> userData, BuildContext context) async {
     try {
       // Retrieve the document reference for the user
-      DocumentReference userRef = FirebaseFirestore.instance.collection('RefernEarn')
-          .doc(uid);
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('RefernEarn').doc(uid);
 
       // Update or create the user document in Firestore
       await userRef.set(userData);
@@ -72,7 +74,6 @@ class FirestoreService {
     }
   }
 
-
   Future<String?> fetchFieldValue(String uid, String field) async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -82,9 +83,8 @@ class FirestoreService {
 
       // Check if the document exists and contains the field
       if (documentSnapshot.exists) {
-        Map<String, dynamic>? data = documentSnapshot.data() as Map<
-            String,
-            dynamic>?;
+        Map<String, dynamic>? data =
+            documentSnapshot.data() as Map<String, dynamic>?;
 
         if (data != null && data.containsKey(field)) {
           return data[field];
@@ -100,11 +100,12 @@ class FirestoreService {
     }
   }
 
-
-  Future<void> updateUserField(String uid, String fieldName, dynamic fieldValue, BuildContext context) async {
+  Future<void> updateUserField(String uid, String fieldName, dynamic fieldValue,
+      BuildContext context) async {
     try {
       // Retrieve the document reference for the user
-      DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
 
       // Update the specific field of the user document in Firestore
       await userRef.set({fieldName: fieldValue});
@@ -117,14 +118,13 @@ class FirestoreService {
     }
   }
 
-
   Future<String?> fetchPhoneNumber(String userId) async {
     try {
       DocumentSnapshot docSnapshot =
-      await _db.collection('users').doc(userId).get();
+          await _db.collection('users').doc(userId).get();
       if (docSnapshot.exists) {
         Map<String, dynamic> userData =
-        docSnapshot.data() as Map<String, dynamic>;
+            docSnapshot.data() as Map<String, dynamic>;
 
         return userData['phoneNumber'] as String?;
       } else {
@@ -136,21 +136,18 @@ class FirestoreService {
     }
   }
 
-
-
-
-  Future<void> addContactNumberToUserDocument(String phoneNumber,String emialId) async {
+  Future<void> addContactNumberToUserDocument(
+      String phoneNumber, String emialId) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
 
     if (user != null) {
-      DocumentReference userDocument =
-      _db.collection('contact').doc(user.uid);
+      DocumentReference userDocument = _db.collection('contact').doc(user.uid);
 
       try {
         // Update the user's document with the contact number
-        await userDocument.set(
-            {'phoneNumber': phoneNumber,'emailId':emialId}, SetOptions(merge: true));
+        await userDocument.set({'phoneNumber': phoneNumber, 'emailId': emialId},
+            SetOptions(merge: true));
       } catch (e) {
         print('Error adding contact number to user document: $e');
         // Handle error as needed
@@ -161,8 +158,8 @@ class FirestoreService {
   Future<List<String>> fetchDatabaseContacts() async {
     List<String> databaseContacts = [];
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(
-          'contacts').get();
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('contacts').get();
       for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
         // Assume each document in the 'users' collection has a field named 'phoneNumber'
         String phoneNumber = docSnapshot.get('phoneNumber');
@@ -174,15 +171,12 @@ class FirestoreService {
     return databaseContacts;
   }
 
-
-  String? phoneNumberReturn(){
+  String? phoneNumberReturn() {
     return _auth.currentUser?.phoneNumber!;
   }
 
   // import 'package:firebase_auth/firebase_auth.dart';
   // import 'package:cloud_firestore/cloud_firestore.dart';
-
-
 
   Future<String?> getCurrentUserEmail() async {
     String? email;
@@ -193,7 +187,11 @@ class FirestoreService {
 
       if (user != null) {
         // Reference to the Firestore document for the current user
-        DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
+            .instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
 
         // Extract the email address from the document data
         email = userDoc.data()?['Email'];
@@ -205,31 +203,31 @@ class FirestoreService {
     return email;
   }
 
-  uploadImagetoStorage(String childName,var file) async{
+  uploadImagetoStorage(String childName, var file) async {
     UploadTask? uploadTask;
-    if(file is File){
+    if (file is File) {
       uploadTask = _storage.ref().child(childName).putFile(file);
     }
-    if(file is Uint8List){
+    if (file is Uint8List) {
       uploadTask = _storage.ref().child(childName).putData(file);
     }
     TaskSnapshot snapshot = await uploadTask!;
     String imageUrl = await snapshot.ref.getDownloadURL();
     return imageUrl;
-
   }
 
-  String? getCurrentUserId(){
+  String? getCurrentUserId() {
     return _auth.currentUser!.uid;
   }
-
-
 
   Future<String?> getUserField(String userId, String fieldName) async {
     try {
       // Reference to the Firestore document for the current user
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-      await FirebaseFirestore.instance.collection('users').doc(userId).get();
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .get();
 
       // Check if the document exists
       if (userSnapshot.exists) {
@@ -248,14 +246,13 @@ class FirestoreService {
       return null;
     }
   }
-  Future<void> registerUser(Map<String,dynamic> userData,UserCredential? userCredential) async {
+
+  Future<void> registerUser(
+      Map<String, dynamic> userData, UserCredential? userCredential) async {
     // final FirebaseAuth _auth = FirebaseAuth.instance;
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
     try {
-
-
-
       User? user = userCredential?.user;
 
       if (user != null) {
@@ -281,7 +278,35 @@ class FirestoreService {
     }
   }
 
+  Future<String> calculateUsageDuration() async {
+    try {
+      // Fetch user document from Firestore
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot = await _db
+          .collection('RefernEarn')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
 
+      // Retrieve date_created field from the user document
+      Timestamp dateCreatedTimestamp = userSnapshot.data()?['date_created'];
+      DateTime dateCreated = dateCreatedTimestamp.toDate();
 
+      // Calculate the difference
+      DateTime currentDate = DateTime.now();
+      Duration difference = currentDate.difference(dateCreated);
+
+      // Convert difference to days and months
+      int days = difference.inDays;
+      int months = (days / 30).floor();
+
+      // Return the duration as a string
+      if (months > 0) {
+        return "$months month${months > 1 ? 's' : ''}";
+      } else {
+        return "$days day${days > 1 ? 's' : ''}";
+      }
+    } catch (e) {
+      print('Error calculating usage duration: $e');
+      return "Error";
+    }
+  }
 }
-

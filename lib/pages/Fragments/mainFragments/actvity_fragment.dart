@@ -6,7 +6,6 @@ import 'package:kushi_3/service/firestore_service.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 import 'dart:developer' as developer;
 
-
 FirestoreService _firestoreService = FirestoreService();
 
 class ActivityFragment extends StatefulWidget {
@@ -18,7 +17,6 @@ class ActivityFragment extends StatefulWidget {
 
 class _ActivityFragmentState extends State<ActivityFragment> {
   FirestoreService _firestoreService = FirestoreService();
-  // List<double> weeklySummary = [4.40, 2.50, 42.42, 30, 50, 96, 59];
   late int _steps = 0;
   late int remainingSteps = 0;
   var coins = 10;
@@ -28,7 +26,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initializeSteps();
     print(globals.initial5000StepsToken);
@@ -41,20 +38,15 @@ class _ActivityFragmentState extends State<ActivityFragment> {
         _steps = steps;
         globals.stepsToday = steps;
         globals.countedSteps = steps;
-        // globals.initial5000StepsToken = false; // Initialize to false
       });
-
       await getCoins();
-
     } catch (e) {
-      // Handle any potential exceptions
       print('Error initializing steps: $e');
       setState(() {
-        _steps = 0; // Set a default value
+        _steps = 0;
       });
     }
   }
-
 
   Future<List<int>> getCoins() async {
     var stepsNow = globals.stepsToday;
@@ -66,7 +58,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     print('Initial 5000 steps token status: ${globals.initial5000StepsToken}');
     print('Counted steps: ${globals.countedSteps}');
 
-    // Check if a 40-rupee token should be generated for 10,000 steps on a new day
     if (stepsNow >= 10000 && curDate != globals.date) {
       if (!globals.dailyToken) {
         print('Generating 40-rupee token');
@@ -75,30 +66,25 @@ class _ActivityFragmentState extends State<ActivityFragment> {
         globals.countedSteps -= 10000;
         setState(() {
           globals.dailyToken = true;
-
         });
       }
     }
 
-    // Check if a 20-rupee token should be generated for the initial 5000 steps
     if (stepsNow >= 5000 && !globals.initial5000StepsToken) {
       print('Generating initial 20-rupee token');
       globals.generate20RupeeToken(_firestoreService.getCurrentUserId());
       globals.countedSteps -= 5000;
       setState(() {
         globals.initial5000StepsToken = true;
-
       });
     }
 
-    // Generate additional 20-rupee tokens for every 5000 steps beyond the initial 5000 steps
     while (globals.countedSteps >= 5000) {
       print('Generating additional 20-rupee token');
       globals.generate20RupeeToken(_firestoreService.getCurrentUserId());
       globals.countedSteps -= 5000;
     }
 
-    // Fetch the number of 40 and 20 rupee tokens
     try {
       int fortytokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
       int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
@@ -107,18 +93,13 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       return [fortytokens, twentyTokens];
     } catch (e) {
       print('Error fetching tokens: $e');
-      return [0, 0]; // Return default values in case of error
+      return [0, 0];
     }
   }
 
-
-
-
   Future<String?> totalCoins() async {
-    int fortytokens =
-        await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
-    int twentyTokens =
-        await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+    int fortytokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+    int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
     return "40×$fortytokens 20×$twentyTokens";
   }
 
@@ -128,357 +109,304 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     setState(() {
       _steps = newSteps;
       globals.stepsToday = newSteps;
-      // globals.stepsToday = newSteps;
     });
     await getCoins();
-
   }
 
-
-  double? valueIndicator(int Steps) {
-    return Steps / 10000;
+  double? valueIndicator(int steps) {
+    return steps / 10000;
   }
 
-  int? remainSteps(int Steps) {
-    return 10000 - Steps;
+  int? remainSteps(int steps) {
+    return 10000 - steps;
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double horizontalPadding = screenWidth * 0.05;
+
     remainingSteps = 10000 - _steps;
     percentage = _steps / 100;
 
     return Scaffold(
-        body: RefreshIndicator(
-      onRefresh: _refreshData,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(children: [
-                            Image.asset(
-                              'assets/Frame.png',
-                              height: 150,
-                              width: 150,
-                            )
-                          ]),
-                          Container(
-                            margin: const EdgeInsets.only(left: 40, top: 30),
-                            child: Column(
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(screenWidth * 0.03),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: horizontalPadding),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(children: [
+                              Image.asset(
+                                'assets/Frame.png',
+                                height: screenHeight * 0.2,
+                                width: screenWidth * 0.4,
+                              )
+                            ]),
+                            Container(
+                              margin: EdgeInsets.only(left: screenWidth * 0.1, top: screenHeight * 0.04),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                  Text(
                                     "You're off to a",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: screenWidth * 0.05,
+                                    ),
                                     textAlign: TextAlign.left,
                                   ),
-                                  const Text(
+                                  Text(
                                     "great start!",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: screenWidth * 0.05,
+                                    ),
                                     textAlign: TextAlign.left,
                                   ),
-                                  const Text(
+                                  Text(
                                     "Steps left to defeat!",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey,
-                                        fontSize: 15),
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey,
+                                      fontSize: screenWidth * 0.04,
+                                    ),
                                     textAlign: TextAlign.left,
                                   ),
                                   Text(
                                     "$remainingSteps",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: screenWidth * 0.05,
+                                    ),
                                     textAlign: TextAlign.left,
                                   ),
-                                ]),
-                          )
-                        ],
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 10),
-                            child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: LinearProgressIndicator(
-                                  value: valueIndicator(_steps),
-                                  minHeight: 10,
-                                  backgroundColor: Colors.green[100],
-                                  valueColor:
-                                      const AlwaysStoppedAnimation<Color>(
-                                          Colors.green),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: horizontalPadding),
+                              child: Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: LinearProgressIndicator(
+                                    value: valueIndicator(_steps),
+                                    minHeight: 10,
+                                    backgroundColor: Colors.green[100],
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.green,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
+                          Container(
+                            padding: EdgeInsets.all(screenWidth * 0.015),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: Text(
+                              '🎁',
+                              style: TextStyle(fontSize: screenWidth * 0.05),
+                            ),
                           ),
-                          child: const Text(
-                            '🎁',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, bottom: 20),
-                      child: Row(
-                        children: [
-                          Text('$_steps steps done'),
-                          const SizedBox(
-                            width: 170,
-                          ),
-                          const Text('Goal 10000')
                         ],
                       ),
-                    )
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(left: horizontalPadding, bottom: screenHeight * 0.03),
+                        child: Row(
+                          children: [
+                            Text('$_steps steps done'),
+                            Spacer(),
+                            Text('Goal 10000'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                            top: 50, bottom: 50, left: 32, right: 32),
-                        child: Column(
-                          children: [
-                            const Text(
-                              'My Rewards',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: screenHeight * 0.06,
+                            horizontal: screenWidth * 0.08,
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'My Rewards',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: screenWidth * 0.045,
+                                ),
                               ),
-                            ),
-                            FutureBuilder(
+                              FutureBuilder(
                                 future: totalCoins(),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const CircularProgressIndicator();
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
                                   } else if (snapshot.hasError) {
                                     return Text('Error: ${snapshot.error}');
                                   } else if (snapshot.hasData) {
                                     return Text(
                                       snapshot.data ?? '',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize: screenWidth * 0.045,
                                       ),
                                     );
                                   } else {
-                                    return const Text(
+                                    return Text(
                                       'No data',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize: screenWidth * 0.045,
                                       ),
                                     );
                                   }
-                                }),
-                          ],
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/referalLink');
-                    },
-                    child: Card(
-                      color: const Color.fromRGBO(32, 38, 49, 1),
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                            top: 50, bottom: 50, left: 5, right: 5),
-                        child: const Text(
-                          'Invite Your friends\n and earn rewards',
-                          style: TextStyle(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/referalLink');
+                      },
+                      child: Card(
+                        color: const Color.fromRGBO(32, 38, 49, 1),
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: screenHeight * 0.06,
+                            horizontal: screenWidth * 0.04,
+                          ),
+                          child: Text(
+                            'Invite Your friends\nand earn rewards',
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
-                          textAlign: TextAlign.left,
+                              fontSize: screenWidth * 0.045,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Redeem',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(59, 59, 59, 1),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Stack(
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.03),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 190,
-                      width: 360,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.green,
+                    Text(
+                      'Redeem',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(59, 59, 59, 1),
                       ),
+                      textAlign: TextAlign.left,
                     ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(232, 232, 232, 1),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20)),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20),
-                          child: const Text(
-                            textAlign: TextAlign.left,
-                            'Sports accessories',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    _buildRedeemCard('Sports accessories'),
+                    SizedBox(height: screenHeight * 0.02),
+                    _buildRedeemCard('Sports accessories'),
+                    SizedBox(height: screenHeight * 0.02),
+                    _buildRedeemCard('Sports accessories'),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Stack(
-                  children: [
-                    Container(
-                      height: 190,
-                      width: 360,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.green,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(232, 232, 232, 1),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20)),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20),
-                          child: const Text(
-                            textAlign: TextAlign.left,
-                            'Sports accessories',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Stack(
-                  children: [
-                    Container(
-                      height: 190,
-                      width: 360,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.green,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(232, 232, 232, 1),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20)),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20),
-                          child: const Text(
-                            textAlign: TextAlign.left,
-                            'Sports accessories',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            )
-          ],
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
+  }
+
+  Widget _buildRedeemCard(String text) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Stack(
+      children: [
+        Container(
+          height: screenHeight * 0.25,
+          width: screenWidth * 0.9,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.green,
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(232, 232, 232, 1),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            child: Container(
+              margin: EdgeInsets.only(left: screenWidth * 0.05),
+              padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+              child: Text(
+                text,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.045,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
