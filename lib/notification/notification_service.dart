@@ -10,9 +10,9 @@ class Notify {
         [
           NotificationChannel(
             channelKey: 'flutter_schedule_channel',
-            channelName: 'Flutter Schedule Channel',
+            channelName: 'Greetings',
             channelDescription:
-                'This channel is used for scheduling fitness reminders.',
+                'Daily greetings.',
             importance: NotificationImportance.Max,
             defaultPrivacy: NotificationPrivacy.Public,
             defaultRingtoneType: DefaultRingtoneType.Alarm,
@@ -38,15 +38,15 @@ class Notify {
       await AwesomeNotifications().cancelAllSchedules();
 
       await _scheduleNotification('Good Morning!',
-          'Start your day with some steps!', 11, localTimeZone, 1001); // 8:00 AM
+          'Start your day with some steps!', 9, localTimeZone, 1001); // 8:00 AM
       await _scheduleNotification('Good Afternoon!',
-          'Keep moving and stay healthy!', 12, localTimeZone, 1002); // 1:00 PM
-      await _scheduleNotification('Good Evening!', 'Great job! Keep going!', 13,
+          'Keep moving and stay healthy!', 13, localTimeZone, 1002); // 1:00 PM
+      await _scheduleNotification('Good Evening!', 'Great job! Keep going!', 17,
           localTimeZone, 1003); // 5:00 PM
       await _scheduleNotification(
           'Good Night!',
           'Time to wind down. See you tomorrow!',
-          14,
+          21,
           localTimeZone,
           1004); // 9:00 PM
 

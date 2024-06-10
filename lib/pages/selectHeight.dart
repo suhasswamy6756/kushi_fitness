@@ -37,7 +37,7 @@ class selectHeightState extends State<SelectHeight> {
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title: Text(
-            "Step 2 of 8",
+            "Step 2 of 3",
             style:
                 GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
           ),
