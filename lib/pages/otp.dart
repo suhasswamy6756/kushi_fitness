@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +30,45 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirestoreService _firestoreService = FirestoreService();
-
+  bool isResendButtonDisabled = true;
+  int resendTimeout = 30;
+  Timer? _timer;
+  var code ="";
+  final String data = "suhas";
   @override
   void initState() {
     super.initState();
     _controllers = List.generate(6, (index) => TextEditingController());
+    startResendOtpTimer();
   }
+  void startResendOtpTimer() {
+    setState(() {
+      isResendButtonDisabled = true;
+      resendTimeout = 30;
+    });
 
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (resendTimeout == 0) {
+        setState(() {
+          isResendButtonDisabled = false;
+        });
+        timer.cancel();
+      } else {
+        setState(() {
+          resendTimeout--;
+        });
+      }
+    });
+  }
   @override
-  // void dispose() {
-  //   for (var controller in _controllers) {
-  //     controller.dispose();
-  //   }
-  //   // userDataMap.clear();
-  //   super.dispose();
-  // }
+  void dispose() {
+    _timer?.cancel();
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
   Future<bool> _checkUserExists(String uid) async {
     try {
       final DocumentSnapshot snapshot = await firebaseFirestore.collection('users').doc(uid).get();
@@ -61,7 +87,6 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       print('Error checking user existence: $e');
     }
     return false;
-
   }
 
   Future<bool> _checkRefernEarn(String uid)async{
@@ -93,7 +118,53 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
     profileRef.add(body);
   }
+  void sendCode() async {
+    userDataMap['phoneNumber']=data;
 
+    try{
+      PhoneAuthCredential credential =  PhoneAuthProvider.credential(verificationId: SignIn.verify, smsCode: code);
+      await auth.signInWithCredential(credential);
+      // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
+      if(await _checkRefernEarn(_firestoreService.getCurrentUserId()!)==false){
+        final body = {
+          "refCode": _firestoreService.getCurrentUserId()!,
+          "email": _firestoreService.phoneNumberReturn(),
+          "date_created": DateTime.now(),
+          "referrals": <String>[],
+          "refEarnings": 0,
+        };
+
+        _firestoreService.updateReferDocument(_firestoreService.getCurrentUserId()!,body,context);
+      }
+
+      if(await _checkUserExists(_firestoreService.getCurrentUserId()!) == false){
+        Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false,arguments: userDataMap);
+      }else{
+        Navigator.pushNamedAndRemoveUntil(context, "/test_page", (route) => false);
+      }
+
+
+      //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
+
+
+    }catch(e){
+      showMessage(context, e.toString());
+    }
+  }
+  Future<void> resendOtp() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: userDataMap['phoneNumber'],
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        showMessage(context, 'Phone number verification failed. Code: ${e.code}. Message: ${e.message}');
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        SignIn.verify = verificationId;
+        startResendOtpTimer();
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
 
 
 
@@ -173,47 +244,18 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
             ),
             const SizedBox(height: 20.0),
-            MyButton(text: "Verify OTP", onTap: ()async{
-                 userDataMap['phoneNumber']=data;
+            MyButton(
+              text: "Verify OTP",
+              onTap: sendCode,),
+    const SizedBox(height: 20),
+    ElevatedButton(
+    onPressed: isResendButtonDisabled ? null : resendOtp,
+    child: Text(isResendButtonDisabled
+    ? 'Resend OTP in $resendTimeout s'
+        : 'Resend OTP'),
+    ),
+          ]
 
-
-
-
-
-
-              try{
-                PhoneAuthCredential credential =  PhoneAuthProvider.credential(verificationId: SignIn.verify, smsCode: code);
-               await auth.signInWithCredential(credential);
-               // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
-               if(await _checkRefernEarn(_firestoreService.getCurrentUserId()!)==false){
-                 final body = {
-                   "refCode": _firestoreService.getCurrentUserId()!,
-                   "email": _firestoreService.phoneNumberReturn(),
-                   "date_created": DateTime.now(),
-                   "referrals": <String>[],
-                   "refEarnings": 0,
-                 };
-
-                 _firestoreService.updateReferDocument(_firestoreService.getCurrentUserId()!,body,context);
-               }
-
-               if(await _checkUserExists(_firestoreService.getCurrentUserId()!) == false){
-                 Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false,arguments: userDataMap);
-               }else{
-                 Navigator.pushNamedAndRemoveUntil(context, "/test_page", (route) => false);
-               }
-
-
-                //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
-
-
-              }catch(e){
-                  showMessage(context, e.toString());
-              }
-
-
-            })
-          ],
         ),
       ),
     );

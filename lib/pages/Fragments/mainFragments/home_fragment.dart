@@ -1,5 +1,3 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +11,6 @@ class HomeFragment extends StatefulWidget {
 }
 
 class _HomeFragmentState extends State<HomeFragment> {
-  // final int _stepPer = 30;
   late var _steps = 0;
 
   final FitnessDetails _fit = FitnessDetails();
@@ -52,7 +49,7 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   @override
   Widget build(BuildContext context) {
-    double percentage = _steps / 100;
+    double percentage = _steps / 10000.0;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -63,8 +60,7 @@ class _HomeFragmentState extends State<HomeFragment> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(
-                    left: 25, right: 25, top: 25, bottom: 10),
+                margin: const EdgeInsets.only(left: 25, right: 25, top: 25, bottom: 10),
                 height: 200,
                 width: 360,
                 decoration: BoxDecoration(
@@ -76,23 +72,24 @@ class _HomeFragmentState extends State<HomeFragment> {
                     const Padding(
                       padding: EdgeInsets.only(left: 10, right: 45.0),
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Daily",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Daily",
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Text(
-                              "challenge",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          ]),
+                          ),
+                          Text(
+                            "challenge",
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Stack(
                       children: [
@@ -101,7 +98,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                         ),
                         Image.asset('assets/first_page.png'),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -111,44 +108,38 @@ class _HomeFragmentState extends State<HomeFragment> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                        child: Text(
-                      '$_steps Steps',
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                      child: Text(
+                        '$_steps Steps',
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    )),
+                    ),
                     Container(
                       margin: const EdgeInsets.only(top: 10),
-                      // padding:EdgeInsets.only(left: 10,right: 10) ,
                       height: 10,
-                      // Adjust the height of the linear progress indicator container
                       color: Colors.transparent,
-                      // Transparent color to overlay the linear progress indicator
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: LinearProgressIndicator(
-                            value: percentage / 100,
-                            // Set the progress value between 0.0 and 1.0
+                            value: percentage,
                             minHeight: 10,
-                            // Set the height of the linear progress indicator
                             backgroundColor: Colors.green[100],
-                            // Set the background color of the linear progress indicator
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors
-                                .green), // Set the color of the linear progress indicator
+                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
                           ),
                         ),
                       ),
                     ),
                     Text(
-                      '$percentage%',
+                      '${(percentage * 100).toStringAsFixed(1)}%',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                       textAlign: TextAlign.left,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -168,23 +159,16 @@ class _HomeFragmentState extends State<HomeFragment> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 10),
-                      // padding:EdgeInsets.only(left: 10,right: 10) ,
                       height: 10,
-                      // Adjust the height of the linear progress indicator container
                       color: Colors.transparent,
-                      // Transparent color to overlay the linear progress indicator
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: LinearProgressIndicator(
                             value: 0.5,
-                            // Set the progress value between 0.0 and 1.0
                             minHeight: 10,
-                            // Set the height of the linear progress indicator
                             backgroundColor: Colors.blue[100],
-                            // Set the background color of the linear progress indicator
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors
-                                .blue), // Set the color of the linear progress indicator
+                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                           ),
                         ),
                       ),
@@ -204,42 +188,18 @@ class _HomeFragmentState extends State<HomeFragment> {
                     ),
                     textAlign: TextAlign.left,
                   ),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const redeemScreen()),
-                      );
-                    },
-
-                  Stack(
-                    children: [
-                      Container(
-                        height: 190,
-                        width: 360,
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage("assets/home/decathlon.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.green,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        // Adjust this value to change the distance from the bottom
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          // alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(232, 232, 232, 1),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20)),
-
+                   Stack(
+                      children: [
+                        Container(
+                          height: 190,
+                          width: 360,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage("assets/home/decathlon.png"),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
                           ),
                         ),
                         Positioned(
@@ -247,10 +207,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                           left: 0,
                           right: 0,
                           child: Container(
-                            margin: const EdgeInsets.only(left: 20),
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            padding: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              textAlign: TextAlign.left,
-                              'Decathlon  ',
+                              'Decathlon',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -261,17 +226,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+
+                  const SizedBox(height: 20),
                   Stack(
                     children: [
                       Container(
                         height: 190,
                         width: 360,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: AssetImage("assets/home/nike.png"),
                             fit: BoxFit.fill,
                           ),
@@ -281,36 +244,29 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       Positioned(
                         bottom: 0,
-                        // Adjust this value to change the distance from the bottom
                         left: 0,
                         right: 0,
                         child: Container(
-                          // alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color: Color.fromRGBO(232, 232, 232, 1),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
                           ),
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 20),
-                            child: const Text(
-                              textAlign: TextAlign.left,
-                              'Nike',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text(
+                            'Nike',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Stack(
                     children: [
                       Container(
@@ -323,36 +279,30 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       Positioned(
                         bottom: 0,
-                        // Adjust this value to change the distance from the bottom
                         left: 0,
                         right: 0,
                         child: Container(
-                          // alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color: Color.fromRGBO(232, 232, 232, 1),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
                           ),
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 20),
-                            child: const Text(
-                              textAlign: TextAlign.left,
-                              'Sports accessories',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text(
+                            'Sports accessories',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  // SizedBox(height: 30,)
                 ],
-              )
+              ),
             ],
           ),
         ),

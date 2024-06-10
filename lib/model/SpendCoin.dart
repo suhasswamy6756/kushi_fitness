@@ -8,7 +8,7 @@ import 'globals.dart' as globals;
 
 class SpendCoin {
   spendToken(int Price) async {
-    dynamic uid=FirebaseAuth.instance.currentUser!.uid.toString());
+    dynamic uid=FirebaseAuth.instance.currentUser!.uid.toString();
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference coins = firestore.collection("40RupeeTokens");
     CollectionReference twentyCoins = firestore.collection("20RupeeTokens");

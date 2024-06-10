@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
+import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
 import 'package:kushi_3/service/firestore_service.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
@@ -293,7 +294,12 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const redeemScreen()),
+                        );
+                    },
                     child: Card(
                       elevation: 4,
                       shape: RoundedRectangleBorder(
