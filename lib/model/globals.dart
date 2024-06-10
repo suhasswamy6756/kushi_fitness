@@ -10,7 +10,10 @@ import 'dart:math';
 import 'package:kushi_3/model/SpendCoin.dart';
 
 //dynamic userName = "Name";
-import 'package:kushi_3/service/firestore_service.dart';
+
+import '../service/firestore_service.dart';
+import 'SpendCoin.dart';
+
 FirestoreService _firestoreService = FirestoreService();
 dynamic userName = _firestoreService.getUserField(_firestoreService.getCurrentUserId()!, "full_name");
 
@@ -105,6 +108,7 @@ Future<int> get20CoinNumber(dynamic uid1) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference coins = firestore.collection("20RupeeTokens");
  QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1).where('redeemed',isEqualTo: false).get();
+
   return querySnapshot.size;
 }
 
@@ -119,5 +123,6 @@ Future<int> get10CoinNumber(dynamic uid1) async{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference coins = firestore.collection("Half20");
   QuerySnapshot querySnapshot = await coins.where('UID', isEqualTo: uid1).where('redeemed',isEqualTo: false).get();
+
   return querySnapshot.size;
 }

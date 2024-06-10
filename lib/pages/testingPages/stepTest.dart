@@ -10,6 +10,7 @@ import 'package:kushi_3/service/firestore_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:developer' as developer;
 import 'package:kushi_3/model/globals.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 import '../../service/auth/auth_gate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -69,6 +70,7 @@ class _stepTestState extends State<stepTest> {
 
   List<HealthConnectDataType> types = [
     HealthConnectDataType.Steps,
+    // HealthConnectDataType.SleepStage
 
   ];
 
@@ -89,38 +91,85 @@ class _stepTestState extends State<stepTest> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                var result = await HealthConnectFactory.isApiSupported();
+                var result;
+                try{
+                  result = await HealthConnectFactory.isApiSupported();
+                }catch(e){
+                  result = false;
+                }
                 resultText = 'isApiSupported: $result';
+
+
                 _updateResultText();
               },
               child: const Text('isApiSupported'),
             ),
             ElevatedButton(
               onPressed: () async {
-                var result = await HealthConnectFactory.isAvailable();
+                var result;
+                try{
+                  result = await HealthConnectFactory.isAvailable();
+                }catch(e){
+                  result = false;
+                }
                 resultText = 'isAvailable: $result';
+
+
                 _updateResultText();
               },
               child: const Text('Check installed'),
             ),
             ElevatedButton(
               onPressed: () async {
-                await HealthConnectFactory.installHealthConnect();
+                // await HealthConnectFactory.installHealthConnect();
+                launchUrl(
+                  Uri.parse("market://details?id=com.google.android.apps.healthdata"),
+                  mode: LaunchMode.externalApplication,
+                );
               },
               child: const Text('Install Health Connect'),
             ),
             ElevatedButton(
               onPressed: () async {
-                await HealthConnectFactory.openHealthConnectSettings();
+
+                try{
+                  await HealthConnectFactory.installHealthConnect();
+
+                }catch(e){
+                  resultText ="not installed";
+                }
+                _updateResultText();
+                // launchUrl(
+                //   Uri.parse("market://details?id=com.google.android.apps.healthdata"),
+                //   mode: LaunchMode.externalApplication,
+                // );
+              },
+              child: const Text('Install Health Connect'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try{
+                  await HealthConnectFactory.openHealthConnectSettings();
+
+                }catch(e){
+                  print("error");
+                }
+
               },
               child: const Text('Open Health Connect Settings'),
             ),
             ElevatedButton(
               onPressed: () async {
-                var result = await HealthConnectFactory.hasPermissions(
-                  types,
-                  readOnly: readOnly,
-                );
+                var result;
+                try{
+                  result = await HealthConnectFactory.hasPermissions(
+                    types,
+                    readOnly: readOnly,
+                  );
+                }catch(e){
+                  result = false;
+                }
+
                 resultText = 'hasPermissions: $result';
                 _updateResultText();
               },
@@ -128,10 +177,16 @@ class _stepTestState extends State<stepTest> {
             ),
             ElevatedButton(
               onPressed: () async {
-                var result = await HealthConnectFactory.requestPermissions(
-                  types,
-                  readOnly: readOnly,
-                );
+                var result;
+                try{
+                  result = await HealthConnectFactory.requestPermissions(
+                    types,
+                    readOnly: readOnly,
+                  );
+                }catch(e){
+                  result = false;
+                }
+
                 resultText = 'requestPermissions: $result';
                 _updateResultText();
               },

@@ -28,10 +28,9 @@ class _HomeFragmentState extends State<HomeFragment> {
         _steps = steps;
       });
     } catch (e) {
-      // Handle any potential exceptions
       print('Error initializing steps: $e');
       setState(() {
-        _steps = 0; // Set a default value
+        _steps = 0;
       });
     }
   }
@@ -49,20 +48,23 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   @override
   Widget build(BuildContext context) {
-    double percentage = _steps / 10000.0;
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double percentage = _steps / 100;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: _refreshData,
         child: SingleChildScrollView(
-          // Wrap your Column with SingleChildScrollView
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 25, right: 25, top: 25, bottom: 10),
-                height: 200,
-                width: 360,
+
+                margin: const EdgeInsets.all(25),
+                height: screenHeight * 0.25,
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromRGBO(232, 232, 232, 1),
@@ -70,52 +72,62 @@ class _HomeFragmentState extends State<HomeFragment> {
                 child: Row(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 45.0),
+                      padding: EdgeInsets.only(left: 10, right: 20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Daily",
                             style: TextStyle(
-                              fontSize: 40,
+
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
                             "challenge",
                             style: TextStyle(
-                              fontSize: 40,
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
-                    Stack(
-                      children: [
-                        Image.asset(
-                          'assets/Ellipse.png',
-                        ),
-                        Image.asset('assets/first_page.png'),
-                      ],
-                    ),
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            'assets/Ellipse.png',
+                            fit: BoxFit.cover,
+                            width: screenWidth * 0.35,
+                          ),
+                          Image.asset(
+                            'assets/first_page.png',
+                            fit: BoxFit.cover,
+                            width: screenWidth * 0.35,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(left: 30, right: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Text(
-                        '$_steps Steps',
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                        child: Text(
+                          '$_steps Steps',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )),
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       height: 10,
@@ -124,10 +136,11 @@ class _HomeFragmentState extends State<HomeFragment> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: LinearProgressIndicator(
-                            value: percentage,
+                            value: percentage / 100,
                             minHeight: 10,
                             backgroundColor: Colors.green[100],
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.green),
                           ),
                         ),
                       ),
@@ -144,7 +157,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(left: 30, right: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -168,7 +181,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                             value: 0.5,
                             minHeight: 10,
                             backgroundColor: Colors.blue[100],
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.blue),
                           ),
                         ),
                       ),
@@ -184,28 +199,33 @@ class _HomeFragmentState extends State<HomeFragment> {
                     style: GoogleFonts.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(59, 59, 59, 1),
+                      color: const Color.fromRGBO(59, 59, 59, 1),
                     ),
                     textAlign: TextAlign.left,
                   ),
-                   Stack(
-                      children: [
-                        Container(
-                          height: 190,
-                          width: 360,
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage("assets/home/decathlon.png"),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.green,
+                  Stack(
+                    children: [
+                      Container(
+                        height: screenHeight * 0.25,
+                        width: screenWidth * 0.9,
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage("assets/home/decathlon.png"),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(232, 232, 232, 1),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20)),
+                          ),
                           child: Container(
                             decoration: const BoxDecoration(
                               color: Color.fromRGBO(232, 232, 232, 1),
@@ -215,7 +235,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                             ),
                             padding: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              'Decathlon',
+
+                              'Decathlon  ',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -224,15 +245,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 20),
                   Stack(
                     children: [
                       Container(
-                        height: 190,
-                        width: 360,
+                        height: screenHeight * 0.25,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           image: const DecorationImage(
                             image: AssetImage("assets/home/nike.png"),
@@ -253,13 +274,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
                           ),
-                          padding: const EdgeInsets.only(left: 20),
-                          child: const Text(
-                            'Nike',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 20),
+                            child: const Text(
+                              'Nike',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
@@ -270,8 +293,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                   Stack(
                     children: [
                       Container(
-                        height: 190,
-                        width: 360,
+                        height: screenHeight * 0.25,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
@@ -288,13 +311,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
                           ),
-                          padding: const EdgeInsets.only(left: 20),
-                          child: const Text(
-                            'Sports accessories',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 20),
+                            child: const Text(
+                              'Sports accessories',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
@@ -311,58 +336,3 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 }
 
-class CustomShapeClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    // Define your custom shape here using various path operations
-    path.moveTo(0, 10 * 0.5); // Move to starting point
-    path.lineTo(10 * 0.4, 0); // Draw a line to create the shape
-    path.lineTo(10, 10 * 0.2); // Draw another line
-    path.lineTo(10, 10); // Draw another line
-    path.lineTo(0, 10); // Draw another line to complete the shape
-    path.close(); // Close the path
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}
-
-class IrregularShapeBackgroundImage extends StatelessWidget {
-  const IrregularShapeBackgroundImage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Irregular Shape Background Image'),
-      ),
-      body: Center(
-        child: Stack(
-          children: [
-            ClipPath(
-              clipper: CustomShapeClipper(),
-              child: Container(
-                color: Colors.blue, // Background color of the irregular shape
-                width: 100, // Adjust width as needed
-                height: 100, // Adjust height as needed
-              ),
-            ),
-            Positioned.fill(
-              child: ClipPath(
-                clipper: CustomShapeClipper(),
-                child: Image.asset(
-                  'assets/first_page.png', // Your image asset
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

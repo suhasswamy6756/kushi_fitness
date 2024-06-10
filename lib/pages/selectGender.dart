@@ -34,7 +34,7 @@ class selectGenderState extends State<SelectGender> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
-            "Step 1 of 8",
+            "Step 1 of 3",
             style:
                 GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
           ),

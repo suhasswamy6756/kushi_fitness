@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +11,7 @@ import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
 import 'package:kushi_3/pages/check_permissions.dart';
 import 'package:kushi_3/pages/introslider.dart';
 import 'package:kushi_3/pages/mainactivity.dart';
+import 'package:kushi_3/pages/notifications.dart';
 
 import 'package:kushi_3/pages/otp.dart';
 import 'package:kushi_3/pages/refer_page.dart';
@@ -48,8 +51,8 @@ Future<void> main() async {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
-  await notify.initializeNotification();
-  await notify.scheduleDailyNotifications();
+  await Notify.initializeNotification();
+  await Notify.scheduleDailyNotifications();
 
   await FirebaseAppCheck.instance.activate();
   // NotificationService.initialize();
@@ -89,8 +92,13 @@ class MyApp extends StatelessWidget {
         '/referalpage': (context) => const ReferralScreen(),
         '/referalLink': (context) => const ReferalPage(),
         '/stepper': (context) => StepperDemo(),
+        '/notification': (context) => NotificationPage(),
       },
-      home:MainActivity(namey: "dynamic",),
+      home:AuthGate(),
     );
   }
 }
+
+
+
+
