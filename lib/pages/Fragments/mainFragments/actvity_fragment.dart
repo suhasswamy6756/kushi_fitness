@@ -27,7 +27,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
   late int remainingSteps = 0;
   var coins = 0;
   late var percentage;
-  final FirestoreService _firestoreService = FirestoreService();
+  // final FirestoreService _firestoreService = FirestoreService();
   final FitnessDetails _fit = FitnessDetails();
 
   @override

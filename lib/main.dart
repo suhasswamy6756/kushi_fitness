@@ -37,20 +37,17 @@ import 'notification/schedule.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding
-      .ensureInitialized(); // Ensures all plugins are initialized
-
-  //app will be in portrait om both landscape and portrait mode
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
+      .ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ); // Asynchronously initialize Firebase
+  );
   await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
     if (!isAllowed) {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Notify.initializeNotification();
   await Notify.scheduleDailyNotifications();
 
