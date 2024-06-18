@@ -3,17 +3,18 @@
 import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:kushi_3/notification/notification_service.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/group_fragment.dart';
 import 'package:kushi_3/pages/check_permissions.dart';
-import 'package:kushi_3/pages/introslider.dart';
-import 'package:kushi_3/pages/mainactivity.dart';
+import 'package:kushi_3/pages/contact_us.dart';
+import 'package:kushi_3/pages/faqs.dart';
+import 'package:kushi_3/pages/how_its_work.dart';
 import 'package:kushi_3/pages/notifications.dart';
 
 import 'package:kushi_3/pages/otp.dart';
+import 'package:kushi_3/pages/privacy_policy.dart';
 import 'package:kushi_3/pages/refer_page.dart';
 import 'package:kushi_3/pages/referal_code.dart';
 
@@ -21,7 +22,6 @@ import 'package:kushi_3/pages/selectGender.dart';
 import 'package:kushi_3/pages/selectHeight.dart';
 import 'package:kushi_3/pages/selectWeight.dart';
 import 'package:kushi_3/pages/signup.dart';
-import 'package:kushi_3/pages/testingPages/step_2.dart';
 import 'package:kushi_3/service/auth/auth_gate.dart';
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +33,9 @@ import 'package:kushi_3/themes/dark_mode.dart';
 import 'package:kushi_3/themes/light_mode.dart';
 import 'package:kushi_3/pages/testingPages/stepTest.dart';
 
-import 'notification/schedule.dart';
 
-Future<void> main() async {
+
+void main() async {
   WidgetsFlutterBinding
       .ensureInitialized();
   await Firebase.initializeApp(
@@ -51,7 +51,7 @@ Future<void> main() async {
   await Notify.initializeNotification();
   await Notify.scheduleDailyNotifications();
 
-  await FirebaseAppCheck.instance.activate();
+  // await FirebaseAppCheck.instance.activate();
   // NotificationService.initialize();
   // NotificationService.scheduleNotifications();
 
@@ -90,6 +90,12 @@ class MyApp extends StatelessWidget {
         '/referalLink': (context) => const ReferalPage(),
         '/stepper': (context) => StepperDemo(),
         '/notification': (context) => NotificationPage(),
+        '/contactus': (context)=> ContactUsPage(),
+        '/faqs': (context)=> Faqs(),
+        '/howitsworks': (context)=> HowItsWork(),
+        '/privacypolicy':(context)=> PrivacyPolicy(),
+
+
       },
       home:AuthGate(),
     );

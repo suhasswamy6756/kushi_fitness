@@ -38,14 +38,14 @@ class Notify {
       await AwesomeNotifications().cancelAllSchedules();
 
       await _scheduleNotification('Good Morning!',
-          'Start your day with some steps!', 9, localTimeZone, 1001); // 8:00 AM
+          'Start your day with new fitness goals', 9, localTimeZone, 1001); // 8:00 AM
       await _scheduleNotification('Good Afternoon!',
-          'Keep moving and stay healthy!', 13, localTimeZone, 1002); // 1:00 PM
-      await _scheduleNotification('Good Evening!', 'Great job! Keep going!', 17,
+          'Walk more earn rewards!', 13, localTimeZone, 1002); // 1:00 PM
+      await _scheduleNotification('Good Evening!', 'Earn rewards at cafes, restaurants, movie theaters, apparel stores, and more.', 17,
           localTimeZone, 1003); // 5:00 PM
       await _scheduleNotification(
           'Good Night!',
-          'Time to wind down. See you tomorrow!',
+          'Keep walking',
           21,
           localTimeZone,
           1004); // 9:00 PM

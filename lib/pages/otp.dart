@@ -14,11 +14,8 @@ import 'package:pinput/pinput.dart';
 import '../model/globals.dart';
 
 class OTPVerificationPage extends StatefulWidget {
-
-
   const OTPVerificationPage({
     super.key,
-
   });
 
   @override
@@ -33,14 +30,16 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   bool isResendButtonDisabled = true;
   int resendTimeout = 30;
   Timer? _timer;
-  var code ="";
+  var code = "";
   final String data = "suhas";
+
   @override
   void initState() {
     super.initState();
     _controllers = List.generate(6, (index) => TextEditingController());
     startResendOtpTimer();
   }
+
   void startResendOtpTimer() {
     setState(() {
       isResendButtonDisabled = true;
@@ -61,6 +60,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       }
     });
   }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -69,9 +69,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     }
     super.dispose();
   }
+
   Future<bool> _checkUserExists(String uid) async {
     try {
-      final DocumentSnapshot snapshot = await firebaseFirestore.collection('users').doc(uid).get();
+      final DocumentSnapshot snapshot =
+          await firebaseFirestore.collection('users').doc(uid).get();
       if (snapshot.exists) {
         return true;
         // Navigate to main activity
@@ -89,23 +91,25 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     return false;
   }
 
-  Future<bool> _checkRefernEarn(String uid)async{
-    try{
-      final DocumentSnapshot snapshot = await firebaseFirestore.collection("RefernEarn").doc(uid).get();
-      if(snapshot.exists){
+  Future<bool> _checkRefernEarn(String uid) async {
+    try {
+      final DocumentSnapshot snapshot =
+          await firebaseFirestore.collection("RefernEarn").doc(uid).get();
+      if (snapshot.exists) {
         print('refer collection already present');
         return true;
-      }else{
+      } else {
         return false;
       }
-    }catch (e){
+    } catch (e) {
       print('Error : $e');
     }
     return false;
   }
+
   void createReferCollection() async {
     CollectionReference profileRef =
-    FirebaseFirestore.instance.collection("ReferEarn");
+        FirebaseFirestore.instance.collection("ReferEarn");
     final body = {
       "refCode": auth.currentUser!.uid,
       "email": auth.currentUser!.phoneNumber,
@@ -118,147 +122,153 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
     profileRef.add(body);
   }
-  void sendCode() async {
-    userDataMap['phoneNumber']=data;
 
-    try{
-      PhoneAuthCredential credential =  PhoneAuthProvider.credential(verificationId: SignIn.verify, smsCode: code);
-      await auth.signInWithCredential(credential);
-      // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
-      if(await _checkRefernEarn(_firestoreService.getCurrentUserId()!)==false){
-        final body = {
-          "refCode": _firestoreService.getCurrentUserId()!,
-          "email": _firestoreService.phoneNumberReturn(),
-          "date_created": DateTime.now(),
-          "referrals": <String>[],
-          "refEarnings": 0,
-        };
+  void sendCode() async {}
 
-        _firestoreService.updateReferDocument(_firestoreService.getCurrentUserId()!,body,context);
-      }
-
-      if(await _checkUserExists(_firestoreService.getCurrentUserId()!) == false){
-        Navigator.pushNamedAndRemoveUntil(context, '/referalpage',(route) => false,arguments: userDataMap);
-      }else{
-        Navigator.pushNamedAndRemoveUntil(context, "/test_page", (route) => false);
-      }
-
-
-      //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
-
-
-    }catch(e){
-      showMessage(context, e.toString());
-    }
-  }
-  Future<void> resendOtp() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: userDataMap['phoneNumber'],
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {
-        showMessage(context, 'Phone number verification failed. Code: ${e.code}. Message: ${e.message}');
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        SignIn.verify = verificationId;
-        startResendOtpTimer();
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-  }
-
-
+  // Future<void> resendOtp() async {
+  //   await FirebaseAuth.instance.verifyPhoneNumber(
+  //     phoneNumber: userDataMap['phoneNumber'],
+  //     verificationCompleted: (PhoneAuthCredential credential) {},
+  //     verificationFailed: (FirebaseAuthException e) {
+  //       showMessage(context, 'Phone number verification failed. Code: ${e.code}. Message: ${e.message}');
+  //     },
+  //     codeSent: (String verificationId, int? resendToken) {
+  //       SignIn.verify = verificationId;
+  //       startResendOtpTimer();
+  //     },
+  //     codeAutoRetrievalTimeout: (String verificationId) {},
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    var code ="";
+    var code = "";
     final String data = ModalRoute.of(context)!.settings.arguments as String;
     // final String data = "suhas";
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-                child: Column(
-                  children: [
-                    Text(
-                      "Phone Verification",
-                      style: GoogleFonts.poppins(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24.7,
-                      ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                  child: Column(
+                children: [
+                  Text(
+                    "Phone Verification",
+                    style: GoogleFonts.poppins(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24.7,
                     ),
-                    const SizedBox(height: 20,),
-                    Text(
-                      "We sent a code to your number ",
-                      style: GoogleFonts.openSans(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "We sent a code to your number ",
+                    style: GoogleFonts.openSans(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 100),
-                      child: Row(
-                        children: [
-                          Text(
-                            data,
-                            style: GoogleFonts.openSans(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                            ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 100),
+                    child: Row(
+                      children: [
+                        Text(
+                          data,
+                          style: GoogleFonts.openSans(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
                           ),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/phoneVerification');
-
-                              },
-                              child: Text(
-                                "Change",
-                                style: GoogleFonts.poppins(
-                                  color : Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
-                                  decoration: TextDecoration.underline,
-                                  decorationThickness: 1.0,
-
-                                ),
-                              )
-                          )
-                        ],
-                      ),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, '/phoneVerification');
+                            },
+                            child: Text(
+                              "Change",
+                              style: GoogleFonts.poppins(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 1.0,
+                              ),
+                            ))
+                      ],
                     ),
-                  ],
-                )),
-            Pinput(
-              length:6,
-              showCursor:true,
-              onChanged: (value){
+                  ),
+                ],
+              )),
+              Pinput(
+                length: 6,
+                showCursor: true,
+                onChanged: (value) {
                   code = value;
 
-              },
+                },
+              ),
+              const SizedBox(height: 20.0),
+              MyButton(
+                text: "Verify OTP",
+                onTap: () async {
+                  userDataMap['phoneNumber'] = data;
+                  print(code);
 
-            ),
-            const SizedBox(height: 20.0),
-            MyButton(
-              text: "Verify OTP",
-              onTap: sendCode,),
-    const SizedBox(height: 20),
-    ElevatedButton(
-    onPressed: isResendButtonDisabled ? null : resendOtp,
-    child: Text(isResendButtonDisabled
-    ? 'Resend OTP in $resendTimeout s'
-        : 'Resend OTP'),
-    ),
-          ]
+                  try {
+                    PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                            verificationId: SignIn.verify, smsCode: code);
+                    await auth.signInWithCredential(credential);
+                    // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
+                    if (await _checkRefernEarn(
+                            _firestoreService.getCurrentUserId()!) ==
+                        false) {
+                      final body = {
+                        "refCode": _firestoreService.getCurrentUserId()!,
+                        "email": _firestoreService.phoneNumberReturn(),
+                        "date_created": DateTime.now(),
+                        "referrals": <String>[],
+                        "refEarnings": 0,
+                      };
 
-        ),
+                      _firestoreService.updateReferDocument(
+                          _firestoreService.getCurrentUserId()!, body, context);
+                    }
+
+                    if (await _checkUserExists(
+                            _firestoreService.getCurrentUserId()!) ==
+                        false) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/referalpage', (route) => false,
+                          arguments: userDataMap);
+                    } else {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "/test_page", (route) => false);
+                    }
+
+                    //    _firestoreService.setUserDocument(_firestoreService.getCurrentUserId()!, userData, context)
+                  } catch (e) {
+                    showMessage(context, e.toString());
+                    // print(e.toString());
+                  }
+                },
+              ),
+              const SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: isResendButtonDisabled ? null : resendOtp,
+              //   child: Text(isResendButtonDisabled
+              //       ? 'Resend OTP in $resendTimeout s'
+              //       : 'Resend OTP'),
+              // ),
+            ]),
       ),
     );
   }
-
 }
