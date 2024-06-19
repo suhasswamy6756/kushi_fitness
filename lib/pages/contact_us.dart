@@ -7,8 +7,6 @@ class ContactUsPage extends StatelessWidget {
   final String telegramUrl = 'https://telegram.org/';
   final String facebookUrl = 'https://www.facebook.com/';
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +15,7 @@ class ContactUsPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Handle back button press
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -76,14 +74,14 @@ class SocialMediaButton extends StatelessWidget {
   final String text;
   final String url;
 
-  SocialMediaButton({required this.icon, required this.text, required this.url});
+  SocialMediaButton(
+      {required this.icon, required this.text, required this.url});
 
   void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
   }
 
   @override

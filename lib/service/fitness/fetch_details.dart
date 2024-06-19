@@ -23,6 +23,9 @@ class FitnessDetails {
     for (var step in stepList) {
       totalSteps += step['count'] as int;
     }
+    if(totalSteps >10000){
+      totalSteps = 10000;
+    }
     return totalSteps;
   }
 

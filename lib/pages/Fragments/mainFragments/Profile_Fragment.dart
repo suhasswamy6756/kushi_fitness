@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +13,9 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
 class ProfileFragment extends StatefulWidget {
-  final String namey;
 
-  ProfileFragment({required this.namey, super.key});
+
+  ProfileFragment({ super.key});
 
   @override
   State<ProfileFragment> createState() => _profilePageState();
@@ -41,6 +42,29 @@ class _profilePageState extends State<ProfileFragment> {
     setUserName();
     fetchUsageDuration();
     getProfileImageUrl(); // Fetch profile image URL when widget initializes
+  }
+  void _showSignOutDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.bottomSlide,
+      title: 'Sign Out',
+      desc: 'Are you sure you want to sign out?',
+      btnCancelOnPress: () {},
+      btnOkOnPress: () {
+        final authService = AuthService();
+        authService.signOut();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const IntroSlider(),
+          ),
+        );
+        print('User signed out');
+      },
+      btnCancelText: 'Cancel',
+      btnOkText: 'OK',
+    ).show();
   }
 
   Future<void> fetchUsageDuration() async {
@@ -240,14 +264,7 @@ class _profilePageState extends State<ProfileFragment> {
                     settingButton(
                       text: "Sign out",
                       onTap: () {
-                        final authService = AuthService();
-                        authService.signOut();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const IntroSlider(),
-                          ),
-                        );
+                        _showSignOutDialog(context);
                       }, textStyle: buttonText,
                     ),
                     SizedBox(height: verticalPadding),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
@@ -11,7 +12,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as developer;
 
 FirestoreService _firestoreService = FirestoreService();
-
 
 class ActivityFragment extends StatefulWidget {
   const ActivityFragment({super.key});
@@ -27,6 +27,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
   late int remainingSteps = 0;
   var coins = 0;
   late var percentage;
+
   // final FirestoreService _firestoreService = FirestoreService();
   final FitnessDetails _fit = FitnessDetails();
 
@@ -36,7 +37,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     _initializeSteps();
     _initializeCoins();
     print(globals.initial5000StepsToken);
-
   }
 
   Future<void> _initializeSteps() async {
@@ -55,11 +55,15 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       });
     }
   }
+
   Future<void> _initializeCoins() async {
     try {
-      int fortyTokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
-      int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
-      int tenTokens = await globals.get10CoinNumber(_firestoreService.getCurrentUserId());
+      int fortyTokens =
+          await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+      int twentyTokens =
+          await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+      int tenTokens =
+          await globals.get10CoinNumber(_firestoreService.getCurrentUserId());
       int totalCoins = fortyTokens * 40 + twentyTokens * 20 + tenTokens * 10;
       setState(() {
         this.coins = totalCoins;
@@ -71,7 +75,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       });
     }
   }
-
 
   Future<List<int>> getCoins() async {
     var stepsNow = globals.stepsToday;
@@ -97,7 +100,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
 
     if (stepsNow >= 5000 && !globals.initial5000StepsToken) {
       print('Generating initial 20-rupee token');
-      globals.generate20RupeeToken(_firestoreService.getCurrentUserId());
+
       globals.countedSteps -= 5000;
       setState(() {
         globals.initial5000StepsToken = true;
@@ -106,28 +109,31 @@ class _ActivityFragmentState extends State<ActivityFragment> {
 
     while (globals.countedSteps >= 5000) {
       print('Generating additional 20-rupee token');
-      globals.generate20RupeeToken(_firestoreService.getCurrentUserId());
+
       globals.countedSteps -= 5000;
     }
 
     try {
-      int fortytokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
-      int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+      int fortytokens =
+          await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+      int twentyTokens =
+          await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
       print('40-rupee tokens: $fortytokens');
       print('20-rupee tokens: $twentyTokens');
-      return [fortytokens, twentyTokens];
+      return [fortytokens];
     } catch (e) {
       print('Error fetching tokens: $e');
       return [0, 0];
     }
   }
 
-  Future<String?> totalCoins() async {
-    int fortytokens = await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
-    int twentyTokens = await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
-    return "40×$fortytokens 20×$twentyTokens";
+  Future<int> totalCoins() async {
+    int fortytokens =
+        await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+    int twentyTokens =
+        await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+    return 40 * fortytokens;
   }
-
 
   Future<void> _refreshData() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -178,35 +184,69 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Stack(children: [
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+
                               Image.asset(
-                                'assets/Frame.png',
+                                _steps < 5000
+                                    ? "assets/progress/start.png"
+                                    : _steps < 10000
+                                    ? "assets/progress/middle.png"
+                                    : "assets/progress/last.png",
                                 height: screenHeight * 0.2,
                                 width: screenWidth * 0.4,
                               )
                             ]),
                             Container(
-                              margin: EdgeInsets.only(left: screenWidth * 0.1, top: screenHeight * 0.04),
+                              margin: EdgeInsets.only(
+                                  left: screenWidth * 0.1,
+                                  top: screenHeight * 0.04),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "You're off to a",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: screenWidth * 0.05,
+                                    _steps == 10000 ? "congrats!" : "",
+                                    style: GoogleFonts.roboto(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                      color:Color.fromRGBO(135, 119, 119, 1),
                                     ),
                                     textAlign: TextAlign.left,
                                   ),
                                   Text(
-                                    "great start!",
-                                    style: TextStyle(
+                                    _steps < 5000
+                                        ? "You're off to a"
+                                        : _steps < 10000
+                                            ? "You’re almost "
+                                            : "You did it! ",
+                                    style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: screenWidth * 0.05,
+                                      fontSize: 20,
                                     ),
                                     textAlign: TextAlign.left,
                                   ),
                                   Text(
-                                    "Steps left to defeat!",
+                                    _steps < 5000
+                                        ? "great start!"
+                                        : _steps < 10000
+                                            ? "there!"
+                                            : "High fives \nall around!",
+                                    style: GoogleFonts.roboto(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Text(
+                                    _steps < 10000
+                                        ? "Steps left to defeat!"
+                                        : "",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.grey,
@@ -215,7 +255,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                     textAlign: TextAlign.left,
                                   ),
                                   Text(
-                                    "$remainingSteps",
+                                    _steps < 10000
+                                        ? "$remainingSteps"
+                                        : "",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: screenWidth * 0.05,
@@ -262,7 +304,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                         ],
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: horizontalPadding, bottom: screenHeight * 0.03),
+                        margin: EdgeInsets.only(
+                            left: horizontalPadding,
+                            bottom: screenHeight * 0.03),
                         child: Row(
                           children: [
                             Text('$_steps steps done'),
@@ -275,7 +319,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                   ),
                 ),
               ),
-
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -304,13 +347,14 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                               FutureBuilder(
                                 future: totalCoins(),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return CircularProgressIndicator();
                                   } else if (snapshot.hasError) {
                                     return Text('Error: ${snapshot.error}');
                                   } else if (snapshot.hasData) {
                                     return Text(
-                                      snapshot.data ?? '',
+                                      snapshot.data.toString() ?? '',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: screenWidth * 0.045,
@@ -363,7 +407,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.03),
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.03),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

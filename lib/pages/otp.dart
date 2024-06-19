@@ -24,6 +24,7 @@ class OTPVerificationPage extends StatefulWidget {
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
   late List<TextEditingController> _controllers;
+  TextEditingController pinController =TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirestoreService _firestoreService = FirestoreService();
@@ -142,7 +143,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    var code = "";
+    String code = "";
     final String data = ModalRoute.of(context)!.settings.arguments as String;
     // final String data = "suhas";
     return Scaffold(
@@ -209,6 +210,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               Pinput(
                 length: 6,
                 showCursor: true,
+                controller: pinController,
                 onChanged: (value) {
                   code = value;
 
@@ -224,7 +226,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                   try {
                     PhoneAuthCredential credential =
                         PhoneAuthProvider.credential(
-                            verificationId: SignIn.verify, smsCode: code);
+                            verificationId: SignIn.verify, smsCode: pinController.text);
                     await auth.signInWithCredential(credential);
                     // _firestoreService.updateUserField(_firestoreService.getCurrentUserId()!,'phoneNumber' ,data, context);
                     if (await _checkRefernEarn(

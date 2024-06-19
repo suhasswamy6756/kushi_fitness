@@ -113,6 +113,9 @@ flutter:
     - assets/home/nike.png
     - assets/img.png
     - assets/img_1.png
+    - assets/progress/start.png
+    - assets/progress/middle.png
+    - assets/progress/last.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

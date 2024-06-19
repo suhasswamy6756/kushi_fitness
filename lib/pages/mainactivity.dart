@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:kushi_3/service/firestore_service.dart';
 
 import 'package:line_icons/line_icons.dart';
 
@@ -13,11 +14,11 @@ import 'Fragments/mainFragments/group_fragment.dart';
 import 'Fragments/mainFragments/home_fragment.dart';
 
 class MainActivity extends StatefulWidget {
-  final dynamic namey;
+
 
   const MainActivity({
     super.key,
-    required this.namey,
+
   });
 
   @override
@@ -26,21 +27,24 @@ class MainActivity extends StatefulWidget {
 
 class _MainActivityState extends State<MainActivity> {
   String? profileImageUrl;
-  String profileName = 'suhas';
+   String? profileName ;
   int _selectedIndex = 0;
+
+  FirestoreService _firestoreService = FirestoreService();
 
 
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeFragment(),
     const ActivityFragment(),
     const GroupFragment(),
-    ProfileFragment(namey: 'suhas'),
+    ProfileFragment(),
   ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    setUserName();
 
 
     // checkHealthConnect();
@@ -56,6 +60,17 @@ class _MainActivityState extends State<MainActivity> {
     if (!result1) {
       await HealthConnectFactory.requestPermissions(
           [HealthConnectDataType.Steps]);
+    }
+  }
+  Future<void> setUserName() async {
+    String? fullName = await _firestoreService.getUserField(
+        _firestoreService.getCurrentUserId()!, "full_name");
+    if (fullName != null) {
+      setState(() {
+        profileName = fullName;
+      });
+    } else {
+      // Handle case where field value is null
     }
   }
 

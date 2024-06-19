@@ -1,10 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kushi_3/model/SpendCoin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/service/firestore_service.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
+// import 'package:awesome_dialog/awesome_dialog.dart';
 import '../../../model/globals.dart';
 
 class redeemScreen extends StatefulWidget {
