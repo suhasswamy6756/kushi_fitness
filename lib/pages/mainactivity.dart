@@ -4,22 +4,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:kushi_3/service/firestore_service.dart';
-
 import 'package:line_icons/line_icons.dart';
-
+import 'package:kushi_3/model/globals.dart' as globals;
 import 'Fragments/mainFragments/Profile_Fragment.dart';
 import 'Fragments/mainFragments/actvity_fragment.dart';
 import 'Fragments/mainFragments/group_fragment.dart';
 import 'Fragments/mainFragments/home_fragment.dart';
 
+FirestoreService _firestoreService = FirestoreService();
 class MainActivity extends StatefulWidget {
-
-
-  const MainActivity({
+  //final dynamic namey;
+    const MainActivity({
     super.key,
-
+    //required this.namey,
   });
+
 
   @override
   State<MainActivity> createState() => _MainActivityState();
@@ -27,10 +29,8 @@ class MainActivity extends StatefulWidget {
 
 class _MainActivityState extends State<MainActivity> {
   String? profileImageUrl;
-   String? profileName ;
+  String profileName = " ";
   int _selectedIndex = 0;
-
-  FirestoreService _firestoreService = FirestoreService();
 
 
   static final List<Widget> _widgetOptions = <Widget>[
@@ -42,12 +42,20 @@ class _MainActivityState extends State<MainActivity> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setUserName();
-
-
-    // checkHealthConnect();
+  }
+  Future<void> setUserName() async {
+    String? fullName = await _firestoreService.getUserField(
+        _firestoreService.getCurrentUserId()!, "full_name");
+    if (fullName != null) {
+      setState(() {
+       profileName = fullName;
+      });
+    } else {
+      // Handle case where field value is null
+      profileName = "User";
+    }
   }
 
   void checkHealthConnect() async {
@@ -60,17 +68,6 @@ class _MainActivityState extends State<MainActivity> {
     if (!result1) {
       await HealthConnectFactory.requestPermissions(
           [HealthConnectDataType.Steps]);
-    }
-  }
-  Future<void> setUserName() async {
-    String? fullName = await _firestoreService.getUserField(
-        _firestoreService.getCurrentUserId()!, "full_name");
-    if (fullName != null) {
-      setState(() {
-        profileName = fullName;
-      });
-    } else {
-      // Handle case where field value is null
     }
   }
 

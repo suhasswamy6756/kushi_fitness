@@ -44,7 +44,7 @@ class _IntroSliderState extends State<IntroSlider> {
                   description: 'Workout categories will help you gain '
                       'strength, get in better shape and embrace '
                       'a healthy lifestyle',
-                  imagePath: 'assets/introPage/second.png', // Add your image path here
+                  imagePath: 'assets/introPage/secondNew.png', // Add your image path here
                 ),
               ],
             ),

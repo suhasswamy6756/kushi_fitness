@@ -77,7 +77,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/appIcon.png"
+  min_sdk_android: 26
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -113,6 +119,9 @@ flutter:
     - assets/home/nike.png
     - assets/img.png
     - assets/img_1.png
+    - assets/introPage/secondNew.png
+    - assets/img_2.png
+    - assets/icons/appIcon.png
     - assets/progress/start.png
     - assets/progress/middle.png
     - assets/progress/last.png

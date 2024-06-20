@@ -208,9 +208,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                       Container(
                         height: screenHeight * 0.25,
                         width: screenWidth * 0.9,
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage("assets/home/decathlon.png"),
+                        decoration:const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/img_2.png"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -236,7 +236,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                             padding: const EdgeInsets.only(left: 20),
                             child: const Text(
 
-                              'Decathlon  ',
+                              'Ven&Varn  ',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -255,10 +255,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                         height: screenHeight * 0.25,
                         width: screenWidth * 0.9,
                         decoration: BoxDecoration(
-                          image: const DecorationImage(
+                         /* image: const DecorationImage(
                             image: AssetImage("assets/home/nike.png"),
                             fit: BoxFit.fill,
-                          ),
+                          ),*/
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
                         ),
@@ -277,7 +277,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              'Nike',
+                              'Partner 2',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -314,7 +314,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              'Sports accessories',
+                              'Partner 3',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

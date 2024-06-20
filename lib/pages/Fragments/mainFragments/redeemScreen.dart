@@ -1,12 +1,10 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kushi_3/model/SpendCoin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/service/firestore_service.dart';
-// import 'package:awesome_dialog/awesome_dialog.dart';
-import '../../../model/globals.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class redeemScreen extends StatefulWidget {
   const redeemScreen({Key? key}) : super(key: key);
@@ -16,8 +14,8 @@ class redeemScreen extends StatefulWidget {
 }
 
 class _RedeemScreenState extends State<redeemScreen> {
-  int availableCoins = 1;
-  int availableAmount = 10;
+  int availableCoins = 0;
+  int availableAmount = 0;
   Color _scaffoldColor = Colors.white;
   final TextEditingController _controller = TextEditingController();
   final FirestoreService _firestoreService = FirestoreService();
@@ -34,11 +32,6 @@ class _RedeemScreenState extends State<redeemScreen> {
     // TODO: implement initState
     super.initState();
     _fetchAvailableCoins();
-  }
-  void _changeScaffoldColor() {
-    setState(() {
-      _scaffoldColor = Colors.blue; // Change to desired scaffold color
-    });
   }
 
   Future<void> _fetchAvailableCoins() async {
@@ -72,7 +65,7 @@ class _RedeemScreenState extends State<redeemScreen> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       );
 
@@ -91,7 +84,6 @@ class _RedeemScreenState extends State<redeemScreen> {
   void _certificate(BuildContext context, String message, int redeemAmount) {
     var screenSize = MediaQuery.of(context).size;
     var dialogWidth = screenSize.width * 0.9;
-    _changeScaffoldColor();
     AwesomeDialog(
       context: context,
       animType: AnimType.leftSlide,
@@ -100,12 +92,12 @@ class _RedeemScreenState extends State<redeemScreen> {
       showCloseIcon:false,
       title: 'Success',
       dialogBackgroundColor: Colors.white,  // Set the dialog background color
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         color: Colors.black,  // Customize title text color
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      descTextStyle: TextStyle(
+      descTextStyle: const TextStyle(
         color: Colors.black54,  // Customize description text color
         fontSize: 16,
       ),
@@ -121,7 +113,7 @@ class _RedeemScreenState extends State<redeemScreen> {
       btnOk: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: Color(0xFF064A52), // Button text color
+          backgroundColor: const Color(0xFF064A52), // Button text color
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
@@ -130,7 +122,7 @@ class _RedeemScreenState extends State<redeemScreen> {
           Navigator.pop(context);
           debugPrint('OnClick');
         },
-        child: Text('Return to Home'),
+        child: const Text('Return to Home'),
       ),
       customHeader: Stack(
         alignment: Alignment.center,
@@ -139,7 +131,7 @@ class _RedeemScreenState extends State<redeemScreen> {
           Container(
             width: 90,  // Adjust the size as needed
             height: 90,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Color(0xFF17A8B2),
             ),
@@ -148,11 +140,11 @@ class _RedeemScreenState extends State<redeemScreen> {
           Container(
             width: 60,
             height: 60,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Color(0xFF064A52),  // Background color of the circle
             ),
-            child: Icon(
+            child: const Icon(
               Icons.check,
               color: Colors.white,  // Color of the check icon
               size: 50,
@@ -163,7 +155,7 @@ class _RedeemScreenState extends State<redeemScreen> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         Text(
           'Total Amount Redeemed',
           style: TextStyle(
@@ -171,7 +163,7 @@ class _RedeemScreenState extends State<redeemScreen> {
             fontSize: dialogWidth * 0.06,
           ),
         ),
-        SizedBox(height: 10),
+          const SizedBox(height: 10),
         Text(
           '₹$redeemAmount',
           style: TextStyle(
@@ -180,7 +172,7 @@ class _RedeemScreenState extends State<redeemScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20),
+          const SizedBox(height: 20),
         Text(
           'Activated',
           style: TextStyle(
@@ -189,9 +181,9 @@ class _RedeemScreenState extends State<redeemScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             children: [
               Row(
@@ -213,7 +205,7 @@ class _RedeemScreenState extends State<redeemScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -260,7 +252,7 @@ class _RedeemScreenState extends State<redeemScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          content: Container(
+          content: SizedBox(
             width: MediaQuery
                 .of(context)
                 .size
@@ -272,14 +264,12 @@ class _RedeemScreenState extends State<redeemScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(message, textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black,fontSize: screenWidth * 0.05),
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 ElevatedButton(
-                  child: Text('Okay',style: TextStyle(
-                      color: Colors.white)),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -289,6 +279,8 @@ class _RedeemScreenState extends State<redeemScreen> {
                       borderRadius: BorderRadius.circular(screenWidth * 0.05),
                     ),
                   ),
+                  child: const Text('Okay',style: TextStyle(
+                      color: Colors.white)),
                 ),
               ],
             ),
@@ -398,7 +390,7 @@ class _RedeemScreenState extends State<redeemScreen> {
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
-              Container(
+              SizedBox(
                 width: screenWidth * 0.6,
                 child: TextField(
                   textAlign: TextAlign.center,
@@ -426,6 +418,12 @@ class _RedeemScreenState extends State<redeemScreen> {
                   // Redeem Button
                   ElevatedButton(
                     onPressed: _redeemCoins,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(screenWidth * 0.05),
+                      ),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.08,
@@ -434,12 +432,6 @@ class _RedeemScreenState extends State<redeemScreen> {
                       child: Text(
                         'Redeem',
                         style: TextStyle(fontSize: screenWidth * 0.05,color: Colors.white),
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(screenWidth * 0.05),
                       ),
                     ),
                   ),
