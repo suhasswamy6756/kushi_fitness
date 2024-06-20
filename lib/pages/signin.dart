@@ -161,7 +161,6 @@ class _SignInState extends State<SignIn> {
                   phoneNumber: '${countryCode.text} ${phoneNumber.text}',
                   verificationCompleted: (PhoneAuthCredential credential)  {
 
-
                   },
                   verificationFailed: (FirebaseAuthException e) {
                     if (e.code == 'invalid-phone-number') {
@@ -171,7 +170,6 @@ class _SignInState extends State<SignIn> {
                     }
                   },
                   codeSent: (String verificationId, int? resendToken) {
-
                     SignIn.phone = '${countryCode.text} ${phoneNumber.text}';
                     SignIn.verify = verificationId;
                     // SignIn.phone = "$countryCode $phoneNumber";

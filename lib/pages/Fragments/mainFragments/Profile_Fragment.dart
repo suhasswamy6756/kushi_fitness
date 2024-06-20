@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
+import 'package:kushi_3/pages/yourAccount.dart';
 import 'package:kushi_3/pages/introslider.dart';
 import 'package:kushi_3/model/globals.dart' as globals;
 import 'package:kushi_3/components/settingButtons.dart';
@@ -87,22 +89,26 @@ class _profilePageState extends State<ProfileFragment> {
     }
   }
 
-  Future<void> getProfileImageUrl() async {
-    try {
-      // Fetch user document from Firestore
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .get(const GetOptions(source: Source.cache));
+  Future<void> getProfileImageUrl() async {try {
+    // Fetch user document from Firestore
+    DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get(const GetOptions(source: Source.serverAndCache));
 
+    // Check if document exists
+    if (userSnapshot.exists) {
       // Retrieve profile image URL from the user document
       setState(() {
         profileImageUrl = userSnapshot.data()?['profileUrl'];
       });
-    } catch (e) {
-      print('Error fetching profile image URL: $e');
+    } else {
+      print('User document does not exist.');
     }
+  } catch (e) {
+    print('Error fetching profile image URL: $e');
+  }
   }
 
   @override
@@ -212,14 +218,24 @@ class _profilePageState extends State<ProfileFragment> {
                           fontWeight: FontWeight.w700, fontSize: 32),
                     ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Rewards", onTap: () {}, textStyle: buttonText,),
+                    settingButton(text: "Rewards", onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const redeemScreen()),
+                      );
+                    }, textStyle: buttonText,),
                     SizedBox(height: verticalPadding * 2),
                      Text(
                       'Settings',
                       style: headText,
                     ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Your Account", onTap: () {}, textStyle: buttonText,),
+                    settingButton(text: "Your Account", onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const YourAccount()),
+                      );
+                    }, textStyle: buttonText,),
                     SizedBox(height: verticalPadding),
                     settingButton(text: "Notifications", onTap: () {}, textStyle: buttonText,),
 
@@ -245,7 +261,7 @@ class _profilePageState extends State<ProfileFragment> {
                     // SizedBox(height: verticalPadding * 2),
                     SizedBox(height: verticalPadding * 2),
                     Text(
-                      'legals',
+                      'Legals',
                       style: headText,
                     ),
                     SizedBox(height: verticalPadding),
