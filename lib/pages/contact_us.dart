@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsPage extends StatelessWidget {
   final String email = 'Khushi.utoo@gmail.com';
-  final String instagramUrl = 'https://www.instagram.com/';
+  final String instagramUrl = 'https://www.instagram.com/p/C1cYbgwh9em/?utm_source=ig_web_button_native_share/';
   final String telegramUrl = 'https://telegram.org/';
   final String facebookUrl = 'https://www.facebook.com/';
 

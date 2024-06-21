@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:kushi_3/pages/venAndVarn.dart';
 
 import 'package:kushi_3/service/auth/auth_service.dart';
 import 'package:kushi_3/service/firestore_service.dart';
@@ -46,11 +49,17 @@ class _MainActivityState extends State<MainActivity> {
     setUserName();
   }
   Future<void> setUserName() async {
-    String? fullName = await _firestoreService.getUserField(
-        _firestoreService.getCurrentUserId()!, "full_name");
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get();
+    String? fullName = userDoc['full_name'];
+    String? proImageUrl=userDoc.data()?['profileUrl'];
     if (fullName != null) {
       setState(() {
        profileName = fullName;
+       profileImageUrl=proImageUrl;
       });
     } else {
       // Handle case where field value is null

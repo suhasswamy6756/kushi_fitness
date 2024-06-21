@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kushi_3/pages/Fragments/mainFragments/redeemScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kushi_3/pages/venAndVarn.dart';
 import 'package:kushi_3/service/fitness/fetch_details.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -205,13 +206,23 @@ class _HomeFragmentState extends State<HomeFragment> {
                   ),
                   Stack(
                     children: [
-                      Container(
-                        height: screenHeight * 0.25,
-                        width: screenWidth * 0.9,
-                        decoration:const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/img_2.png"),
-                            fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => VenVarn()),
+                          );
+                        },
+                        child: Container(
+                          height: screenHeight * 0.25,
+                          width: screenWidth * 0.9,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage("assets/img_2.png"),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
                           ),
                         ),
                       ),
@@ -220,19 +231,14 @@ class _HomeFragmentState extends State<HomeFragment> {
                         left: 0,
                         right: 0,
                         child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(232, 232, 232, 1),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
                             borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20)),
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
                           ),
                           child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color.fromRGBO(232, 232, 232, 1),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20)),
-                            ),
                             padding: const EdgeInsets.only(left: 20),
                             child: const Text(
 
@@ -255,10 +261,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                         height: screenHeight * 0.25,
                         width: screenWidth * 0.9,
                         decoration: BoxDecoration(
-                         /* image: const DecorationImage(
-                            image: AssetImage("assets/home/nike.png"),
+                          image: const DecorationImage(
+                            image: AssetImage("assets/home/cafe.png"),
                             fit: BoxFit.fill,
-                          ),*/
+                          ),
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
                         ),
@@ -296,6 +302,11 @@ class _HomeFragmentState extends State<HomeFragment> {
                         height: screenHeight * 0.25,
                         width: screenWidth * 0.9,
                         decoration: BoxDecoration(
+
+                          image: const DecorationImage(
+                            image: AssetImage("assets/home/store.png"),
+                            fit: BoxFit.fill,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.green,
                         ),

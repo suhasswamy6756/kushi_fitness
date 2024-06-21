@@ -56,6 +56,14 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
       }
     }
   }
+  Future<void> _requestHealthConnectPermission() async {
+    try {
+      await HealthConnectFactory.requestPermissions([HealthConnectDataType.Steps]);
+      _checkPermissions();
+    } catch (e) {
+      print("Error requesting Health Connect permission: $e");
+    }
+  }
 
   Future<void> _checkPermissions() async {
     try {
@@ -66,6 +74,8 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
           if (_isPermissionGranted) {
             _currentStep = 1;
           }
+          else
+            _requestHealthConnectPermission();
         });
       }
     } catch (e) {
@@ -125,7 +135,7 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
             state: _isPermissionGranted ? StepState.complete : StepState.indexed,
             content: GestureDetector(
               onTap: () {
-                if (_currentStep == 1 && !_isPermissionGranted) {
+                if (_currentStep >= 1 && !_isPermissionGranted) {
                   _requestHealthConnectPermission();
                 }
               },
@@ -150,12 +160,4 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _requestHealthConnectPermission() async {
-    try {
-      await HealthConnectFactory.requestPermissions([HealthConnectDataType.Steps]);
-      _checkPermissions();
-    } catch (e) {
-      print("Error requesting Health Connect permission: $e");
-    }
-  }
 }
