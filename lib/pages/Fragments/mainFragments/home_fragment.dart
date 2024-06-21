@@ -275,7 +275,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                         right: 0,
                         child: Container(
                           decoration: const BoxDecoration(
-                            color: Color.fromRGBO(232, 232, 232, 1),
+                            color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
@@ -283,7 +283,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              'Partner 2',
+                              'Restaurants                           Coming Soon!!!',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -317,7 +317,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                         right: 0,
                         child: Container(
                           decoration: const BoxDecoration(
-                            color: Color.fromRGBO(232, 232, 232, 1),
+                            color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
@@ -325,7 +325,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             child: const Text(
-                              'Partner 3',
+                              'Apparels                                Coming Soon!!!',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -335,6 +335,24 @@ class _HomeFragmentState extends State<HomeFragment> {
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Stack(
+                    children:[
+                      Container(
+                        height: screenHeight * 0.09,
+                        width: screenWidth * 0.9,
+                        child: Text(
+                      'Many More!!',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                        ),
                     ],
                   ),
                 ],
