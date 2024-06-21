@@ -15,7 +15,7 @@ class Notify {
                 'Daily greetings.',
             importance: NotificationImportance.Max,
             defaultPrivacy: NotificationPrivacy.Public,
-            defaultRingtoneType: DefaultRingtoneType.Alarm,
+            defaultRingtoneType: DefaultRingtoneType.Notification,
             defaultColor: Colors.transparent,
             locked: true,
             enableVibration: true,
@@ -84,13 +84,13 @@ class Notify {
           // Ensure precise alarm
           allowWhileIdle: true, // Allow notification while the device is idle
         ),
-        actionButtons: [
+        /*actionButtons: [
           NotificationActionButton(
             key: "close",
             label: "Close Reminder",
             autoDismissible: true,
           ),
-        ],
+        ],*/
       );
       print("Notification scheduled: $title at $hour:00");
     } catch (e) {

@@ -324,7 +324,12 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const redeemScreen()),
+                        );
+                      },
                       child: Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -458,7 +463,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
           right: 0,
           child: Container(
             decoration: BoxDecoration(
-              color: Color.fromRGBO(232, 232, 232, 1),
+              color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
