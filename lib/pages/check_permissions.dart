@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../service/auth/auth_gate.dart';
+
 
 
 class StepperDemo extends StatefulWidget {
@@ -89,57 +91,78 @@ class _StepperDemoState extends State<StepperDemo> with WidgetsBindingObserver {
       appBar: AppBar(
         title: const Text('Health Connect Stepper'),
       ),
-      body: Stepper(
-        currentStep: _currentStep,
-        onStepContinue: () {
-          setState(() {
-            if (_currentStep < 1) {
-              _currentStep += 1;
-            } else {
-              Navigator.pushNamed(context, "/test_page");
-            }
-          });
-        },
-        onStepCancel: () {
-          setState(() {
-            if (_currentStep > 0) {
-              _currentStep -= 1;
-            }
-          });
-        },
-        steps: <Step>[
-          Step(
-            title: const Text('Install Health Connect'),
-            content: Column(
-              children: [
-                Text(_isHealthConnectInstalled
-                    ? 'Health Connect installed successfully'
-                    : 'Please install Health Connect to proceed.'),
-                if (!_isHealthConnectInstalled)
-                  ElevatedButton(
-                    onPressed: () async {
-                      await installHealthConnect();
-                    },
-                    child: const Text('Install Health Connect'),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stepper(
+              currentStep: _currentStep,
+              onStepContinue: () {
+                setState(() {
+                  if (_currentStep < 1) {
+                    _currentStep += 1;
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AuthGate()),
+                    );
+                  }
+                });
+              },
+              onStepCancel: () {
+                setState(() {
+                  if (_currentStep > 0) {
+                    _currentStep -= 1;
+                  }
+                });
+              },
+              steps: <Step>[
+                Step(
+                  title: const Text('Install Health Connect'),
+                  content: Column(
+                    children: [
+                      Text(_isHealthConnectInstalled
+                          ? 'Health Connect installed successfully'
+                          : 'Please install Health Connect to proceed.'),
+                      if (!_isHealthConnectInstalled)
+                        ElevatedButton(
+                          onPressed: () async {
+                            await installHealthConnect();
+                          },
+                          child: const Text('Install Health Connect'),
+                        ),
+                    ],
                   ),
+                  isActive: _currentStep >= 0,
+                  state: _isHealthConnectInstalled
+                      ? StepState.complete
+                      : StepState.indexed,
+                ),
+                Step(
+                  title: const Text('Grant Permission'),
+                  isActive: _currentStep >= 1,
+                  state: _isPermissionGranted
+                      ? StepState.complete
+                      : StepState.indexed,
+                  content: GestureDetector(
+                    onTap: () {
+                      if (_currentStep >= 1 && !_isPermissionGranted) {
+                        _requestHealthConnectPermission();
+                      }
+                    },
+                    child: const Text('Grant access to proceed'),
+                  ),
+                ),
               ],
             ),
-            isActive: _currentStep >= 0,
-            state: _isHealthConnectInstalled
-                ? StepState.complete
-                : StepState.indexed,
           ),
-          Step(
-            title: const Text('Grant Permission'),
-            isActive: _currentStep >= 1,
-            state: _isPermissionGranted ? StepState.complete : StepState.indexed,
-            content: GestureDetector(
-              onTap: () {
-                if (_currentStep >= 1 && !_isPermissionGranted) {
-                  _requestHealthConnectPermission();
-                }
-              },
-              child: const Text('Grant access to proceed'),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            color: Colors.blueAccent.withOpacity(0.1),
+            child: const Text(
+              'Follow these steps to connect your health data:\n\n'
+                  '1. Install Health Connect: Install the Health Connect app to enable data synchronization.\n'
+                  '2. Grant Permission: Allow the app to access your health data and also allow health connect to access data from your step tracking app.',
+              style: TextStyle(fontSize: 16.0),
             ),
           ),
         ],

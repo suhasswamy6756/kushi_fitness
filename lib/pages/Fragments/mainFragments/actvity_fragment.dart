@@ -194,13 +194,12 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                   ),
                                 ),
                               ),
-
                               Image.asset(
                                 _steps < 5000
                                     ? "assets/progress/start.png"
                                     : _steps < 10000
-                                    ? "assets/progress/middle.png"
-                                    : "assets/progress/last.png",
+                                        ? "assets/progress/middle.png"
+                                        : "assets/progress/last.png",
                                 height: screenHeight * 0.2,
                                 width: screenWidth * 0.4,
                               )
@@ -217,7 +216,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
-                                      color:Color.fromRGBO(135, 119, 119, 1),
+                                      color: Color.fromRGBO(135, 119, 119, 1),
                                     ),
                                     textAlign: TextAlign.left,
                                   ),
@@ -257,9 +256,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                     textAlign: TextAlign.left,
                                   ),
                                   Text(
-                                    _steps < 10000
-                                        ? "$remainingSteps"
-                                        : "",
+                                    _steps < 10000 ? "$remainingSteps" : "",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: screenWidth * 0.05,
@@ -328,8 +325,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const redeemScreen()),
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const redeemScreen()),
                         );
                       },
                       child: Card(
@@ -435,7 +433,8 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => VenVarn()),
+                              MaterialPageRoute(
+                                  builder: (context) => VenVarn()),
                             );
                           },
                           child: Container(
@@ -457,7 +456,8 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                           right: 0,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
+                              color: Color.fromRGBO(
+                                  232, 232, 232, 0.5647058823529412),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20),
@@ -466,7 +466,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                             child: Container(
                               padding: const EdgeInsets.only(left: 20),
                               child: const Text(
-
                                 'Ven&Varn  ',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -500,7 +499,8 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                           right: 0,
                           child: Container(
                             decoration: const BoxDecoration(
-                              color: Color.fromRGBO(232, 232, 232, 1),
+                              color: Color.fromRGBO(
+                                  232, 232, 232, 0.5647058823529412),
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(20),
                                   bottomRight: Radius.circular(20)),
@@ -508,7 +508,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                             child: Container(
                               margin: const EdgeInsets.only(left: 20),
                               child: const Text(
-                                'Partner 2',
+                                'Restaurants                           Coming Soon!!!',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -527,7 +527,6 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                           height: screenHeight * 0.25,
                           width: screenWidth * 0.9,
                           decoration: BoxDecoration(
-
                             image: const DecorationImage(
                               image: AssetImage("assets/home/store.png"),
                               fit: BoxFit.fill,
@@ -550,7 +549,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                             child: Container(
                               margin: const EdgeInsets.only(left: 20),
                               child: const Text(
-                                'Partner 3',
+                                'Apparels                                Coming Soon!!!',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -558,6 +557,24 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                 ),
                               ),
                             ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Stack(
+                      children: [
+                        Container(
+                          height: screenHeight * 0.09,
+                          width: screenWidth * 0.9,
+                          child: Text(
+                            'Many More!!',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.left,
                           ),
                         ),
                       ],
@@ -571,7 +588,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       ),
     );
   }
+}
 
+/*
   Widget _buildRedeemCard(String text) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -617,3 +636,4 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     );
   }
 }
+ */

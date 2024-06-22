@@ -56,7 +56,7 @@ class VenVarn extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Every place you can go',
+              'The places where you can redeem your rewards!',
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
