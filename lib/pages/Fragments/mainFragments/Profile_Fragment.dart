@@ -15,9 +15,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
 class ProfileFragment extends StatefulWidget {
-
-
-  ProfileFragment({ super.key});
+  ProfileFragment({super.key});
 
   @override
   State<ProfileFragment> createState() => _profilePageState();
@@ -30,13 +28,9 @@ class _profilePageState extends State<ProfileFragment> {
   FirestoreService _firestoreService = FirestoreService();
 
   TextStyle buttonText = GoogleFonts.outfit(
-    fontWeight: FontWeight.w500,
-    fontSize: 15,
-  );
+      fontWeight: FontWeight.w500, fontSize: 15, color: Colors.black);
   TextStyle headText = GoogleFonts.outfit(
-    fontWeight: FontWeight.w500,
-    fontSize: 19,
-  );
+      fontWeight: FontWeight.w500, fontSize: 19, color: Colors.black);
 
   @override
   void initState() {
@@ -45,6 +39,7 @@ class _profilePageState extends State<ProfileFragment> {
     fetchUsageDuration();
     getProfileImageUrl(); // Fetch profile image URL when widget initializes
   }
+
   void _showSignOutDialog(BuildContext context) {
     AwesomeDialog(
       context: context,
@@ -89,26 +84,27 @@ class _profilePageState extends State<ProfileFragment> {
     }
   }
 
-  Future<void> getProfileImageUrl() async {try {
-    // Fetch user document from Firestore
-    DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get(const GetOptions(source: Source.serverAndCache));
+  Future<void> getProfileImageUrl() async {
+    try {
+      // Fetch user document from Firestore
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get(const GetOptions(source: Source.serverAndCache));
 
-    // Check if document exists
-    if (userSnapshot.exists) {
-      // Retrieve profile image URL from the user document
-      setState(() {
-        profileImageUrl = userSnapshot.data()?['profileUrl'];
-      });
-    } else {
-      print('User document does not exist.');
+      // Check if document exists
+      if (userSnapshot.exists) {
+        // Retrieve profile image URL from the user document
+        setState(() {
+          profileImageUrl = userSnapshot.data()?['profileUrl'];
+        });
+      } else {
+        print('User document does not exist.');
+      }
+    } catch (e) {
+      print('Error fetching profile image URL: $e');
     }
-  } catch (e) {
-    print('Error fetching profile image URL: $e');
-  }
   }
 
   @override
@@ -128,7 +124,8 @@ class _profilePageState extends State<ProfileFragment> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               SizedBox(height: verticalPadding * 2),
               IntrinsicHeight(
-                child: Container(margin: EdgeInsets.only(left: horizontalPadding*8),
+                child: Container(
+                  margin: EdgeInsets.only(left: horizontalPadding * 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -158,8 +155,8 @@ class _profilePageState extends State<ProfileFragment> {
                               height: profileImageSize,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.white, width: 15.0),
+                                border: Border.all(
+                                    color: Colors.white, width: 15.0),
                               ),
                               child: ClipOval(
                                 child: profileImageUrl != null
@@ -177,26 +174,32 @@ class _profilePageState extends State<ProfileFragment> {
                           ),
                         ],
                       ),
-                      SizedBox(width: horizontalPadding*15),
+                      SizedBox(width: horizontalPadding * 15),
                       const VerticalDivider(
                         color: Colors.black,
                         thickness: 1,
                       ),
                       SizedBox(width: horizontalPadding),
                       Padding(
-                        padding: EdgeInsets.only(left: horizontalPadding *12),
+                        padding: EdgeInsets.only(left: horizontalPadding * 12),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Joined",
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 11,
-                            ),
+                            Text(
+                              "Joined",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                color: Colors.black,
+                              ),
                             ),
                             Text(
                               usageDuration,
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize :15,),
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
                             ),
                           ],
                         ),
@@ -206,58 +209,84 @@ class _profilePageState extends State<ProfileFragment> {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: horizontalPadding*5),
+                padding:
+                    EdgeInsets.symmetric(horizontal: horizontalPadding * 5),
                 child: Column(
-
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: verticalPadding),
                     Text(
                       username,
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w700, fontSize: 32),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 32,
+                          color: Colors.black),
                     ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Rewards", onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const redeemScreen()),
-                      );
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "Rewards",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const redeemScreen()),
+                        );
+                      },
+                      textStyle: buttonText,
+                    ),
                     SizedBox(height: verticalPadding * 2),
-                     Text(
+                    Text(
                       'Settings',
                       style: headText,
                     ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Your Account", onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const YourAccount()),
-                      );
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "Your Account",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const YourAccount()),
+                        );
+                      },
+                      textStyle: buttonText,
+                    ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Notifications", onTap: () {}, textStyle: buttonText,),
+                    settingButton(
+                      text: "Notifications",
+                      onTap: () {},
+                      textStyle: buttonText,
+                    ),
 
                     SizedBox(height: verticalPadding * 2),
-                     Text(
+                    Text(
                       'Help and Support',
                       style: headText,
                     ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "How everything works", onTap: () {
-                      Navigator.pushNamed(context, '/howitsworks');
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "How everything works",
+                      onTap: () {
+                        Navigator.pushNamed(context, '/howitsworks');
+                      },
+                      textStyle: buttonText,
+                    ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "FAQ", onTap: () {
-                      Navigator.pushNamed(context, '/faqs');
-
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "FAQ",
+                      onTap: () {
+                        Navigator.pushNamed(context, '/faqs');
+                      },
+                      textStyle: buttonText,
+                    ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Contact Us", onTap: () {
-                      Navigator.pushNamed(context, '/contactus');
-
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "Contact Us",
+                      onTap: () {
+                        Navigator.pushNamed(context, '/contactus');
+                      },
+                      textStyle: buttonText,
+                    ),
                     // SizedBox(height: verticalPadding * 2),
                     SizedBox(height: verticalPadding * 2),
                     Text(
@@ -265,14 +294,21 @@ class _profilePageState extends State<ProfileFragment> {
                       style: headText,
                     ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Terms and conditions", onTap: () {
-                      Navigator.pushNamed(context, '/howitsworks');
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "Terms and conditions",
+                      onTap: () {
+                        Navigator.pushNamed(context, '/howitsworks');
+                      },
+                      textStyle: buttonText,
+                    ),
                     SizedBox(height: verticalPadding),
-                    settingButton(text: "Privacy policy", onTap: () {
-                      Navigator.pushNamed(context, '/privacypolicy');
-
-                    }, textStyle: buttonText,),
+                    settingButton(
+                      text: "Privacy policy",
+                      onTap: () {
+                        Navigator.pushNamed(context, '/privacypolicy');
+                      },
+                      textStyle: buttonText,
+                    ),
 
                     SizedBox(height: verticalPadding * 2),
 
@@ -281,7 +317,8 @@ class _profilePageState extends State<ProfileFragment> {
                       text: "Sign out",
                       onTap: () {
                         _showSignOutDialog(context);
-                      }, textStyle: buttonText,
+                      },
+                      textStyle: buttonText,
                     ),
                     SizedBox(height: verticalPadding),
                   ],

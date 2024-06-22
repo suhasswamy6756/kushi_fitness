@@ -11,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as developer;
 
+import '../../venAndVarn.dart';
+
 FirestoreService _firestoreService = FirestoreService();
 
 class ActivityFragment extends StatefulWidget {
@@ -420,19 +422,146 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                   children: [
                     Text(
                       'Redeem',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.05,
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(59, 59, 59, 1),
+                        color: const Color.fromRGBO(59, 59, 59, 1),
                       ),
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildRedeemCard('Sports accessories'),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildRedeemCard('Sports accessories'),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildRedeemCard('Sports accessories'),
+                    Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => VenVarn()),
+                            );
+                          },
+                          child: Container(
+                            height: screenHeight * 0.25,
+                            width: screenWidth * 0.9,
+                            decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                image: AssetImage("assets/img_2.png"),
+                                fit: BoxFit.fill,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: const Text(
+
+                                'Ven&Varn  ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Stack(
+                      children: [
+                        Container(
+                          height: screenHeight * 0.25,
+                          width: screenWidth * 0.9,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage("assets/home/cafe.png"),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: const Text(
+                                'Partner 2',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Stack(
+                      children: [
+                        Container(
+                          height: screenHeight * 0.25,
+                          width: screenWidth * 0.9,
+                          decoration: BoxDecoration(
+
+                            image: const DecorationImage(
+                              image: AssetImage("assets/home/store.png"),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: const Text(
+                                'Partner 3',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

@@ -132,7 +132,7 @@ class selectHeightState extends State<SelectHeight> {
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: Colors.black,
                               border: InputBorder.none))),
                   const SizedBox(width: 10),
                   Text(

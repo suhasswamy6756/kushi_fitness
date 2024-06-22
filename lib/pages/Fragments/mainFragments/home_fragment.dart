@@ -127,6 +127,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
+                            color:Colors.black
                           ),
                         )),
                     Container(
@@ -147,51 +148,18 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                     ),
                     Text(
-                      '${(percentage * 100).toStringAsFixed(1)}%',
+                      '${(percentage ).toStringAsFixed(1)}%',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
+                          color:Colors.black
                       ),
                       textAlign: TextAlign.left,
                     ),
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        '200 calories',
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      height: 10,
-                      color: Colors.transparent,
-                      child: Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: LinearProgressIndicator(
-                            value: 0.5,
-                            minHeight: 10,
-                            backgroundColor: Colors.blue[100],
 
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                                Colors.blue),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
