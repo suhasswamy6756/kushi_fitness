@@ -39,7 +39,7 @@ class _MainActivityState extends State<MainActivity> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeFragment(),
     const ActivityFragment(),
-    const GroupFragment(),
+   // const GroupFragment(),
     ProfileFragment(),
   ];
 
@@ -144,7 +144,7 @@ class _MainActivityState extends State<MainActivity> {
             tabs: const [
               GButton(icon: LineIcons.home),
               GButton(icon: Icons.auto_graph_outlined),
-              GButton(icon: Icons.groups_3),
+              //GButton(icon: Icons.groups_3),
               GButton(icon: Icons.person),
               // GButton(icon: Icons.person_outline),
             ],

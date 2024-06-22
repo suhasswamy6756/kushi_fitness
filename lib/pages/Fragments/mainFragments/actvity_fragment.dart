@@ -11,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as developer;
 
+import '../../venAndVarn.dart';
+
 FirestoreService _firestoreService = FirestoreService();
 
 class ActivityFragment extends StatefulWidget {
@@ -59,11 +61,11 @@ class _ActivityFragmentState extends State<ActivityFragment> {
   Future<void> _initializeCoins() async {
     try {
       int fortyTokens =
-          await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+      await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
       int twentyTokens =
-          await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+      await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
       int tenTokens =
-          await globals.get10CoinNumber(_firestoreService.getCurrentUserId());
+      await globals.get10CoinNumber(_firestoreService.getCurrentUserId());
       int totalCoins = fortyTokens * 40 + twentyTokens * 20 + tenTokens * 10;
       setState(() {
         this.coins = totalCoins;
@@ -115,9 +117,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
 
     try {
       int fortytokens =
-          await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+      await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
       int twentyTokens =
-          await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+      await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
       print('40-rupee tokens: $fortytokens');
       print('20-rupee tokens: $twentyTokens');
       return [fortytokens];
@@ -129,9 +131,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
 
   Future<int> totalCoins() async {
     int fortytokens =
-        await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
+    await globals.get40CoinNumber(_firestoreService.getCurrentUserId());
     int twentyTokens =
-        await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
+    await globals.get20CoinNumber(_firestoreService.getCurrentUserId());
     return 40 * fortytokens;
   }
 
@@ -155,8 +157,14 @@ class _ActivityFragmentState extends State<ActivityFragment> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     double horizontalPadding = screenWidth * 0.05;
 
     remainingSteps = 10000 - _steps;
@@ -215,7 +223,7 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
-                                      color:Color.fromRGBO(135, 119, 119, 1),
+                                      color: Color.fromRGBO(135, 119, 119, 1),
                                     ),
                                     textAlign: TextAlign.left,
                                   ),
@@ -223,8 +231,8 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                     _steps < 5000
                                         ? "You're off to a"
                                         : _steps < 10000
-                                            ? "You’re almost "
-                                            : "You did it! ",
+                                        ? "You’re almost "
+                                        : "You did it! ",
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 20,
@@ -235,8 +243,8 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                                     _steps < 5000
                                         ? "great start!"
                                         : _steps < 10000
-                                            ? "there!"
-                                            : "High fives \nall around!",
+                                        ? "there!"
+                                        : "High fives \nall around!",
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 20,
@@ -326,8 +334,9 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const redeemScreen()),
+                          context,
+                          MaterialPageRoute(builder: (
+                              context) => const redeemScreen()),
                         );
                       },
                       child: Card(
@@ -420,19 +429,166 @@ class _ActivityFragmentState extends State<ActivityFragment> {
                   children: [
                     Text(
                       'Redeem',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.05,
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(59, 59, 59, 1),
+                        color: const Color.fromRGBO(59, 59, 59, 1),
                       ),
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildRedeemCard('Sports accessories'),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildRedeemCard('Sports accessories'),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildRedeemCard('Sports accessories'),
+                    Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VenVarn()),
+                            );
+                          },
+                          child: Container(
+                            height: screenHeight * 0.25,
+                            width: screenWidth * 0.9,
+                            decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                image: AssetImage("assets/img_2.png"),
+                                fit: BoxFit.fill,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(
+                                  232, 232, 232, 0.5647058823529412),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: const Text(
+
+                                'Ven&Varn  ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Stack(
+                      children: [
+                        Container(
+                          height: screenHeight * 0.25,
+                          width: screenWidth * 0.9,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage("assets/home/cafe.png"),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: const Text(
+                                'Restaurants                           Coming Soon!!!',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Stack(
+                      children: [
+                        Container(
+                          height: screenHeight * 0.25,
+                          width: screenWidth * 0.9,
+                          decoration: BoxDecoration(
+
+                            image: const DecorationImage(
+                              image: AssetImage("assets/home/store.png"),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 0.5647058823529412),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: const Text(
+                                'Apparels                                Coming Soon!!!',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Stack(
+                      children:[
+                        Container(
+                          height: screenHeight * 0.09,
+                          width: screenWidth * 0.9,
+                          child: Text(
+                            'Many More!!',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -442,7 +598,10 @@ class _ActivityFragmentState extends State<ActivityFragment> {
       ),
     );
   }
+}
 
+
+  /*
   Widget _buildRedeemCard(String text) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -488,3 +647,4 @@ class _ActivityFragmentState extends State<ActivityFragment> {
     );
   }
 }
+ */
